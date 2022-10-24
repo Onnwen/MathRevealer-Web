@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "bootstrap-icons": "^1.9.1"
+    "bootstrap-icons": "^1.9.1",
+    "sha.js": "^2.4.9"
   }
 }
