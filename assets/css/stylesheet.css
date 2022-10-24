@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap');
+
+* {
+    font-family: Montserrat, sans-serif;
+}
+
+.form-button {
+    padding-top: 20px
+}
+
+.form-card {
+    padding: 40px 40px 30px;
+    border-radius: 20px;
+}
