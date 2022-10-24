@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap');
 
-* {
+p, input, .btn, .separator {
     font-family: Montserrat, sans-serif;
 }
 
