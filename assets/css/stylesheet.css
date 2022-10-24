@@ -12,3 +12,36 @@
     padding: 40px 40px 30px;
     border-radius: 20px;
 }
+
+.signin-button > div > div > svg {
+    height: 38px;
+}
+
+.text-on-dark {
+    color: var(--bs-gray-300);
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    color: #5b5b5b;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #dedede;
+}
+
+.separator:not(:empty)::before {
+    margin-right: .8em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .8em;
+}
