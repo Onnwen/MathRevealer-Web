@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap');
 
-p, input, .btn, .separator {
+p, input, .btn, .separator, a {
     font-family: Montserrat, sans-serif;
 }
 
@@ -23,7 +23,7 @@ body {
 }
 
 .form-card {
-    padding: 40px 40px 30px;
+    padding: 40px 40px 40px;
     border-radius: 20px;
 }
 
@@ -58,4 +58,22 @@ body {
 
 .separator:not(:empty)::after {
     margin-left: .8em;
+}
+
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
 }
