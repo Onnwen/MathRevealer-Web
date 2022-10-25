@@ -4,6 +4,12 @@ p, input, .btn, .separator {
     font-family: Montserrat, sans-serif;
 }
 
+h1 {
+    font-family: Quicksand, sans-serif;
+    font-size: 60px;
+    color: var(--bs-gray-100);
+}
+
 body {
     background: var(--bs-gray-900);
 }
