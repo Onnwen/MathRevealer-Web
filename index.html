@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>MathRevealer</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/functionFormatter.js"></script>
 </head>
 <body>
-  <h1>LOGGED</h1>
+<section class="position-relative py-4 py-xl-5">
+    <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                </span><span style="font-family: Quicksand, sans-serif;">MathRevealer</span></a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5">
+                <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-5">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Reveal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Cronologia</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Impostazioni</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+<section>
+    <div class="row d-flex justify-content-center">
+        <div class="col-9">
+            <div class="card form-card">
+                <div class="card-body d-flex flex-column">
+                    <form class="text-center w-100 mb-3" id="searchForm" method="get">
+                        <input id="searchField" class="form-control" type="text" name="email" placeholder="Inserisci una funzione..." autocomplete="off">
+                    </form>
+                    <p class="mx-2" id="preview">y =</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $("#searchField").keyup(function() {
+        let html = "<p>y = ";
+        let contexts = getContexts($(this).val());
+        console.log(contexts);
+        for(let contextIndex = 0; contextIndex < contexts.length; contextIndex++) {
+            if (contexts[contextIndex+1] === "/") {
+                html += "<div class='frac'><span>" + contexts[contextIndex] + "</span><span class='symbol'>/</span><span class='bottom'>" + (contexts[contextIndex+2] ? contexts[contextIndex+2] : ' ') + "</span></div>"
+                contextIndex++;
+            }
+            else if (contexts[contextIndex] === "^") {
+                if (contexts[contextIndex+1]) {
+                    html += "<sup>" + contexts[contextIndex + 1] + "</sup>";
+                    contextIndex++;
+                }
+            }
+            else {
+                html += contexts[contextIndex];
+            }
+        }
+        $("#preview").html(html);
+    });
+</script>
 </body>
+
 </html>
