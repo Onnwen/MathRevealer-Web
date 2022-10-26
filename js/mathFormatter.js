@@ -1,6 +1,6 @@
 const operations = ["+", "-", "*", "/", "^"];
-const openingBrackets = ["("];
-const closingBrackets = [")"];
+const openingBrackets = ["(", "{", "["];
+const closingBrackets = [")", "}", "]"];
 
 class MathExpression {
     constructor(expression) {
