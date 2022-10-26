@@ -4,6 +4,10 @@ p, input, .btn, .separator, a {
     font-family: Montserrat, sans-serif;
 }
 
+.mathText {
+    font-family: Quicksand, sans-serif;
+}
+
 h1 {
     font-family: Quicksand, sans-serif;
     font-size: 60px;
