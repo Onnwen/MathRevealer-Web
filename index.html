@@ -50,7 +50,7 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $("#searchField").keyup(function() {
-        $("#preview").html(getHtml(getTree($(this).val())));
+        $("#preview").html(new MathExpression($(this).val()).getHtml());
     });
 </script>
 </body>
