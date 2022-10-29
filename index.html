@@ -39,7 +39,8 @@
             <div class="card form-card">
                 <div class="card-body d-flex flex-column">
                     <form class="text-center w-100 mb-3" id="searchForm" method="get">
-                        <input id="searchField" class="form-control" type="text" name="email" placeholder="Inserisci una funzione..." autocomplete="off">
+                        <input id="searchField" class="form-control" type="text" name="email"
+                               placeholder="Inserisci una funzione..." autocomplete="off">
                     </form>
                     <div class="mx-2 mathText" id="preview">y =</div>
                 </div>
@@ -49,7 +50,7 @@
 </section>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script>
-    $("#searchField").keyup(function() {
+    $("#searchField").keyup(function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
     });
 </script>

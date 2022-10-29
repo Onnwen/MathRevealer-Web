@@ -40,11 +40,16 @@
                             <i class="bi bi-person"></i>
                         </div>
                         <form class="text-center w-100" style="max-width: 375px" id="loginForm">
-                            <div class="mb-3 mt-5"><input id="emailField" class="form-control" type="email" name="email" placeholder="Email" autocomplete="email"></div>
-                            <div class="mb-5"><input id="passwordField" class="form-control" type="password" name="password" placeholder="Password" autocomplete="current-password"></div>
+                            <div class="mb-3 mt-5"><input id="emailField" class="form-control" type="email" name="email"
+                                                          placeholder="Email" autocomplete="email"></div>
+                            <div class="mb-5"><input id="passwordField" class="form-control" type="password"
+                                                     name="password" placeholder="Password"
+                                                     autocomplete="current-password"></div>
                             <button class="btn btn-primary d-block w-100 mb-1" type="submit">Accedi</button>
                             <div class="separator"> Oppure</div>
-                            <button class="btn btn-primary d-block w-100 mb-2 mt-1" type='button' id="signUp">Registrati</button>
+                            <button class="btn btn-primary d-block w-100 mb-2 mt-1" type='button' id="signUp">
+                                Registrati
+                            </button>
                             <!--
                             <div id="appleid-signin" class="signin-button w-100 mb-1" data-type="continue"
                                  data-color="black" data-border="false"></div>
@@ -64,7 +69,10 @@
 
     $("#loginForm").on("submit", function (event) {
         event.preventDefault();
-        $.post(apiUrl + "/users/login", {email: $("#emailField").val(), hashed_password:  sha256($("#passwordField").val())})
+        $.post(apiUrl + "/users/login", {
+            email: $("#emailField").val(),
+            hashed_password: sha256($("#passwordField").val())
+        })
             .done(function (data) {
                 if (data.status_code === 1) {
                     window.location.href = "./index.html";
