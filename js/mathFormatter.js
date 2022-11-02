@@ -68,3 +68,5 @@ class MathFormatter {
         actualArray.push(value);
     }
 }
+
+module.exports = MathFormatter;
