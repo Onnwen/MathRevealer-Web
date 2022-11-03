@@ -1,9 +1,14 @@
 {
-  "dependencies": {
+    "name": "math_revealer_web",
+    "version": "1.0.0-alpha",
+    "scripts": {
+        "start": "node js/testing/run.js"
+    },
+    "dependencies": {
     "bootstrap-icons": "^1.9.1",
     "sha.js": "^2.4.9"
-  },
-  "devDependencies": {
+    },
+    "devDependencies": {
     "jest": "^29.2.2"
-  }
+    }
 }
