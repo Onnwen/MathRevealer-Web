@@ -3,7 +3,15 @@ const openingBrackets = ["(", "{", "["];
 const closingBrackets = [")", "}", "]"];
 
 class MathExpression {
-    constructor(expression) {
+    constructor() {
+        this.firstValue = "";
+        this.operator = "";
+        this.secondValue = "";
+        this.brackets = "";
+        this.error = "";
+    }
+
+    format(expression) {
         this.expression = new MathFormatter(expression).getResult();
     }
 
@@ -12,44 +20,101 @@ class MathExpression {
     }
 }
 
+class MathLevel {
+    constructor() {
+        this.level = [];
+        this.brackets = "";
+        this.error = "";
+    }
+
+    getHtml() {
+        return new HtmlFormatter(this.expression).getResult();
+    }
+
+    append(char) {
+        if (operations.indexOf(string[charIndex]) !== -1) {
+            this.level.push(char);
+        }
+        else {
+            this.level[this.level.lenght] += char;
+        }
+    }
+}
+
 class MathFormatter {
-    constructor(expression) {
-        let tree = [""]
+    constructor(string) {
+        this.formatStringTree(string);
+    }
+
+    getResult() {
+        return this.stringsTree
+    }
+
+    formatStringTree(string) {
+        let stringsTree = [""]
         let lastCharIsBracket = false;
 
-        for (let charIndex = 0; charIndex < expression.length; charIndex++) {
-            let isOperationSymbol = operations.indexOf(expression[charIndex]) !== -1;
-            let isOpeningBracket = openingBrackets.indexOf(expression[charIndex]) !== -1;
-            let isClosingBracket = closingBrackets.indexOf(expression[charIndex]) !== -1;
-
+        for (let charIndex = 0; charIndex < string.length; charIndex++) {
             if (isOperationSymbol) {
-                this.append(tree, expression[charIndex], lastCharIsBracket)
+                if (lastCharIsBracket) {
+                    this.append(stringsTree, [string[charIndex]], lastCharIsBracket);
+                }
+                else {
+                    this.appendInLast(stringsTree, string[charIndex]);
+                }
                 lastCharIsBracket = false;
             } else if (isOpeningBracket) {
-                if (operations.indexOf(expression[charIndex - 1]) === -1 && charIndex > 0 && openingBrackets.indexOf(expression[charIndex - 1]) === -1) {
-                    console.log(openingBrackets.indexOf(expression[charIndex - 1]))
-                    this.append(tree, "*");
+                if (operations.indexOf(string[charIndex - 1]) === -1 && charIndex > 0 && openingBrackets.indexOf(string[charIndex - 1]) === -1) {
+                    this.appendInLast(stringsTree, "*");
                 }
-                this.append(tree, [expression[charIndex]], lastCharIsBracket)
-                this.append(tree, "");
+                this.append(stringsTree, [string[charIndex]], lastCharIsBracket);
                 lastCharIsBracket = false;
             } else if (isClosingBracket) {
-                this.append(tree, expression[charIndex], lastCharIsBracket)
+                this.appendInLast(stringsTree, string[charIndex]);
                 lastCharIsBracket = true;
+                this.append(stringsTree, "", lastCharIsBracket);
+                lastCharIsBracket = false;
             } else {
-                if (operations.indexOf(expression[charIndex - 1]) !== -1) {
-                    this.append(tree, "");
-                }
-                this.appendInLast(tree, expression[charIndex])
+                this.appendInLast(stringsTree, string[charIndex]);
                 lastCharIsBracket = false;
             }
         }
 
-        this.tree=tree;
+        this.stringsTree=stringsTree;
     }
 
-    getResult() {
-        return this.tree
+    formatExpression(stringExpression) {
+        let expression = new MathExpression();
+
+        /*
+        this.firstValue = 0;
+        this.operator = "+";
+        this.secondValue = 2;
+        - this.brackets = "";
+        - this.error = "";
+         */
+
+        for (let charIndex = 0; charIndex < stringExpression.length; charIndex++) {
+            if (openingBrackets.indexOf(string[charIndex]) !== -1 && charIndex === 0) {
+                expression.brackets += stringExpression[0];
+            }
+            else if (charIndex === stringExpression.length) {
+                if (closingBrackets.indexOf(string[charIndex]) !== -1) {
+                    if (expression.brackets === "") {
+                        expression.error += "È presente una parentesi '" + stringExpression[charIndex] + "' che non viene mai aperta.";
+                    }
+                    else if (!this.areEqualsBrackets(expression.brackets, stringExpression[charIndex])) {
+                        expression.error += "La parentesi di apertura '" + expression.brackets + "' non combacia con quella di chiusura '" + stringExpression[charIndex] + "'.";
+                    }
+                    expression.brackets += stringExpression[charIndex];
+                }
+            }
+            else if (operations.indexOf(string[charIndex]) !== -1) {
+                if (expression.firstValue === "") {
+
+                }
+            }
+        }
     }
 
     appendInLast(array, value) {
@@ -66,6 +131,10 @@ class MathFormatter {
             actualArray = actualArray[actualArray.length - 1];
         }
         actualArray.push(value);
+    }
+
+    areEqualsBrackets(openingBracket, closingBracket) {
+        return openingBrackets.indexOf(firstBracket) === closingBrackets.indexOf(closingBracket)
     }
 }
 
