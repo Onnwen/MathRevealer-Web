@@ -1,4 +1,5 @@
-const MathExpression = require('../MathExpression.js');
+import {describe, expect, test} from '@jest/globals';
+import {MathExpression} from '../MathExpression.js';
 
 describe('MathExpression', () => {
     test('formatting: "1-2"', () => {
