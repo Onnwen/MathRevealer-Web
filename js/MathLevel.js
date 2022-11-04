@@ -20,7 +20,7 @@ class MathLevel {
     }
 
     getLastChar() {
-        return this.level[this.level.length];
+        return this.level[this.level.length-1];
     }
 
     addChar(char) {
@@ -29,7 +29,6 @@ class MathLevel {
         }
         else if (openingBrackets.indexOf(char) !== -1) {
             if (!isNaN(this.getLastChar())) {
-                console.log(this.getLastChar())
                 this.level.push("*");
             }
             this.level.push(new MathLevel());
