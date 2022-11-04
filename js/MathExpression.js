@@ -1,4 +1,5 @@
 const MathLevel = require('./MathLevel.js');
+const HtmlFormatter = require('./HtmlFormatter.js');
 const constants = require('./constant.js');
 const closingBrackets = constants.closingBrackets;
 
@@ -24,7 +25,7 @@ class MathExpression {
     }
 
     getHtml() {
-        return new HtmlFormatter(this.expression).getResult();
+        return new HtmlFormatter(this.getLevel()).getResult();
     }
 
     getJson() {
