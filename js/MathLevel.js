@@ -1,10 +1,6 @@
-const constants = require('./constant.js');
-const operations = constants.operations;
-const priorityOperations = constants.priorityOperations;
-const closingBrackets = constants.closingBrackets;
-const openingBrackets = constants.openingBrackets;
+import {operations, closingBrackets, openingBrackets} from './constant.js';
 
-class MathLevel {
+export class MathLevel {
     constructor() {
         this.level = [];
         this.brackets = "";
@@ -73,5 +69,3 @@ class MathLevel {
         this.error !== undefined || this.error === "" ? this.error = errorString : this.error += "\n" + errorString;
     }
 }
-
-module.exports = MathLevel;

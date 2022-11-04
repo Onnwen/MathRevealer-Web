@@ -1,6 +1,7 @@
-// Testing HtmlFormatter trought MathExpression that invoque HtmlFormatter instance.
+// Testing HtmlFormatter trough MathExpression that invoke HtmlFormatter instance.
 
-const MathExpression = require('../MathExpression.js');
+import {describe, expect, test} from '@jest/globals';
+import {MathExpression} from '../MathExpression.js';
 
 describe('HtmlFormatter', () => {
     test('formatting: "1-2"', () => {

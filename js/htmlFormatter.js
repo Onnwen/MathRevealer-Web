@@ -1,4 +1,4 @@
-class HtmlFormatter {
+export class HtmlFormatter {
     constructor(mathLevel) {
         this.html = this.generateHtml(mathLevel);
     }
@@ -41,9 +41,7 @@ class HtmlFormatter {
             return mathLevel
         }
         else {
-            return html + mathLevel.getLevel();
+            return "";
         }
     }
 }
-
-module.exports = HtmlFormatter;

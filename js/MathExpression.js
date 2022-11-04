@@ -1,9 +1,8 @@
-const MathLevel = require('./MathLevel.js');
-const HtmlFormatter = require('./HtmlFormatter.js');
-const constants = require('./constant.js');
-const closingBrackets = constants.closingBrackets;
+import {MathLevel} from './MathLevel.js';
+import {HtmlFormatter} from './HtmlFormatter.js';
+import {closingBrackets} from './constant.js';
 
-class MathExpression {
+export class MathExpression {
     constructor(expression) {
         this.level = new MathLevel();
         this.parse(expression);
@@ -47,5 +46,3 @@ class MathExpression {
         return this.getLevel().getPenultimateLevel();
     }
 }
-
-module.exports = MathExpression;

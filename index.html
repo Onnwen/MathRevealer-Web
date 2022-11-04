@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="js/mathFormatter.js"></script>
-    <script src="js/htmlFormatter.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <section class="position-relative py-4 py-xl-5">
@@ -48,8 +47,9 @@
         </div>
     </div>
 </section>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script>
+<script type="module">
+    import {MathExpression} from './js/MathExpression.js';
+
     $("#searchField").keyup(function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
     });

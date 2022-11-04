@@ -1,9 +1,4 @@
-const operations = ["+", "-", "*", "/", "^"];
-const priorityOperations = ["*", "/", "^"];
-const openingBrackets = ["(", "{", "["];
-const closingBrackets = [")", "}", "]"];
-
-exports.operations = operations;
-exports.priorityOperations = priorityOperations;
-exports.closingBrackets = closingBrackets;
-exports.openingBrackets = openingBrackets;
+export const operations = ["+", "-", "*", "/", "^"];
+export const priorityOperations = ["*", "/", "^"];
+export const openingBrackets = ["(", "{", "["];
+export const closingBrackets = [")", "}", "]"];
