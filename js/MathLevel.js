@@ -35,7 +35,15 @@ class MathLevel {
             this.getLastLevel().brackets = char;
         }
         else {
-            this.level.length < 1 || isNaN(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
+            if (isNaN(char)) {
+                if (this.level.length > 0 && operations.indexOf(this.getLastChar()) === -1) {
+                    this.level.push("*");
+                }
+                this.level.push(char);
+            }
+            else {
+                this.level.length < 1 || isNaN(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
+            }
         }
     }
 
