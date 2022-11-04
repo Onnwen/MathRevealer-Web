@@ -49,10 +49,10 @@ class MathLevel {
 
     closeBrackets(closingBracket) {
         if (this.brackets === "" || this.brackets === undefined) {
-            this.error += "È presente una parentesi '" + closingBrackets + "' che non viene mai aperta.\n";
+            this.addError("È presente una parentesi '" + closingBrackets + "' che non viene mai aperta.");
         }
         else if (openingBrackets.indexOf(closingBracket) !== closingBrackets.indexOf(openingBrackets[closingBracket.indexOf(closingBracket)])) {
-            this.error += "La parentesi di apertura '" + this.brackets[0] + "' non combacia con quella di chiusura '" + stringExpression[charIndex] + "'.\n";
+            this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con quella di chiusura '" + stringExpression[charIndex] + "'");
         }
         this.brackets += closingBracket;
     }
@@ -74,6 +74,7 @@ class MathLevel {
     }
 
     addError(errorString) {
+        this.error !== undefined || this.error === "" ? this.error = errorString : this.error += "\n" + errorString;
     }
 }
 
