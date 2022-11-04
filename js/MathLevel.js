@@ -1,5 +1,6 @@
 const constants = require('./constant.js');
 const operations = constants.operations;
+const priorityOperations = constants.priorityOperations;
 const closingBrackets = constants.closingBrackets;
 const openingBrackets = constants.openingBrackets;
 
@@ -18,16 +19,19 @@ class MathLevel {
         return this.level;
     }
 
+    getLastChar() {
+        return this.level[this.level.length];
+    }
+
     addChar(char) {
         if (operations.indexOf(char) !== -1) {
             this.level.push(char);
         }
         else if (openingBrackets.indexOf(char) !== -1) {
-            /*
-            if (operations.indexOf(char) === -1 && openingBrackets.indexOf(char) === -1) {
+            if (!isNaN(this.getLastChar())) {
+                console.log(this.getLastChar())
                 this.level.push("*");
             }
-            */
             this.level.push(new MathLevel());
             this.getLastLevel().brackets = char;
         }
@@ -60,6 +64,9 @@ class MathLevel {
             actualLevel = actualLevel[actualLevel.length - 1];
         }
         return actualLevel;
+    }
+
+    addError(errorString) {
     }
 }
 
