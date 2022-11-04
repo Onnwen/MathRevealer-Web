@@ -11,10 +11,6 @@ class MathLevel {
         this.error = "";
     }
 
-    getHtml() {
-        return new HtmlFormatter(this.expression).getResult();
-    }
-
     getLevel() {
         return this.level;
     }
