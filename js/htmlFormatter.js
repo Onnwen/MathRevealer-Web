@@ -1,44 +1,49 @@
 class HtmlFormatter {
-    constructor(tree) {
-        this.html = this.generateHtml(tree)
+    constructor(mathLevel) {
+        this.html = this.generateHtml(mathLevel);
     }
 
     getResult() {
         return this.html;
     }
 
-    generateHtml(branches) {
+    generateHtml(mathLevel) {
         let html = "";
-        if (Array.isArray(branches)) {
-            for (let branchIndex = 0; branchIndex < branches.length; branchIndex++) {
-                if (branches[branchIndex+1] === "/") {
-                    html += "<div class='frac'><span>" + this.generateHtml(branches[branchIndex]) + "</span><span class='symbol'>/</span><span class='bottom'>" + (branches[branchIndex+2] !== undefined ? this.generateHtml(branches[branchIndex+2]) : '...') + "</span></div>";
-                    branchIndex++;
-                    branchIndex++;
+        if (typeof mathLevel === 'object' && mathLevel !== undefined) {
+            for (let charIndex = 0; charIndex < mathLevel.getLevel().length; charIndex++) {
+                if (mathLevel.getLevel()[charIndex+1] === "/") {
+                    html += "<div class='frac'><span>" + this.generateHtml(mathLevel.getLevel()[charIndex]) + "</span><span class='symbol'>/</span><span class='bottom'>" + (mathLevel.getLevel()[charIndex+2] !== undefined ? this.generateHtml(mathLevel.getLevel()[charIndex+2]) : '...') + "</span></div>";
+                    charIndex++;
+                    charIndex++;
                 }
                 else {
-                    if (!Array.isArray(branches[branchIndex])) {
-                        if (branches[branchIndex] === "^") {
-                            html += "<sup>" + this.generateHtml(branches[branchIndex + 1]) + "</sup>";
-                            branchIndex++;
-                        } else if (branches[branchIndex] === "+") {
+                    if (!Array.isArray(mathLevel.getLevel()[charIndex])) {
+                        if (mathLevel.getLevel()[charIndex] === "^") {
+                            html += "<sup>" + this.generateHtml(mathLevel.getLevel()[charIndex + 1]) + "</sup>";
+                            charIndex++;
+                        } else if (mathLevel.getLevel()[charIndex] === "+") {
                             html += "&plus;";
-                        } else if (branches[branchIndex] === "-") {
+                        } else if (mathLevel.getLevel()[charIndex] === "-") {
                             html += "&minus;";
-                        } else if (branches[branchIndex] === "*") {
+                        } else if (mathLevel.getLevel()[charIndex] === "*") {
                             html += "&times;";
                         } else {
-                            html += branches[branchIndex];
+                            html += mathLevel.getLevel()[charIndex];
                         }
                     } else {
-                        html += this.generateHtml(branches[branchIndex]);
+                        html += this.generateHtml(mathLevel.getLevel()[charIndex]);
                     }
                 }
             }
             return html;
         }
+        else if (!isNaN(mathLevel)) {
+            return mathLevel
+        }
         else {
-            return html + branches;
+            return html + mathLevel.getLevel();
         }
     }
 }
+
+module.exports = HtmlFormatter;
