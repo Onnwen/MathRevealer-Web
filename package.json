@@ -3,14 +3,15 @@
   "name": "math_revealer_web",
   "version": "1.0.0-alpha",
   "scripts": {
-    "start": "node js/testing/run.js",
-    "test": "jest"
+    "start": "node js/spec/run.js",
+    "test": "jasmine"
   },
   "dependencies": {
     "@jest/globals": "^29.2.2",
     "sha.js": "^2.4.9"
   },
   "devDependencies": {
+    "jasmine": "^4.5.0",
     "jest": "^29.2.2"
   }
 }
