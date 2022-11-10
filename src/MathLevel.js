@@ -1,4 +1,4 @@
-import {operations, closingBrackets, openingBrackets} from './constant.js';
+import {Symbol} from './Symbol.js';
 
 export class MathLevel {
     constructor() {
@@ -16,19 +16,21 @@ export class MathLevel {
     }
 
     addChar(char) {
-        if (operations.indexOf(char) !== -1) {
+        if (Symbol.isOperation(char)) {
             this.level.push(char);
         }
-        else if (openingBrackets.indexOf(char) !== -1) {
+        else if (Symbol.isOpeningBracket(char)) {
             if (!isNaN(this.getLastChar())) {
                 this.level.push("*");
             }
-            this.level.push(new MathLevel());
+            if (this.getLastChar() !== undefined) {
+                this.level.push(new MathLevel());
+            }
             this.getLastLevel().brackets = char;
         }
         else {
             if (isNaN(char)) {
-                if (this.level.length > 0 && operations.indexOf(this.getLastChar()) === -1) {
+                if (this.level.length > 0 && Symbol.isOperation(this.getLastChar())) {
                     this.level.push("*");
                 }
                 this.level.push(char);
@@ -41,17 +43,17 @@ export class MathLevel {
 
     closeBrackets(closingBracket) {
         if (this.brackets === "" || this.brackets === undefined) {
-            this.addError("È presente una parentesi '" + closingBrackets + "' che non viene mai aperta.");
+            this.addError("È necessaria inserire una parentesi '" + Symbol.getRespectiveBracket(closingBracket) + "' perché la parentesi '" + closingBracket + "' non viene mai aperta.");
         }
-        else if (openingBrackets.indexOf(closingBracket) !== closingBrackets.indexOf(openingBrackets[closingBracket.indexOf(closingBracket)])) {
-            this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con quella di chiusura '" + closingBracket + "'");
+        else if (!Symbol.bracketsMatch(this.brackets[0], closingBracket)) {
+            this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con la parentesi di chiusura '" + closingBracket + "'");
         }
         this.brackets += closingBracket;
     }
 
     getLastLevel() {
         let actualLevel = this;
-        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1] !== undefined && operations.indexOf(actualLevel.getLevel()[actualLevel.getLevel().length - 1]) === -1 && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1])) {
+        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object' && Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1])) {
             actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
         }
         return actualLevel;
@@ -59,8 +61,8 @@ export class MathLevel {
 
     getPenultimateLevel() {
         let actualLevel = this;
-        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && operations.indexOf(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) === -1 && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
-            actualLevel = actualLevel[actualLevel.getLevel().length - 1];
+        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] === 'object' && Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
+            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1];
         }
         return actualLevel;
     }

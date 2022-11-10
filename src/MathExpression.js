@@ -1,6 +1,6 @@
 import {MathLevel} from './MathLevel.js';
 import {HtmlFormatter} from './HtmlFormatter.js';
-import {closingBrackets} from './constant.js';
+import {Symbol} from './Symbol.js';
 
 export class MathExpression {
     constructor(expression) {
@@ -12,7 +12,7 @@ export class MathExpression {
         let lastCharIsClosingBracket = false;
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
-            if (closingBrackets.indexOf(expression[charIndex]) !== -1) {
+            if (Symbol.isClosingBracket(expression[charIndex])) {
                 this.getLastLevel().closeBrackets(expression[charIndex]);
                 lastCharIsClosingBracket = true;
             }
@@ -21,8 +21,6 @@ export class MathExpression {
                 lastCharIsClosingBracket = false;
             }
         }
-
-        console.log(this.level)
     }
 
     getHtml() {
