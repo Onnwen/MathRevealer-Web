@@ -15,6 +15,10 @@ export class MathLevel {
         return this.level[this.level.length-1];
     }
 
+    getBrackets() {
+        return this.brackets;
+    }
+
     addChar(char) {
         if (Symbol.isOperation(char)) {
             this.level.push(char);
@@ -67,7 +71,7 @@ export class MathLevel {
     getPenultimateLevel() {
         let actualLevel = this;
         while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] === 'object' && !Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
-            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
+            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1];
         }
         return actualLevel;
     }
