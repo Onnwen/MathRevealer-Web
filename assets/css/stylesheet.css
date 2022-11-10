@@ -8,6 +8,16 @@ p, input, .btn, .separator, a {
     font-family: Quicksand, sans-serif;
 }
 
+.errorText {
+    color: darkred;
+    text-decoration: none;
+    animation: ease-in-out 500ms;
+}
+
+.errorText:hover {
+    color: #ad0000;
+}
+
 h1 {
     font-family: Quicksand, sans-serif;
     font-size: 60px;
