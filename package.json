@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.5.14",
+    "bootstrap": "^5.2.2",
     "jquery": "^3.6.1",
     "sha.js": "^2.4.11"
   },
