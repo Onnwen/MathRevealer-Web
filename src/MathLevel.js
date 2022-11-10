@@ -29,11 +29,16 @@ export class MathLevel {
             this.getLastLevel().brackets = char;
         }
         else {
-            if (isNaN(char)) {
-                if (this.level.length > 0 && Symbol.isOperation(this.getLastChar())) {
+            if (Symbol.isVariable(char)) {
+                if (this.level.length > 0 && !Symbol.isOperation(this.getLastChar())) {
                     this.level.push("*");
                 }
                 this.level.push(char);
+            }
+            else if (isNaN(char)) {
+                this.level.push(new MathLevel());
+                this.getLastLevel().getLevel().push(char);
+                this.getLastLevel().addError("Il carattere '" + char + "' non è riconosciuto.");
             }
             else {
                 this.level.length < 1 || isNaN(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
@@ -53,7 +58,6 @@ export class MathLevel {
 
     getLastLevel() {
         let actualLevel = this;
-        console.log(typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1]);
         while (actualLevel.getLevel()[actualLevel.getLevel().length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object' && !Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1])) {
             actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
         }
