@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>MathRevealer</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/stylesheet.css">
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <section class="position-relative py-4 py-xl-5">
@@ -52,6 +52,7 @@
 
     $("#searchField").on("keyup", function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
     });
 </script>
 </body>
