@@ -3,6 +3,8 @@ export class Symbol {
     static priorityOperationSymbols = ["*", "/", "^"];
     static openingBracketSymbols = ["(", "{", "["];
     static closingBracketSymbols = [")", "}", "]"];
+    static variableSymbols = ["x", "y"];
+    static numberSymbols = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
     static isOperation(symbol) {
         return this.operationSymbols.indexOf(symbol) !== -1;
