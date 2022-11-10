@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/stylesheet.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -47,8 +46,9 @@
         </div>
     </div>
 </section>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script type="module">
-    import {MathExpression} from './js/MathExpression.js';
+    import {MathExpression} from './src/MathExpression.js';
 
     $("#searchField").keyup(function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
