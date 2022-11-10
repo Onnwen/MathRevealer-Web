@@ -21,6 +21,8 @@ export class MathExpression {
                 lastCharIsClosingBracket = false;
             }
         }
+
+        console.log(this.level)
     }
 
     getHtml() {

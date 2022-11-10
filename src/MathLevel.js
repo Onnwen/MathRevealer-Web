@@ -44,7 +44,7 @@ export class MathLevel {
             this.addError("È presente una parentesi '" + closingBrackets + "' che non viene mai aperta.");
         }
         else if (openingBrackets.indexOf(closingBracket) !== closingBrackets.indexOf(openingBrackets[closingBracket.indexOf(closingBracket)])) {
-            this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con quella di chiusura '" + stringExpression[charIndex] + "'");
+            this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con quella di chiusura '" + closingBracket + "'");
         }
         this.brackets += closingBracket;
     }
