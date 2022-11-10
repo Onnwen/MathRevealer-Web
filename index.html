@@ -50,7 +50,7 @@
 <script type="module">
     import {MathExpression} from './src/MathExpression.js';
 
-    $("#searchField").keyup(function () {
+    $("#searchField").on("keyup", function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
     });
 </script>
