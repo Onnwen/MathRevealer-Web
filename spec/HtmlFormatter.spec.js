@@ -1,6 +1,4 @@
-// Testing HtmlFormatter trough MathExpression that invoke HtmlFormatter instance.
-
-import {MathExpression} from '../js/MathExpression.js';
+import {MathExpression} from '../src/MathExpression.js';
 
 describe('HtmlFormatter', () => {
     it('formatting: "1-2"', () => {

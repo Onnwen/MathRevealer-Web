@@ -1,4 +1,4 @@
-import {MathExpression} from '../js/MathExpression.js';
+import {MathExpression} from '../src/MathExpression.js';
 
 describe('MathExpression', () => {
     it('formatting: "1-2"', () => {
