@@ -53,7 +53,8 @@ export class MathLevel {
 
     getLastLevel() {
         let actualLevel = this;
-        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object' && Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1])) {
+        console.log(typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1]);
+        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object' && !Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1])) {
             actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
         }
         return actualLevel;
@@ -61,8 +62,8 @@ export class MathLevel {
 
     getPenultimateLevel() {
         let actualLevel = this;
-        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] === 'object' && Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
-            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1];
+        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] === 'object' && !Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
+            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
         }
         return actualLevel;
     }
