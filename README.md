@@ -8,4 +8,5 @@
 - jQuery
 - Bootstrap
 - SignIn with Apple JS
-- JestJS
+- Jasmine
+- shaJS
