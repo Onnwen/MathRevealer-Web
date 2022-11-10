@@ -60,7 +60,7 @@ export class MathLevel {
     getPenultimateLevel() {
         let actualLevel = this;
         while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && operations.indexOf(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) === -1 && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
-            actualLevel = actualLevel[actualLevel.length - 1];
+            actualLevel = actualLevel[actualLevel.getLevel().length - 1];
         }
         return actualLevel;
     }
