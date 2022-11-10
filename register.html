@@ -75,8 +75,8 @@
 <script src="./node_modules/sha.js/sha256.js"></script>
 <script type="module">
     import apiUrl from "./src/apiConfig.js";
-    
-    $("#signIn").click(function () {
+
+    $("#signIn").on("click", function () {
         window.location.href = "./login.html";
     });
 
