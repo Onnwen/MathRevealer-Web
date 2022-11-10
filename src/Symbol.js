@@ -22,6 +22,10 @@ export class Symbol {
         return this.closingBracketSymbols.indexOf(symbol) !== -1;
     }
 
+    static isVariable(symbol) {
+        return this.variableSymbols.indexOf(symbol) !== -1;
+    }
+
     static getRespectiveBracket(bracket) {
         if (this.isClosingBracket(bracket)) {
             return this.openingBracketSymbols[this.closingBracketSymbols.indexOf(bracket)];
