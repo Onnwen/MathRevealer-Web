@@ -16,11 +16,16 @@ export class MathExpression {
                 this.getLastLevel().closeBrackets(expression[charIndex]);
                 lastCharIsClosingBracket = true;
             }
+            else if (charIndex > 0 && !Symbol.isValid(expression[charIndex-1])) {
+                this.getPenultimateLevel().addChar(expression[charIndex])
+                lastCharIsClosingBracket = true
+            }
             else {
                 lastCharIsClosingBracket ? this.getPenultimateLevel().addChar(expression[charIndex]) : this.getLastLevel().addChar(expression[charIndex]);
                 lastCharIsClosingBracket = false;
             }
         }
+        console.log(this.level);
     }
 
     getHtml() {
