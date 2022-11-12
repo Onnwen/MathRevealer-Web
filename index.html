@@ -57,7 +57,7 @@
 </section>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script type="module">
-    import {MathExpression} from './src/MathExpression.js';
+    import {MathFunction} from './src/MathFunction.js';
 
     let originalWidth = 0;
     let showRevealButton = false;
@@ -70,7 +70,7 @@
     });
 
     $("#searchField").on("keyup", function () {
-        $("#preview").html(new MathExpression($(this).val()).getHtml());
+        $("#preview").html("y = " + new MathFunction($(this).val()).getHtml());
         $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
         let revealButtonDiv = $("#revealButtonDiv");
