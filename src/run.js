@@ -1,3 +1,3 @@
-import {MathExpression} from "./MathExpression.js";
+import {MathFunction} from "./MathFunction.js";
 
-console.log(new MathExpression("1-2+(3-4)"))
+console.log(new MathFunction("1-2+(3-4)"))
