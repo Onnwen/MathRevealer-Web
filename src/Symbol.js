@@ -37,19 +37,37 @@ export class Symbol {
         return this.variableSymbols.concat(this.numberSymbols).indexOf(symbol) !== -1;
     }
 
-    static isNumber(symbol) {
-        if (symbol.length === 1) {
-            return this.invalidNumberSymbols.indexOf(symbol) === -1;
+    static isNumber(number) {
+        if (number.length === 1) {
+            return this.invalidNumberSymbols.indexOf(number) === -1;
         }
         else {
-            let symbolLength = symbol.length;
+            let symbolLength = number.length;
             while (symbolLength--) {
-                if (this.invalidNumberSymbols.indexOf(symbol.charAt(symbolLength)) !== -1) {
+                if (this.invalidNumberSymbols.indexOf(number.charAt(symbolLength)) !== -1) {
                     return false;
                 }
             }
 
             return true;
+        }
+    }
+
+    static isInvalidNumber(number) {
+        if (number.length === 1) {
+            return this.invalidNumberSymbols.indexOf(number) !== -1;
+        }
+        else {
+            let decimalSeparatorCount = 0;
+            this.decimalSeparatorSymbols.forEach(decimalSeparatorSymbol => {
+                let numberLength = number.length;
+                while (numberLength--) {
+                    if (number.charAt(numberLength) === decimalSeparatorSymbol) {
+                        decimalSeparatorCount++;
+                    }
+                }
+            })
+            return decimalSeparatorCount > 1;
         }
     }
 
