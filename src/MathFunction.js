@@ -12,7 +12,7 @@ export class MathFunction {
         let workingLevels = [this.expression];
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
-            if (expression[charIndex] !== "") {
+            if (expression[charIndex] !== " ") {
                 if (Symbol.isClosingBracket(expression[charIndex])) {
                     workingLevels.at(-1).closeBrackets(expression[charIndex]);
                     workingLevels.pop();
