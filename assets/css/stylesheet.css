@@ -1,7 +1,27 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap');
 
-p, input, .btn, .separator, a {
+p, input, .btn, .separator, a, h2 {
     font-family: Montserrat, sans-serif;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 50px;
+}
+
+.back-button {
+    color: #0d6efd;
+    text-decoration: none;
+    transition: ease-in-out 250ms;
+}
+
+.back-button:hover {
+    color: #0043a1;
+}
+
+.back-button:active {
+    color: #2f87ff;
 }
 
 .mathText {
