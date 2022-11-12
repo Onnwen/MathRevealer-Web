@@ -21,8 +21,8 @@ describe('MathExpression', () => {
         expect(new MathExpression("1-2(3-4)+3").getJson()).toEqual('{"level":{"level":["1","-","2","*",{"level":["3","-","4"],"brackets":"()","error":""},"+","3"],"brackets":"","error":""}}');
     });
 
-    it('formatting: "1-2+{3+[(4+5)+6]+7}+8"', () => {
-        expect(new MathExpression("1-2+{3+[(4+5)+6]+7}+8").getJson()).toEqual('{"level":{"level":["1","-","2","+",{"level":["3","+",{"level":[{"level":["4","+","5"],"brackets":"()","error":""},"+","6"],"brackets":"[]","error":""},"+","7"],"brackets":"{}","error":""},"+","8"],"brackets":"","error":""}}');
+    it('formatting: "1-2+{3+[(4+5)+6+(7+8)]+9}+10"', () => {
+        expect(new MathExpression("1-2+{3+[(4+5)+6+(7+8)]+9}+10").getJson()).toEqual('{"level":{"level":["1","-","2","+",{"level":["3","+",{"level":[{"level":["4","+","5"],"brackets":"()","error":""},"+","6","+",{"level":["7","+","8"],"brackets":"()","error":""}],"brackets":"[]","error":""},"+","9"],"brackets":"{}","error":""},"+","10"],"brackets":"","error":""}}');
     });
 
     it('formatting: "2*x"', () => {
