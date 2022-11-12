@@ -3,9 +3,10 @@ export class Symbol {
     static priorityOperationSymbols = ["*", "/", "^"];
     static openingBracketSymbols = ["(", "{", "["];
     static closingBracketSymbols = [")", "}", "]"];
-    static variableSymbols = ["x", "y"];
+    static variableSymbols = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     static numberSymbols = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols, Symbol.numberSymbols);
+    static decimalSeparatorSymbols = [",", "."];
+    static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols, Symbol.numberSymbols, Symbol.decimalSeparatorSymbols);
 
     static isOperation(symbol) {
         return this.operationSymbols.indexOf(symbol) !== -1;
@@ -28,7 +29,7 @@ export class Symbol {
     }
 
     static isValue(symbol) {
-        return this.validSymbols.concat(this.numberSymbols).indexOf(symbol) !== -1;
+        return this.variableSymbols.concat(this.numberSymbols).indexOf(symbol) !== -1;
     }
 
     static isValid(symbol) {
