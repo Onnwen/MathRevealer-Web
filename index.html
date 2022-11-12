@@ -52,7 +52,7 @@
 
     $("#searchField").on("keyup", function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        $("body").tooltip({selector: '[data-toggle=tooltip]'});
     });
 </script>
 </body>
