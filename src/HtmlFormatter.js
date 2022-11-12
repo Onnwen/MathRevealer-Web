@@ -23,6 +23,10 @@ export class HtmlFormatter {
                     charIndex++;
                     charIndex++;
                 }
+                else if (mathLevel.getLevel()[charIndex] === "#") {
+                    html += '<span style="white-space: nowrap;"><span style="padding-right: 0.25px">&radic;</span><span style="text-decoration:overline; text-decoration-thickness: 1px;">&nbsp;' + this.generateHtml(mathLevel.getLevel()[charIndex+1]) + '&nbsp;</span></span>';
+                    charIndex++;
+                }
                 else {
                     if (!Array.isArray(mathLevel.getLevel()[charIndex])) {
                         if (mathLevel.getLevel()[charIndex] === "^") {
