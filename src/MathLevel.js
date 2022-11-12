@@ -27,9 +27,7 @@ export class MathLevel {
             if (!isNaN(this.getLastChar())) {
                 this.level.push("*");
             }
-            if (this.getLastChar() !== undefined) {
-                this.level.push(new MathLevel());
-            }
+            this.level.push(new MathLevel());
             this.getLastLevel().brackets = char;
         }
         else {
@@ -62,14 +60,9 @@ export class MathLevel {
 
     getLastLevel() {
         let actualLevel = this;
-        console.log("---");
-        console.log(actualLevel);
-        console.log(actualLevel.getLevel()[actualLevel.getLevel().length - 1])
         while (typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object') {
             actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
         }
-        console.log(actualLevel);
-        console.log("---");
         return actualLevel;
     }
 
