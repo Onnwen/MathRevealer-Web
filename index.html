@@ -36,10 +36,19 @@
         <div class="col-9">
             <div class="card form-card">
                 <div class="card-body d-flex flex-column">
-                    <form class="text-center w-100 mb-3" id="searchForm" method="get">
-                        <input id="searchField" class="form-control" type="text" name="email"
-                               placeholder="Inserisci una funzione..." autocomplete="off">
-                    </form>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col" id="searchFormDiv">
+                            <form class="text-center w-100 mb-3" id="searchForm" method="get">
+                                <input id="searchField" class="form-control" type="text" name="email"
+                                       placeholder="Inserisci una funzione..." autocomplete="off">
+                            </form>
+                        </div>
+                        <div class="col-2" id="revealButtonDiv">
+                            <button class="btn w-100 btn-primary" style="font-family: Quicksand, sans-serif; font-weight: normal; height: 38px;" type="button">
+                                Reveal
+                            </button>
+                        </div>
+                    </div>
                     <div class="mx-2 mathText" id="preview">y =</div>
                 </div>
             </div>
@@ -50,10 +59,39 @@
 <script type="module">
     import {MathExpression} from './src/MathExpression.js';
 
+    let originalWidth = 0;
+    let showRevealButton = false;
+
+    $(window).on('load', function () {
+        let revealButtonDiv = $("#revealButtonDiv");
+        originalWidth = revealButtonDiv.width();
+        revealButtonDiv.css("width", 0);
+        revealButtonDiv.hide();
+    });
+
     $("#searchField").on("keyup", function () {
         $("#preview").html(new MathExpression($(this).val()).getHtml());
         $("body").tooltip({selector: '[data-toggle=tooltip]'});
+
+        let revealButtonDiv = $("#revealButtonDiv");
+        showRevealButton = $(this).val() !== "";
+        if (!showRevealButton) {
+            revealButtonDiv.animate({
+                width: "0",
+                opacity: "0"
+            }, 500, function() {
+                revealButtonDiv.hide();
+            });
+        } else {
+            revealButtonDiv.show();
+            revealButtonDiv.animate({
+                width: originalWidth,
+                opacity: "1"
+            }, 1000);
+        }
     });
+
+
 </script>
 </body>
 
