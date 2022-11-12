@@ -1,10 +1,5 @@
 # MathRevealer Web
-### Linguaggi usati
-- JavaScript
-- HTML
-- CSS
-
-### Framework usati
+### Framework
 - jQuery
 - Bootstrap
 - SignIn with Apple JS
