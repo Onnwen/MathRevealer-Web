@@ -9,23 +9,28 @@ export class MathExpression {
     }
 
     parse(expression) {
-        let lastCharIsClosingBracket = false;
+        let workingLevels = [this.level];
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
             if (Symbol.isClosingBracket(expression[charIndex])) {
-                this.getLastLevel().closeBrackets(expression[charIndex]);
-                lastCharIsClosingBracket = true;
+                workingLevels.at(-1).closeBrackets(expression[charIndex]);
+                workingLevels.pop();
+            }
+            else if (Symbol.isOpeningBracket(expression[charIndex])) {
+                if (!isNaN(workingLevels.at(-1).getLastChar())) {
+                    workingLevels.at(-1).getLevel().push("*");
+                }
+                workingLevels.push(new MathLevel());
+                workingLevels.at(-1).brackets = expression[charIndex];
+                workingLevels.at(-2).getLevel().push(workingLevels.at(-1));
             }
             else if (charIndex > 0 && !Symbol.isValid(expression[charIndex-1])) {
-                this.getPenultimateLevel().addChar(expression[charIndex])
-                lastCharIsClosingBracket = true
+                workingLevels.at(workingLevels.at(-2) !== undefined ? -2 : -1).addChar(expression[charIndex])
             }
             else {
-                lastCharIsClosingBracket ? this.getPenultimateLevel().addChar(expression[charIndex]) : this.getLastLevel().addChar(expression[charIndex]);
-                lastCharIsClosingBracket = false;
+                workingLevels.at(-1).addChar(expression[charIndex]);
             }
         }
-        console.log(this.level);
     }
 
     getHtml() {
@@ -41,13 +46,5 @@ export class MathExpression {
             return this.level;
         }
         return [];
-    }
-
-    getLastLevel() {
-        return this.getLevel().getLastLevel();
-    }
-
-    getPenultimateLevel() {
-        return this.getLevel().getPenultimateLevel();
     }
 }
