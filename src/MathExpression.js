@@ -17,7 +17,7 @@ export class MathExpression {
                 workingLevels.pop();
             }
             else if (Symbol.isOpeningBracket(expression[charIndex])) {
-                if (!isNaN(workingLevels.at(-1).getLastChar())) {
+                if (Symbol.isValue(workingLevels.at(-1).getLastChar())) {
                     workingLevels.at(-1).getLevel().push("*");
                 }
                 workingLevels.push(new MathLevel());
