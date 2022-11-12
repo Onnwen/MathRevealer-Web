@@ -7,6 +7,7 @@ export class Symbol {
     static numberSymbols = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
     static decimalSeparatorSymbols = [",", "."];
     static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols, Symbol.numberSymbols, Symbol.decimalSeparatorSymbols);
+    static invalidNumberSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols);
 
     static isOperation(symbol) {
         return this.operationSymbols.indexOf(symbol) !== -1;
@@ -28,8 +29,28 @@ export class Symbol {
         return this.variableSymbols.indexOf(symbol) !== -1;
     }
 
+    static isDecimalSeparator(symbol) {
+        return this.decimalSeparatorSymbols.indexOf(symbol) !== -1;
+    }
+
     static isValue(symbol) {
         return this.variableSymbols.concat(this.numberSymbols).indexOf(symbol) !== -1;
+    }
+
+    static isNumber(symbol) {
+        if (symbol.length === 1) {
+            return this.invalidNumberSymbols.indexOf(symbol) === -1;
+        }
+        else {
+            let symbolLength = symbol.length;
+            while (symbolLength--) {
+                if (this.invalidNumberSymbols.indexOf(symbol.charAt(symbolLength)) !== -1) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     static isValid(symbol) {
