@@ -2,14 +2,14 @@ import {MathLevel} from './MathLevel.js';
 import {HtmlFormatter} from './HtmlFormatter.js';
 import {Symbol} from './Symbol.js';
 
-export class MathExpression {
+export class MathFunction {
     constructor(expression) {
-        this.level = new MathLevel();
+        this.expression = new MathLevel();
         this.parse(expression);
     }
 
     parse(expression) {
-        let workingLevels = [this.level];
+        let workingLevels = [this.expression];
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
             if (expression[charIndex] !== "") {
@@ -36,16 +36,16 @@ export class MathExpression {
     }
 
     getHtml() {
-        return new HtmlFormatter(this.getLevel()).getResult();
+        return new HtmlFormatter(this.getExpression()).getResult();
     }
 
     getJson() {
         return JSON.stringify(this);
     }
 
-    getLevel() {
-        if (this.level) {
-            return this.level;
+    getExpression() {
+        if (this.expression) {
+            return this.expression;
         }
         return [];
     }
