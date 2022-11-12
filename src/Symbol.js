@@ -27,6 +27,10 @@ export class Symbol {
         return this.variableSymbols.indexOf(symbol) !== -1;
     }
 
+    static isValue(symbol) {
+        return this.validSymbols.concat(this.numberSymbols).indexOf(symbol) !== -1;
+    }
+
     static isValid(symbol) {
         return this.validSymbols.indexOf(symbol) !== -1;
     }
