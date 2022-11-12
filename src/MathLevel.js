@@ -41,6 +41,13 @@ export class MathLevel {
             }
             else {
                 this.level.length < 1 || !Symbol.isNumber(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
+                if (Symbol.isInvalidNumber(this.level[this.level.length-1])) {
+                    let invalidNumberLevel = new MathLevel();
+                    invalidNumberLevel.getLevel().push(this.level[this.level.length-1]);
+                    invalidNumberLevel.addError("Il valore '" + this.level[this.level.length-1] + "' presenta errori.");
+                    this.level.pop();
+                    this.level.push(invalidNumberLevel);
+                }
             }
         }
     }
