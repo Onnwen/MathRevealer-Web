@@ -32,4 +32,8 @@ describe('MathExpression', () => {
     it('formatting: "2x"', () => {
         expect(new MathExpression("2x").getJson()).toEqual('{"level":{"level":["2","*","x"],"brackets":"","error":""}}');
     });
+
+    it('formatting: "3.14"', () => {
+        expect(new MathExpression("3.14").getJson()).toEqual('{"level":{"level":["3,14"],"brackets":"","error":""}}');
+    });
 });
