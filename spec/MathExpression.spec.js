@@ -9,6 +9,10 @@ describe('MathExpression', () => {
         expect(new MathExpression("1-2+(3-4)").getJson()).toEqual('{"level":{"level":["1","-","2","+",{"level":["3","-","4"],"brackets":"()","error":""}],"brackets":"","error":""}}');
     });
 
+    it('formatting: "(1-2)+3+4"', () => {
+        expect(new MathExpression("(1-2)+3+4").getJson()).toEqual('{"level":{"level":[{"level":["1","-","2"],"brackets":"()","error":""},"+","3","+","4"],"brackets":"","error":""}}');
+    });
+
     it('formatting: "1-2+(3-4)+3"', () => {
         expect(new MathExpression("1-2+(3-4)+3").getJson()).toEqual('{"level":{"level":["1","-","2","+",{"level":["3","-","4"],"brackets":"()","error":""},"+","3"],"brackets":"","error":""}}');
     });

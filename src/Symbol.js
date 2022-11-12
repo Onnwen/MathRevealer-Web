@@ -5,7 +5,7 @@ export class Symbol {
     static closingBracketSymbols = [")", "}", "]"];
     static variableSymbols = ["x", "y"];
     static numberSymbols = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols);
+    static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols, Symbol.numberSymbols);
 
     static isOperation(symbol) {
         return this.operationSymbols.indexOf(symbol) !== -1;

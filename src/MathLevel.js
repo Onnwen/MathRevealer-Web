@@ -62,9 +62,14 @@ export class MathLevel {
 
     getLastLevel() {
         let actualLevel = this;
-        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object' && !Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1])) {
+        console.log("---");
+        console.log(actualLevel);
+        console.log(actualLevel.getLevel()[actualLevel.getLevel().length - 1])
+        while (typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object') {
             actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
         }
+        console.log(actualLevel);
+        console.log("---");
         return actualLevel;
     }
 
