@@ -30,6 +30,9 @@ export class MathLevel {
                 }
                 this.level.push(char);
             }
+            else if (Symbol.isDecimalSeparator(char)) {
+                this.level[this.level.length-1] += ",";
+            }
             else if (isNaN(char)) {
                 let invalidCharLevel = new MathLevel();
                 invalidCharLevel.getLevel().push(char);
@@ -37,7 +40,7 @@ export class MathLevel {
                 this.level.push(invalidCharLevel);
             }
             else {
-                this.level.length < 1 || isNaN(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
+                this.level.length < 1 || !Symbol.isNumber(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
             }
         }
     }
