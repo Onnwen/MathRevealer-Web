@@ -23,13 +23,6 @@ export class MathLevel {
         if (Symbol.isOperation(char)) {
             this.level.push(char);
         }
-        else if (Symbol.isOpeningBracket(char)) {
-            if (!isNaN(this.getLastChar())) {
-                this.level.push("*");
-            }
-            this.level.push(new MathLevel());
-            this.getLastLevel().brackets = char;
-        }
         else {
             if (Symbol.isVariable(char)) {
                 if (this.level.length > 0 && !Symbol.isOperation(this.getLastChar())) {
@@ -38,9 +31,10 @@ export class MathLevel {
                 this.level.push(char);
             }
             else if (isNaN(char)) {
-                this.level.push(new MathLevel());
-                this.getLastLevel().getLevel().push(char);
-                this.getLastLevel().addError("Il carattere '" + char + "' non è riconosciuto.");
+                let invalidCharLevel = new MathLevel();
+                invalidCharLevel.getLevel().push(char);
+                invalidCharLevel.addError("Il carattere '" + char + "' non è riconosciuto.");
+                this.level.push(invalidCharLevel);
             }
             else {
                 this.level.length < 1 || isNaN(this.level[this.level.length-1]) ? this.level.push(char) : this.level[this.level.length-1] += char;
@@ -56,22 +50,6 @@ export class MathLevel {
             this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con la parentesi di chiusura '" + closingBracket + "'");
         }
         this.brackets += closingBracket;
-    }
-
-    getLastLevel() {
-        let actualLevel = this;
-        while (typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1] === 'object') {
-            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1];
-        }
-        return actualLevel;
-    }
-
-    getPenultimateLevel() {
-        let actualLevel = this;
-        while (actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] !== undefined && typeof actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1] === 'object' && !Symbol.isOperation(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1]) && isNaN(actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1])) {
-            actualLevel = actualLevel.getLevel()[actualLevel.getLevel().length - 1][actualLevel.getLevel()[actualLevel.getLevel().length - 1].length - 1];
-        }
-        return actualLevel;
     }
 
     addError(errorString) {
