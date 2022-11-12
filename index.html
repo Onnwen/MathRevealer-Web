@@ -75,19 +75,20 @@
 
         let revealButtonDiv = $("#revealButtonDiv");
         showRevealButton = $(this).val() !== "";
-        if (!showRevealButton) {
+
+        if (showRevealButton && revealButtonDiv.width() === 0) {
+            revealButtonDiv.show();
+            revealButtonDiv.animate({
+                width: originalWidth,
+                opacity: "1"
+            }, 1000);
+        } else if (!showRevealButton && revealButtonDiv.width() !== 0) {
             revealButtonDiv.animate({
                 width: "0",
                 opacity: "0"
             }, 500, function() {
                 revealButtonDiv.hide();
             });
-        } else {
-            revealButtonDiv.show();
-            revealButtonDiv.animate({
-                width: originalWidth,
-                opacity: "1"
-            }, 1000);
         }
     });
 
