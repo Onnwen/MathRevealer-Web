@@ -39,7 +39,7 @@
 <section>
     <div class="row d-flex justify-content-center w-100">
         <div class="col-9">
-            <div class="card form-card blurred">
+            <div class="card form-card blurred mb-5">
                 <div class="card-body d-flex flex-column">
                     <div id="searchFormDiv">
                         <div class="row d-flex justify-content-center">
@@ -55,22 +55,26 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="mx-2 mathText" id="preview">y =</div>
+                        <div class="mx-2 mathText" id="preview"></div>
                     </div>
                     <div id="resultDiv" style="display: none">
-                        <div>
-                            <a class="back-button" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca una funzione</a>
-                            <h2>Dominio</h2>
+                        <a class="col-6 back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
+                        <h3 id="resultPreview">y = 2+4-x</h3>
+                        <div class="container overflow-hidden">
+                            <div class="row row-cols-1 row-cols-md-3 gy-4" id="cards">
+                            </div>
                         </div>
                     </div>
-                    <div id="loadingDiv" class="d-flex justify-content-center" style="display: none">
+                    <div id="loadingDiv" class="d-flex justify-content-center" style="display: none !important;">
                         <div class="b" style="display: none">
                             <div></div>
                             <div></div>
                             <div></div>
                             <div></div>
                         </div>
-                        Analisi in corso
+                        <p>
+                            Analisi in corso
+                        </p>
                     </div>
                 </div>
             </div>
@@ -80,8 +84,12 @@
 <script type="module">
     import {MathFunction} from './src/MathFunction.js';
 
+    let functionData = new MathFunction("");
+
     let originalWidth = 0;
     let showRevealButton = false;
+
+    let searchField = $("#searchField");
 
     $(window).on('load', function () {
         let revealButtonDiv = $("#revealButtonDiv");
@@ -90,12 +98,38 @@
         revealButtonDiv.hide();
     });
 
-    $("#searchField").on("keyup", function () {
-        $("#preview").html("y = " + new MathFunction($(this).val()).getHtml());
+    searchField.on("keyup", function () {
+        functionData.parse(searchField.val());
+        $("#preview, #resultPreview").html((searchField.val() !== "" ? "y = " : "") + functionData.getHtml());
         $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
+        revealButtonVisibility();
+    });
+
+    $("#revealButton").on("click", function () {
+        let cardsHtml = "";
+        functionData.getResults().forEach(result => {
+            cardsHtml += '<div class="col">' + result.getHtml() + '</div>';
+        })
+        $("#cards").html(cardsHtml);
+
+        $("#searchFormDiv").hide();
+        $("#resultDiv").show("slow", function () {
+        });
+    });
+
+    $("#backButton").on("click", function () {
+        $("#searchFormDiv").show();
+        $("#resultDiv").hide();
+    });
+
+    $(document).on('click', '.mathResultCardEnlargeButton', function (event) {
+        changeCardSize($(this).attr('id'));
+    });
+
+    function revealButtonVisibility() {
         let revealButtonDiv = $("#revealButtonDiv");
-        showRevealButton = $(this).val() !== "";
+        showRevealButton = searchField.val() !== "";
 
         if (showRevealButton && revealButtonDiv.width() === 0) {
             revealButtonDiv.show();
@@ -103,7 +137,8 @@
                 width: originalWidth,
                 opacity: "1"
             }, 1000);
-        } else if (!showRevealButton && revealButtonDiv.width() !== 0) {
+        }
+        else if (!showRevealButton && revealButtonDiv.width() !== 0) {
             revealButtonDiv.animate({
                 width: "0",
                 opacity: "0"
@@ -111,17 +146,55 @@
                 revealButtonDiv.hide();
             });
         }
-    });
+    }
 
-    $("#revealButton").on("click", function () {
-        $("#searchFormDiv").hide();
-        $("#resultDiv").show("slow", function () {});
-    });
+    function changeCardSize(cardButtonId) {
+        let cardIcon = $("#" + cardButtonId + "SizeIcon");
+        let card = $("#" + cardButtonId.slice(0, -6));
+        let cardsList = $("#cards");
 
-    $("#backButton").on("click", function () {
-        $("#searchFormDiv").show();
-        $("#resultDiv").hide();
-    });
+        if (cardIcon.attr('class') === "bi bi-arrows-angle-expand") {
+            functionData.getResults().forEach(result => {
+                if (result.title + "CardButton" !== cardButtonId) {
+                    let card = $("#" + result.title + "Card");
+                    card.animate({
+                        height: "0px",
+                        width: "0%"
+                    }, 500, function() {
+                        card.hide();
+                    });
+                }
+            });
+            cardIcon.removeClass("bi-arrows-angle-expand");
+            cardIcon.addClass("bi-arrows-angle-contract");
+
+            cardsList.removeClass("row-cols-md-3");
+
+            card.animate({
+                height: "600px"
+            }, 500, function() {});
+        }
+        else {
+            functionData.getResults().forEach(result => {
+                if (result.title + "CardButton" !== cardButtonId) {
+                    let card = $("#" + result.title + "Card");
+                    card.show();
+                    card.animate({
+                        height: "300px",
+                        width: "100%"
+                    }, 500, function() {});
+                }
+            });
+            cardIcon.removeClass("bi-arrows-angle-contract");
+            cardIcon.addClass("bi-arrows-angle-expand");
+
+            cardsList.addClass("row-cols-md-3");
+
+            card.animate({
+                height: "300px"
+            }, 500, function() {});
+        }
+    }
 </script>
 </body>
 

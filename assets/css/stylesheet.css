@@ -4,14 +4,54 @@ p, input, .btn, .separator, a, h2 {
     font-family: Montserrat, sans-serif;
 }
 
-h2 {
-    font-weight: bold;
-    font-size: 30px;
+.mathResultCard {
+    background-color: #f3f3f3;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #ececec;
+    height: 300px;
+}
+
+hr {
+    margin: 5px 0 15px;
+    color: rgb(162, 162, 162);
+}
+
+.mathResultCardEnlargeButton {
+    padding: 0;
+    border: none;
+    background: none;
+    transition: opacity ease-in-out 200ms;
+}
+
+.mathResultCardEnlargeButton:hover {
+    opacity: 0.4;
+}
+
+.mathResultCardEnlargeButton:active {
+    opacity: 0.8;
+}
+
+.mathTextResult {
+    opacity: 0.5;
+}
+
+h3 {
+    font-size: 23px;
     padding-top: 50px;
+    text-align: center;
+    color: rgb(24, 24, 24);
+    font-family: Montserrat, sans-serif;
+    padding-bottom: 50px;
+}
+
+h2 {
+    font-weight: 800;
+    font-size: 26px;
 }
 
 .back-button {
-    color: #0d6efd;
+    color: #075ad3;
     text-decoration: none;
     transition: ease-in-out 250ms;
 }

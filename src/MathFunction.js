@@ -1,6 +1,7 @@
 import {MathLevel} from './MathLevel.js';
 import {HtmlFormatter} from './HtmlFormatter.js';
 import {Symbol} from './Symbol.js';
+import {UIMathCard} from "./UIMathCard.js";
 
 export class MathFunction {
     constructor(expression) {
@@ -9,6 +10,7 @@ export class MathFunction {
     }
 
     parse(expression) {
+        this.expression = new MathLevel();
         let workingLevels = [this.expression];
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
@@ -48,5 +50,14 @@ export class MathFunction {
             return this.expression;
         }
         return [];
+    }
+
+    getResults() {
+        let results = ["Dominio", "Parità", "Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
+        let uiResults = [];
+        results.forEach(result => {
+            uiResults.push(new UIMathCard(result));
+        })
+        return uiResults;
     }
 }
