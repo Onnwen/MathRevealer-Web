@@ -1,4 +1,4 @@
-import {MathFunction} from '../src/MathFunction.js';
+import {MathFunction} from '../src/math/function/MathFunction.js';
 
 describe('HtmlFormatter', () => {
     it('formatting: "1-2"', () => {
