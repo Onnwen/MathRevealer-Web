@@ -5,11 +5,21 @@ p, input, .btn, .separator, a, h2, footer {
 }
 
 .mathResultCard {
+    float: left;
     background-color: #f3f3f3;
     padding: 20px;
     border-radius: 20px;
     border: 2px solid #ececec;
     height: 300px;
+    width: 31%;
+    margin: 1%;
+    display: block;
+    line-height:0;
+    overflow: hidden;
+}
+
+.cardsGrid {
+    width: 100%;
 }
 
 footer {
