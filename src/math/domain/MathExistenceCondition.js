@@ -1,3 +1,6 @@
+import {MathFunction} from "../function/MathFunction.js";
+import {Symbol} from '../../other/Symbol.js';
+
 export class MathExistenceCondition {
     constructor(value, sign, set) {
         this.value = value;
@@ -38,6 +41,10 @@ export class MathExistenceCondition {
                     return new MathExistenceCondition(this.value, sign, this.getSet() < existenceCondition.getSet() ? this.set : existenceCondition.set);
             }
         }
+    }
+
+    getLaTeX() {
+        return new MathFunction(this.value).getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
     }
 
     getJson() {
