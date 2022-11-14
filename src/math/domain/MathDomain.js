@@ -11,11 +11,16 @@ export class MathDomain {
 
     calculateDomain() {
         this.allExistenceConditions.forEach(existenceCondition => {
+            let existenceConditionConsidered = false;
             this.existenceConditions.forEach((domainExistenceCondition, index) => {
                 if (domainExistenceCondition.canBeCombinedWith(existenceCondition)) {
-                    existenceCondition[index] = domainExistenceCondition.combineWith(existenceCondition);
+                    this.existenceConditions[index] = domainExistenceCondition.combineWith(existenceCondition);
+                    let existenceConditionConsidered = true;
                 }
             });
+            if (!existenceConditionConsidered) {
+                this.existenceConditions.push(existenceCondition);
+            }
         });
     }
 
