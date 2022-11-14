@@ -106,7 +106,18 @@ export class Symbol {
                 return "\\le";
             case "!=":
                 return "\\neq";
+            case "=":
+                return "="
 
+        }
+    }
+
+    static getLaTeXSymbol(symbol) {
+        switch (symbol) {
+            case "R":
+                return "\\mathbb{R}";
+            default:
+                return symbol;
         }
     }
 }
