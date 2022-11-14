@@ -19,6 +19,11 @@ export class MathLevel {
         return this.brackets;
     }
 
+    getValue() {
+        // To-Do: calcolare valore complesivo
+        return 0;
+    }
+
     addChar(char) {
         if (Symbol.isOperation(char)) {
             this.level.push(char);
