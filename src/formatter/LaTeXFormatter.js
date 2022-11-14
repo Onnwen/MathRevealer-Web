@@ -1,3 +1,5 @@
+import {Symbol} from "../other/Symbol.js";
+
 export class LaTeXFormatter {
     constructor(mathLevel) {
         this.LaTeX = this.generateLaTeX(mathLevel);
@@ -14,6 +16,9 @@ export class LaTeXFormatter {
             for (let charIndex = 0; charIndex < mathLevel.getLevel().length; charIndex++) {
                 if (typeof mathLevel.getLevel()[charIndex] === 'object' && mathLevel.getLevel()[charIndex] !== undefined) {
                     LaTeX += this.generateLaTeX(mathLevel.getLevel()[charIndex]);
+                }
+                else if (!Symbol.isValid(mathLevel.getLevel()[charIndex])) {
+                    LaTeX += Symbol.getLaTeXSymbol(mathLevel.getLevel()[charIndex]);
                 }
                 else if (mathLevel.getLevel()[charIndex+1] === "/") {
                     LaTeX += " \\frac{" + this.generateLaTeX(mathLevel.getLevel()[charIndex]) + "}{" + (mathLevel.getLevel()[charIndex+2] !== undefined ? this.generateLaTeX(mathLevel.getLevel()[charIndex+2]) : '...') + "}";
@@ -44,7 +49,7 @@ export class LaTeXFormatter {
             return mathLevel
         }
         else {
-            return "";
+            return Symbol.getLaTeXSymbol(mathLevel);
         }
     }
 }
