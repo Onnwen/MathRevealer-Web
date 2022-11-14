@@ -60,19 +60,39 @@ export class MathFunction {
     }
 
     getResults() {
-        console.log("---")
         let results = ["Parità", "Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
-        let uiResults = [new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", this.getDomain().getHtml())];
+        let UIResults = [];
+
+        // Domain
+        this.calculateDomain();
+        if (this.expression.checkIfHaveVariable()) {
+            console.log(this.getDomain().domain.at(-1).getJson());
+            if (this.getDomain().domain.at(-1).getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", this.getDomain().getHtml()));
+            }
+            else {
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + this.getDomain().domain.length + " condizioni di esistenza.", this.getDomain().getHtml()));
+            }
+        }
+        else {
+            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili."));
+        }
+
         results.forEach(result => {
-            uiResults.push(new UIMathCard(result));
+            UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta da MathRevealer."));
         })
-        return uiResults;
+        return UIResults;
+    }
+
+    calculateDomain() {
+        this.domain = new MathDomain();
+        this.domain.addExistenceCondition(this.expression.getExistenceConditions());
+        this.domain.calculateDomain();
     }
 
     getDomain() {
-        let domain = new MathDomain();
-        domain.addExistenceCondition(this.expression.getExistenceConditions());
-        domain.calculateDomain();
-        return domain;
+        return this.domain !== undefined ? this.domain : new MathDomain();
     }
+
+
 }
