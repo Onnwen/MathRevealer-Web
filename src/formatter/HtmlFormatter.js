@@ -52,11 +52,8 @@ export class HtmlFormatter {
                         }
             return html;
         }
-        else if (!isNaN(mathLevel)) {
-            return mathLevel
-        }
         else {
-            return "";
+            return mathLevel;
         }
     }
 }

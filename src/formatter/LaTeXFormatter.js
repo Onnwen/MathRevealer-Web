@@ -45,11 +45,8 @@ export class LaTeXFormatter {
             LaTeX += mathLevel.getBrackets()[1] !== undefined ? "\\right" +mathLevel.getBrackets()[1] : "";
             return LaTeX;
         }
-        else if (!isNaN(mathLevel)) {
-            return mathLevel
-        }
         else {
-            return Symbol.getLaTeXSymbol(mathLevel);
+            return mathLevel
         }
     }
 }
