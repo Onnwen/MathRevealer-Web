@@ -1,34 +1,37 @@
 import {LaTeXFormatter} from "../../formatter/LaTeXFormatter.js";
+import {MathExistenceCondition} from "./MathExistenceCondition.js";
 
 export class MathDomain {
     constructor() {
-        this.allExistenceConditions = [];
         this.existenceConditions = [];
         this.domain = [];
     }
 
     addExistenceCondition(existenceCondition) {
         if (Array.isArray(existenceCondition)) {
-            this.allExistenceConditions = this.allExistenceConditions.concat(existenceCondition);
+            this.existenceConditions = this.existenceConditions.concat(existenceCondition);
         }
         else {
-            this.allExistenceConditions.push(existenceCondition);
+            this.existenceConditions.push(existenceCondition);
         }
     }
 
     calculateDomain() {
-        this.allExistenceConditions.forEach(existenceCondition => {
+        this.existenceConditions.forEach(existenceCondition => {
             let existenceConditionConsidered = false;
-            this.existenceConditions.forEach((domainExistenceCondition, index) => {
+            this.domain.forEach((domainExistenceCondition, index) => {
                 if (domainExistenceCondition.canBeCombinedWith(existenceCondition)) {
-                    this.existenceConditions[index] = domainExistenceCondition.combineWith(existenceCondition);
+                    this.domain[index] = domainExistenceCondition.combineWith(existenceCondition);
                     existenceConditionConsidered = true;
                 }
             });
             if (!existenceConditionConsidered) {
-                this.existenceConditions.push(existenceCondition);
+                this.domain.push(existenceCondition);
             }
         });
+        if (this.domain.length === 0) {
+            this.domain.push(new MathExistenceCondition("x", "=", "R"));
+        }
     }
 
     getHtml() {
@@ -37,20 +40,20 @@ export class MathDomain {
 
     getLaTeX() {
         let LaTeX = ""
-        if (this.existenceConditions.length > 1) {
+        if (this.domain.length > 1) {
             LaTeX += "\\begin{cases}";
-            this.existenceConditions.forEach(existenceCondition => {
+            this.domain.forEach(existenceCondition => {
                 LaTeX += existenceCondition.getLaTeX() + "\\\\";
             })
             LaTeX += "\\end{cases}";
         }
         else {
-            LaTeX += this.existenceConditions.at(0).getLaTeX();
+            LaTeX += this.domain.at(0).getLaTeX();
         }
         return LaTeX;
     }
 
     getJson() {
-        return JSON.stringify(this.existenceConditions);
+        return JSON.stringify(this.domain);
     }
 }
