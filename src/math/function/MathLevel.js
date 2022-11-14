@@ -6,6 +6,7 @@ export class MathLevel {
         this.level = [];
         this.brackets = "";
         this.error = "";
+        this.haveVariable = false;
     }
 
     getLevel() {
@@ -48,6 +49,7 @@ export class MathLevel {
         }
         else {
             if (Symbol.isVariable(char)) {
+                this.haveVariable = true;
                 if (this.level.length > 0 && !Symbol.isOperation(this.getLastChar())) {
                     this.level.push("*");
                 }
@@ -87,5 +89,19 @@ export class MathLevel {
 
     addError(errorString) {
         this.error !== undefined || this.error === "" ? this.error = errorString : this.error += "\n" + errorString;
+    }
+
+    checkIfHaveVariable() {
+        if (this.haveVariable) {
+            return true;
+        }
+        this.level.forEach(element => {
+            if (typeof element === 'object') {
+                if (element.checkIfHaveVariable()) {
+                    return true;
+                }
+            }
+        })
+        return false;
     }
 }
