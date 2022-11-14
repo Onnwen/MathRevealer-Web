@@ -15,7 +15,7 @@ export class MathDomain {
             this.existenceConditions.forEach((domainExistenceCondition, index) => {
                 if (domainExistenceCondition.canBeCombinedWith(existenceCondition)) {
                     this.existenceConditions[index] = domainExistenceCondition.combineWith(existenceCondition);
-                    let existenceConditionConsidered = true;
+                    existenceConditionConsidered = true;
                 }
             });
             if (!existenceConditionConsidered) {
