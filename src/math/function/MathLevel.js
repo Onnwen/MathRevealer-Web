@@ -1,4 +1,5 @@
 import {Symbol} from '../../other/Symbol.js';
+import {MathExistenceCondition} from "../domain/MathExistenceCondition.js";
 
 export class MathLevel {
     constructor() {
@@ -22,6 +23,23 @@ export class MathLevel {
     getValue() {
         // To-Do: calcolare valore complesivo
         return 0;
+    }
+
+    getExistenceConditions() {
+        let existenceConditions = []
+        this.level.forEach((value, index) => {
+            if (!Symbol.isExistenceGuaranteedByOperation(value)) {
+                switch (value) {
+                    case "/":
+                        existenceConditions.push(new MathExistenceCondition(this.level[index+1], "!=", 0));
+                        break;
+                    case "#":
+                        existenceConditions.push(new MathExistenceCondition(this.level[index+1], ">=", 0));
+                        break;
+                }
+            }
+        })
+        return existenceConditions;
     }
 
     addChar(char) {
