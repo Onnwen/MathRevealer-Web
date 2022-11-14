@@ -102,6 +102,10 @@
         revealButtonDiv.hide();
     });
 
+    $(document).on('click', '.mathResultCardEnlargeButton', function (event) {
+        changeCardSize($(this).attr('id'));
+    });
+
     searchField.on("keyup", function () {
         functionData.parse(searchField.val());
         $("#preview, #resultPreview").html((searchField.val() !== "" ? "y = " : "") + functionData.getHtml());
@@ -125,10 +129,6 @@
     $("#backButton").on("click", function () {
         $("#searchFormDiv").show();
         $("#resultDiv").hide();
-    });
-
-    $(document).on('click', '.mathResultCardEnlargeButton', function (event) {
-        changeCardSize($(this).attr('id'));
     });
 
     function revealButtonVisibility() {
@@ -157,25 +157,27 @@
         let card = $("#" + cardButtonId.slice(0, -6));
         let cardsGrid = $("#cards");
 
-        let animationDuration = 5000;
+        let animationDuration = 1000;
+        let animationLine = 'easeInOutCubic';
 
         if (cardIcon.attr('class') === "bi bi-arrows-angle-expand") {
             functionData.getResults().forEach(result => {
                 if (result.title + "CardButton" !== cardButtonId) {
-                    let card = $("#" + result.title + "Card");
-                    // card.animate({
-                    //     height: "0px",
-                    //     width: "0%"
-                    // }, animationDuration, function() {
-                    //     card.hide();
-                    // });
-
+                    let card = $("#" + result.title + "Card")
                     anime({
                         targets: card.get(0),
                         height: '0px',
-                        width: '0px',
-                        easing: 'linear',
-                        duration: animationDuration
+                        borderRadius: '0px',
+                        opacity: '0',
+                        width: '0%',
+                        padding: '0',
+                        margin: '0',
+                        borderWidth: '0',
+                        easing: animationLine,
+                        duration: animationDuration,
+                        complete: function() {
+                            card.hide();
+                        }
                     })
                 }
             });
@@ -183,7 +185,9 @@
             anime({
                 targets: card.get(0),
                 height: '600px',
-                easing: 'linear',
+                width: '100%',
+                margin: '0%',
+                easing: animationLine,
                 duration: animationDuration
             })
 
@@ -194,10 +198,18 @@
             functionData.getResults().forEach(result => {
                 let card = $("#" + result.title + "Card");
                 card.show();
-                card.animate({
-                    height: "300px",
-                    width: "100%"
-                }, animationDuration, function() {});
+                anime({
+                    targets: card.get(0),
+                    height: '300px',
+                    borderRadius: '20px',
+                    opacity: '1',
+                    width: '30%',
+                    margin: '1%',
+                    padding: '20px',
+                    borderWidth: '2px',
+                    easing: animationLine,
+                    duration: animationDuration
+                })
             });
             cardIcon.removeClass("bi-arrows-angle-contract");
             cardIcon.addClass("bi-arrows-angle-expand");

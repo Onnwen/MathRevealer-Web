@@ -5,7 +5,7 @@ export class UIMathCard {
     }
 
     getHtml() {
-        return `<div class="mathResultCard p-3" id="${this.title}Card">` +
+        return `<div class="mathResultCard" id="${this.title}Card">` +
             `<button class="vertical mathResultCardEnlargeButton" id="${this.title}CardButton" type="button" style="float: right; margin-bottom: auto;">` +
             `<i id="${this.title}CardButtonSizeIcon" class="bi bi-arrows-angle-expand"></i>` +
             `</button>` +
