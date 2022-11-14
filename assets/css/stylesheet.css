@@ -21,13 +21,21 @@ p, input, .btn, .separator, a, h2, footer {
     width: 100%;
 }
 
+.blur-background {
+    background-color: rgba(33, 37, 41, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
 footer {
     color: white;
     font-size: 12px;
-    position: absolute;
+    padding: 15px;
+    height: 50px;
     bottom: 0;
-    width: 100%;
-    height: 75px;
+    left: 0;
+    right: 0;
+    margin-bottom: 0;
 }
 
 .footer-link, .footer-link:visited, .footer-link:link {
@@ -127,6 +135,7 @@ h1 {
 
 body {
     background: var(--bs-gray-900);
+    margin-bottom:50px;
 }
 
 .form-control {
