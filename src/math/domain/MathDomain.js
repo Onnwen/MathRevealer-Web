@@ -1,3 +1,5 @@
+import {LaTeXFormatter} from "../../formatter/LaTeXFormatter.js";
+
 export class MathDomain {
     constructor() {
         this.allExistenceConditions = [];
@@ -30,11 +32,22 @@ export class MathDomain {
     }
 
     getHtml() {
-
+        return "$$" + this.getLaTeX() + "$$";
     }
 
     getLaTeX() {
-
+        let LaTeX = ""
+        if (this.existenceConditions.length > 1) {
+            LaTeX += "\\begin{cases}";
+            this.existenceConditions.forEach(existenceCondition => {
+                LaTeX += existenceCondition.getLaTeX() + "\\\\";
+            })
+            LaTeX += "\\end{cases}";
+        }
+        else {
+            LaTeX += this.existenceConditions.at(0).getLaTeX();
+        }
+        return LaTeX;
     }
 
     getJson() {
