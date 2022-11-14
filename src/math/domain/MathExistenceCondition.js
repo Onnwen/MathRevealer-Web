@@ -10,7 +10,7 @@ export class MathExistenceCondition {
             return this.set.getSet();
         }
         else {
-            return this.set;
+            return parseFloat(this.set);
         }
     }
 
@@ -20,19 +20,23 @@ export class MathExistenceCondition {
 
     combineWith(existenceCondition) {
         if (this.canBeCombinedWith(existenceCondition)) {
+            let sign = "";
             switch (this.sign.at(0)) {
                 case ">":
                     if ((this.sign === ">=" && this.getSet() > existenceCondition.getSet()) || (existenceCondition.sign === ">=" && existenceCondition.getSet() > this.getSet()) || (this.sign === ">=" && existenceCondition.sign === ">=")) {
-                        return new MathExistenceCondition(this.value, ">=", this.getSet() > existenceCondition.getSet() ? this.set : existenceCondition.set);
+                        sign = ">=";
                     } else {
-                        return new MathExistenceCondition(this.value, ">", this.getSet() > existenceCondition.getSet() ? this.set : existenceCondition.set);
+                        sign = ">";
                     }
+                    return new MathExistenceCondition(this.value, sign, this.getSet() > existenceCondition.getSet() ? this.set : existenceCondition.set);
                 case "<":
                     if ((this.sign === "<=" && this.getSet() < existenceCondition.getSet()) || (existenceCondition.sign === ">=" && existenceCondition.getSet() < this.getSet()) || (this.sign === ">=" && existenceCondition.sign === ">=")) {
-                        return new MathExistenceCondition(this.value, "<=", this.getSet() < existenceCondition.getSet() ? this.set : existenceCondition.set);
+                        sign = "<=";
                     } else {
-                        return new MathExistenceCondition(this.value, "<", this.getSet() < existenceCondition.getSet() ? this.set : existenceCondition.set);
+                        sign = "<";
                     }
+                    return new MathExistenceCondition(this.value, "<", this.getSet() < existenceCondition.getSet() ? this.set : existenceCondition.set);
+
                 default:
                     return [this, existenceCondition];
             }
