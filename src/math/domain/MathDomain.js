@@ -6,7 +6,12 @@ export class MathDomain {
     }
 
     addExistenceCondition(existenceCondition) {
-        this.allExistenceConditions.push(existenceCondition);
+        if (Array.isArray(existenceCondition)) {
+            this.allExistenceConditions = this.allExistenceConditions.concat(existenceCondition);
+        }
+        else {
+            this.allExistenceConditions.push(existenceCondition);
+        }
     }
 
     calculateDomain() {
