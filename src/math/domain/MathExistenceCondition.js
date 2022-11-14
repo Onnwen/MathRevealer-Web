@@ -35,13 +35,9 @@ export class MathExistenceCondition {
                     } else {
                         sign = "<";
                     }
-                    return new MathExistenceCondition(this.value, "<", this.getSet() < existenceCondition.getSet() ? this.set : existenceCondition.set);
-
-                default:
-                    return [this, existenceCondition];
+                    return new MathExistenceCondition(this.value, sign, this.getSet() < existenceCondition.getSet() ? this.set : existenceCondition.set);
             }
         }
-        return [this, existenceCondition];
     }
 
     getJson() {
