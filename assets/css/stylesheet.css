@@ -10,7 +10,18 @@ p, input, .btn, .separator, a, h2, footer {
     border-radius: 20px;
     border: 2px solid #ececec;
     height: 300px;
+    width: 300px;
 }
+
+.cardsGrid {
+    display: grid;
+    gap: 2vmin;
+    padding: 2vmin;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: stretch;
+    justify-items: stretch;
+}
+
 
 footer {
     color: white;

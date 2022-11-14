@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/animejs/lib/anime.min.js"></script>
 </head>
 <body>
 <section class="position-relative py-4 py-xl-5">
@@ -61,7 +62,7 @@
                         <a class="col-6 back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
                         <h3 id="resultPreview">y = 2+4-x</h3>
                         <div class="w-100">
-                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gy-4" id="cards">
+                            <div class="cardsGrid" id="cards">
                             </div>
                         </div>
                     </div>
@@ -154,48 +155,52 @@
     function changeCardSize(cardButtonId) {
         let cardIcon = $("#" + cardButtonId + "SizeIcon");
         let card = $("#" + cardButtonId.slice(0, -6));
-        let cardsList = $("#cards");
+        let cardsGrid = $("#cards");
+
+        let animationDuration = 5000;
 
         if (cardIcon.attr('class') === "bi bi-arrows-angle-expand") {
             functionData.getResults().forEach(result => {
                 if (result.title + "CardButton" !== cardButtonId) {
                     let card = $("#" + result.title + "Card");
-                    card.animate({
-                        height: "0px",
-                        width: "0%"
-                    }, 500, function() {
-                        card.hide();
-                    });
+                    // card.animate({
+                    //     height: "0px",
+                    //     width: "0%"
+                    // }, animationDuration, function() {
+                    //     card.hide();
+                    // });
+
+                    anime({
+                        targets: card.get(0),
+                        height: '0px',
+                        width: '0px',
+                        easing: 'linear',
+                        duration: animationDuration
+                    })
                 }
             });
+
+            anime({
+                targets: card.get(0),
+                height: '600px',
+                easing: 'linear',
+                duration: animationDuration
+            })
+
             cardIcon.removeClass("bi-arrows-angle-expand");
             cardIcon.addClass("bi-arrows-angle-contract");
-
-            cardsList.removeClass("row-cols-sm-2 row-cols-md-3 row-cols-xl-4");
-
-            card.animate({
-                height: "600px"
-            }, 500, function() {});
         }
         else {
             functionData.getResults().forEach(result => {
-                if (result.title + "CardButton" !== cardButtonId) {
-                    let card = $("#" + result.title + "Card");
-                    card.show();
-                    card.animate({
-                        height: "300px",
-                        width: "100%"
-                    }, 500, function() {});
-                }
+                let card = $("#" + result.title + "Card");
+                card.show();
+                card.animate({
+                    height: "300px",
+                    width: "100%"
+                }, animationDuration, function() {});
             });
             cardIcon.removeClass("bi-arrows-angle-contract");
             cardIcon.addClass("bi-arrows-angle-expand");
-
-            cardsList.addClass("row-cols-sm-2 row-cols-md-3 row-cols-xl-4");
-
-            card.animate({
-                height: "300px"
-            }, 500, function() {});
         }
     }
 </script>

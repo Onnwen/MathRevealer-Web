@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.5.14",
+    "animejs": "^3.2.1",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.1",
     "jquery": "^3.6.1",
