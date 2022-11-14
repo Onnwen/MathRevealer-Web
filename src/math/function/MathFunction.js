@@ -1,7 +1,7 @@
 import {MathLevel} from './MathLevel.js';
-import {HtmlFormatter} from './HtmlFormatter.js';
-import {Symbol} from './Symbol.js';
-import {UIMathCard} from "./UIMathCard.js";
+import {HtmlFormatter} from '../../formatter/HtmlFormatter.js';
+import {Symbol} from '../../other/Symbol.js';
+import {UIMathCard} from "../../ui/UIMathCard.js";
 
 export class MathFunction {
     constructor(expression) {
@@ -53,11 +53,18 @@ export class MathFunction {
     }
 
     getResults() {
-        let results = ["Dominio", "Parità", "Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
-        let uiResults = [];
+        let results = ["Parità", "Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
+        let uiResults = [new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "x = &#8477;")];
         results.forEach(result => {
             uiResults.push(new UIMathCard(result));
         })
         return uiResults;
+    }
+
+    getDomain() {
+        let existenceConditions = [];
+        this.getExpression().forEach(level => {
+
+        })
     }
 }
