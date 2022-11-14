@@ -71,7 +71,7 @@ export class MathFunction {
                 UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", this.getDomain().getHtml()));
             }
             else {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + this.getDomain().domain.length + " condizioni di esistenza.", this.getDomain().getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + (this.getDomain().domain.length > 1 ? this.getDomain().domain.length : "una") + " condizion" + (this.getDomain().domain.length > 1 ? "i" : "e") + " di esistenza.", this.getDomain().getHtml()));
             }
         }
         else {
