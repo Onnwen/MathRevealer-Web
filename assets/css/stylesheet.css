@@ -14,7 +14,6 @@ p, input, .btn, .separator, a, h2, footer {
     width: 31%;
     margin: 1%;
     display: block;
-    line-height:0;
     overflow: hidden;
 }
 
@@ -70,8 +69,12 @@ hr {
     opacity: 0.8;
 }
 
-.mathTextResult {
+.mathTextResultDescription {
     opacity: 0.5;
+}
+
+.mathTextResult {
+    font-size: 18px;
 }
 
 h3 {
@@ -102,7 +105,7 @@ h2 {
     color: #2f87ff;
 }
 
-.mathText {
+.mathText, .mathTextResult {
     font-family: Quicksand, sans-serif;
 }
 
