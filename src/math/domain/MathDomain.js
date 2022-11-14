@@ -1,7 +1,7 @@
 export class MathDomain {
     constructor() {
         this.allExistenceConditions = [];
-        this.existenseConditions = [];
+        this.existenceConditions = [];
         this.domain = [];
     }
 
@@ -10,9 +10,11 @@ export class MathDomain {
     }
 
     calculateDomain() {
-        this.allExistenceConditions.forEach(existenseCondition => {
-            this.existenseConditions.forEach(existenseCondition => {
-
+        this.allExistenceConditions.forEach(existenceCondition => {
+            this.existenceConditions.forEach((domainExistenceCondition, index) => {
+                if (domainExistenceCondition.canBeCombinedWith(existenceCondition)) {
+                    existenceCondition[index] = domainExistenceCondition.combineWith(existenceCondition);
+                }
             });
         });
     }
@@ -26,6 +28,6 @@ export class MathDomain {
     }
 
     getJson() {
-        return JSON.stringify(this);
+        return JSON.stringify(this.existenceConditions);
     }
 }
