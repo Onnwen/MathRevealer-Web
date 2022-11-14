@@ -1,6 +1,7 @@
 export class Symbol {
     static operationSymbols = ["+", "-", "*", "/", "^", "#"];
     static priorityOperationSymbols = ["*", "/", "^", "#"];
+    static existenceNotGuaranteedByOperations = ["/", "#"];
     static openingBracketSymbols = ["(", "{", "["];
     static closingBracketSymbols = [")", "}", "]"];
     static variableSymbols = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -15,6 +16,10 @@ export class Symbol {
 
     static isPriorityOperation(symbol) {
         return this.priorityOperationSymbols.indexOf(symbol) !== -1;
+    }
+
+    static isExistenceGuaranteedByOperation(symbol) {
+        return this.existenceNotGuaranteedByOperations.indexOf(symbol) === -1;
     }
 
     static isOpeningBracket(symbol) {
