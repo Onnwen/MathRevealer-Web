@@ -1,5 +1,6 @@
-import {Symbol} from '../../other/Symbol.js';
-import {MathExistenceCondition} from "../domain/MathExistenceCondition.js";
+import {Symbol} from '../../Other/Symbol.js';
+import {MathExistenceCondition} from "../Domain/MathExistenceCondition.js";
+import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter.js";
 
 export class MathLevel {
     constructor() {
@@ -21,15 +22,27 @@ export class MathLevel {
         return this.brackets;
     }
 
-    getValue() {
-        // To-Do: calcolare valore complesivo
-        return 0;
+    safelyGetNumberAt(index) {
+        if (index < 0 || index >= this.level.length) {
+            return undefined;
+        }
+        if (Symbol.isNumber(this.level[index]) && !Symbol.isPriorityOperation(this.level[index+1]) && !Symbol.isPriorityOperation(this.level[index-1])) {
+            return this.level[index];
+        }
+        return undefined;
+    }
+
+    getLaTeX() {
+        return LaTeXFormatter.parseMathLevel(this);
     }
 
     getExistenceConditions() {
         let existenceConditions = []
         this.level.forEach((value, index) => {
-            if (!Symbol.isExistenceGuaranteedByOperation(value)) {
+            if (value.level != null) {
+                Array.prototype.push.apply(existenceConditions, value.getExistenceConditions());
+            }
+            else if (!Symbol.isExistenceGuaranteedByOperation(value)) {
                 switch (value) {
                     case "/":
                         existenceConditions.push(new MathExistenceCondition(this.level[index+1], "!=", 0));
@@ -103,5 +116,17 @@ export class MathLevel {
             }
         })
         return false;
+    }
+
+    toString() {
+        let string = "";
+        this.level.forEach(value => {
+            if (typeof value === 'object') {
+                string += value.toString();
+            }
+            else {
+                string += value;
+            }
+        });
     }
 }

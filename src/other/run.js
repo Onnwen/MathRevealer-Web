@@ -1,10 +1,4 @@
-import {MathDomain} from "../math/domain/MathDomain.js";
-import {MathExistenceCondition} from "../math/domain/MathExistenceCondition.js";
-import {MathFunction} from "../math/function/MathFunction.js";
+import {MathFunction} from "../Algorithms/Function/MathFunction.js";
+import {MathReducer} from "../Algorithms/Function/MathReducer.js";
 
-// console.log(new MathExistenceCondition("x", ">", "6").getJson());
-
-let a = "-2";
-let b = "-4";
-
-console.log(new MathFunction("[3/(x-2/2)]+x").getLaTeX());
+console.log(MathReducer.getSolvedMathLevel(new MathFunction("2+1+5-10").getExpression()))

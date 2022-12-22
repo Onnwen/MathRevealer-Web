@@ -1,4 +1,4 @@
-import {MathExistenceCondition} from "../src/math/domain/MathExistenceCondition.js";
+import {MathExistenceCondition} from "../src/Algorithms/Domain/MathExistenceCondition.js";
 
 describe('MathExistenceCondition', () => {
     it('combining: x>2 with x>4', () => {

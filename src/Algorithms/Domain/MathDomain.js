@@ -1,4 +1,3 @@
-import {LaTeXFormatter} from "../../formatter/LaTeXFormatter.js";
 import {MathExistenceCondition} from "./MathExistenceCondition.js";
 
 export class MathDomain {

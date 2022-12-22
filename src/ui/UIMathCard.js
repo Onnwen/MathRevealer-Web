@@ -1,8 +1,9 @@
 export class UIMathCard {
-    constructor(title, description, html) {
+    constructor(title, description, notion, html) {
         this.title = title;
         this.description = description;
         this.html = html;
+        this.notion = notion;
     }
 
     getHtml() {
@@ -22,7 +23,15 @@ export class UIMathCard {
             :
                 "")
             +
+            (this.notion !== undefined && this.notion !== "" ?
+                `<hr/>` +
+                `<p class="mathTextResultDescription">${this.notion}</p>`
+                :
+                "")
+            +
             `</div>`;
     }
+
+
 }
 

@@ -1,5 +1,5 @@
-import {MathDomain} from '../src/math/domain/MathDomain.js';
-import {MathExistenceCondition} from "../src/math/domain/MathExistenceCondition.js";
+import {MathDomain} from '../src/Algorithms/Domain/MathDomain.js';
+import {MathExistenceCondition} from "../src/Algorithms/Domain/MathExistenceCondition.js";
 
 describe('MathDomain', () => {
     it('calculating domain with existence conditions: x>3, x>6', () => {

@@ -1,9 +1,9 @@
 import {MathLevel} from './MathLevel.js';
-import {HtmlFormatter} from '../../formatter/HtmlFormatter.js';
-import {Symbol} from '../../other/Symbol.js';
-import {UIMathCard} from "../../ui/UIMathCard.js";
-import {LaTeXFormatter} from "../../formatter/LaTeXFormatter.js";
-import {MathDomain} from "../domain/MathDomain.js";
+import {HtmlFormatter} from '../../Formatters/HtmlFormatter.js';
+import {Symbol} from '../../Other/Symbol.js';
+import {UIMathCard} from "../../UI/UIMathCard.js";
+import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter.js";
+import {MathDomain} from "../Domain/MathDomain.js";
 
 export class MathFunction {
     constructor(expression) {
@@ -41,11 +41,11 @@ export class MathFunction {
     }
 
     getHtml() {
-        return new HtmlFormatter(this.getExpression()).getResult();
+        return HtmlFormatter.parseMathLevel(this.getExpression());
     }
 
     getLaTeX() {
-        return new LaTeXFormatter(this.getExpression()).getResult();
+        return LaTeXFormatter.parseMathLevel(this.getExpression());
     }
 
     getJson() {
@@ -66,21 +66,21 @@ export class MathFunction {
         // Domain
         this.calculateDomain();
         if (this.expression.checkIfHaveVariable()) {
-            console.log(this.getDomain().domain.at(-1).getJson());
             if (this.getDomain().domain.at(-1).getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", this.getDomain().getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.getDomain().getHtml()));
             }
             else {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + (this.getDomain().domain.length > 1 ? this.getDomain().domain.length : "una") + " condizion" + (this.getDomain().domain.length > 1 ? "i" : "e") + " di esistenza.", this.getDomain().getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + (this.getDomain().domain.length > 1 ? this.getDomain().domain.length : "una") + " condizion" + (this.getDomain().domain.length > 1 ? "i" : "e") + " di esistenza.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.", this.getDomain().getHtml()));
             }
         }
         else {
-            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili."));
+            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati dalla funzione. In questo caso, la funzione non presenta variabili, quindi il dominio è costante e non presenta condizioni di esistenza."));
         }
 
         results.forEach(result => {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta da MathRevealer."));
         })
+
         return UIResults;
     }
 
@@ -93,6 +93,4 @@ export class MathFunction {
     getDomain() {
         return this.domain !== undefined ? this.domain : new MathDomain();
     }
-
-
 }

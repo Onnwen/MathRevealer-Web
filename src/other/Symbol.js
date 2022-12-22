@@ -4,7 +4,8 @@ export class Symbol {
     static existenceNotGuaranteedByOperations = ["/", "#"];
     static openingBracketSymbols = ["(", "{", "["];
     static closingBracketSymbols = [")", "}", "]"];
-    static variableSymbols = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    // static variableSymbols = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    static variableSymbols = ["x"];
     static numberSymbols = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     static decimalSeparatorSymbols = [",", "."];
     static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols, Symbol.numberSymbols, Symbol.decimalSeparatorSymbols);
