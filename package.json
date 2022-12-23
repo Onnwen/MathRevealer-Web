@@ -3,7 +3,7 @@
   "name": "math_revealer_web",
   "version": "1.0.0-alpha",
   "scripts": {
-    "start": "node js/spec/run.js",
+    "start": "node src/Other/run.js",
     "test": "jasmine"
   },
   "dependencies": {
