@@ -26,7 +26,7 @@ export class MathLevel {
         if (index < 0 || index >= this.level.length) {
             return undefined;
         }
-        if (Symbol.isNumber(this.level[index]) && !Symbol.isPriorityOperation(this.level[index+1]) && !Symbol.isPriorityOperation(this.level[index-1])) {
+        if (Symbol.isNumber(this.level[index]) && (!Symbol.isPriorityOperation(this.level[index+1]) && !Symbol.isPriorityOperation(this.level[index-1]) || !Symbol.isVariable(this.level[index+1]) && !Symbol.isVariable(this.level[index-1]))) {
             return this.level[index];
         }
         return undefined;

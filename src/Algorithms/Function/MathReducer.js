@@ -3,17 +3,18 @@ import {MathSolver} from './MathSolver.js';
 import {MathLevel} from "./MathLevel.js";
 
 export class MathReducer {
-    static getSolvedMathLevel(mathLevel) {
+    static analyse(mathLevel) {
         let reducedMathLevel = new MathLevel();
         let jumpNextValue = false;
+        let reducedPriorityOperations = this.getSolvedPriorityOperationsMathLevel(mathLevel);
 
-        MathReducer.getSolvedPriorityOperationsMathLevel(mathLevel).level.forEach((value, index) => {
+        reducedPriorityOperations.level.forEach((value, index) => {
             if (!jumpNextValue) {
                 if (value.level != null) {
-                    reducedMathLevel[index] = MathReducer.getSolvedMathLevel(value);
+                    reducedMathLevel[index] = MathReducer.analyse(value);
                 } else {
                     if (Symbol.isOperation(value)) {
-                        const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1), value, mathLevel.safelyGetNumberAt(index + 1));
+                        const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1), value, reducedPriorityOperations.level.at(index + 1));
                         if (solvedOperation !== undefined) {
                             reducedMathLevel.level.pop();
                             reducedMathLevel.level.push(solvedOperation);
@@ -37,18 +38,20 @@ export class MathReducer {
     static getSolvedPriorityOperationsMathLevel(mathLevel) {
         let reducedMathLevel = new MathLevel();
         let jumpNextValue = false
+        let removedElement = 0;
 
         mathLevel.getLevel().forEach((value, index) => {
             if (!jumpNextValue) {
                 if (value.level != null) {
-                    reducedMathLevel[index] = MathReducer.getSolvedMathLevel(value);
+                    reducedMathLevel[index] = MathReducer.analyse(value);
                 } else {
                     if (Symbol.isPriorityOperation(value)) {
-                        const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1), value, mathLevel.safelyGetNumberAt(index + 1));
+                        const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1 - removedElement), value, mathLevel.safelyGetNumberAt(index + 1));
                         if (solvedOperation !== undefined) {
                             reducedMathLevel.level.pop();
                             reducedMathLevel.level.push(solvedOperation);
                             jumpNextValue = true;
+                            removedElement += 2;
                         } else {
                             reducedMathLevel.level.push(value);
                         }
@@ -62,6 +65,7 @@ export class MathReducer {
             }
         });
 
+        console.log(reducedMathLevel.getLevel());
         return reducedMathLevel;
     }
 }
