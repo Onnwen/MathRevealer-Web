@@ -78,7 +78,7 @@ export class MathFunction {
         }
 
         results.forEach(result => {
-            UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta da MathRevealer."));
+            UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer."));
         })
 
         return UIResults;
