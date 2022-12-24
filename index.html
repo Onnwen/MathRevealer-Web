@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>MathRevealer</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -17,72 +18,57 @@
     <script src="node_modules/mathjax/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<section class="position-relative py-4 py-xl-5">
-    <nav class="navbar fixed-top navbar-dark blur-background navbar-expand-md pt-5">
-        <div class="container">
-            <a class="px-5 navbar-brand d-flex align-items-center" href="#">
+<nav class="position-relative navbar fixed-top navbar-dark blur-background navbar-expand-md m-5">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
                 <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                     <i class="bi bi-magic"></i>
                 </span>
-                <span style="font-family: Quicksand, sans-serif;">MathRevealer</span></a>
-            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5">
-                <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navcol-5">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">Reveal</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Cronologia</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Impostazioni</a></li>
-                </ul>
-            </div>
+            <span style="font-family: Quicksand, sans-serif;">MathRevealer</span></a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5">
+            <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-5">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="./index.html">Reveal</a></li>
+                <li class="nav-item"><a class="nav-link" href="./chronology.html">Cronologia</a></li>
+                <li class="nav-item"><a class="nav-link" href="./settings.html">Impostazioni</a></li>
+            </ul>
         </div>
-    </nav>
-</section>
-<section>
-    <div class="row d-flex justify-content-center w-100 mt-5">
-        <div class="col-10">
-            <div class="card form-card blurred mb-5">
-                <div class="card-body d-flex flex-column">
-                    <div id="searchFormDiv">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col" id="searchFieldDiv">
-                                <form class="text-center w-100 mb-3" id="searchForm" method="get">
-                                    <input id="searchField" class="form-control" type="text" name="email"
-                                           placeholder="Inserisci una funzione..." autocomplete="off">
-                                </form>
-                            </div>
-                            <div class="col-2" id="revealButtonDiv">
-                                <button class="btn w-100 btn-primary" id="revealButton" style="font-family: Quicksand, sans-serif; font-weight: normal; height: 38px;" type="button">
-                                    Reveal
-                                </button>
-                            </div>
+    </div>
+</nav>
+<main class="mt-5">
+    <div class="justify-content-center w-100 mt-5">
+        <div class="card form-card blurred mb-5 mx-5">
+            <div class="card-body d-flex flex-column">
+                <div id="searchFormDiv">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col" id="searchFieldDiv">
+                            <form class="text-center w-100 mb-3" id="searchForm" method="get">
+                                <input id="searchField" class="form-control" type="text" name="email"
+                                       placeholder="Inserisci una funzione..." autocomplete="off">
+                            </form>
                         </div>
-                        <div class="mx-2 mathText" id="preview"></div>
-                    </div>
-                    <div class="w-100" id="resultDiv" style="display: none;">
-                        <a class="col-6 back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
-                        <h3 id="resultPreview">y = 2+4-x</h3>
-                        <div class="w-100">
-                            <div class="cardsGrid" id="cards">
-                            </div>
+                        <div class="col-2" id="revealButtonDiv">
+                            <button class="btn w-100 btn-primary" id="revealButton" style="font-family: Quicksand, sans-serif; font-weight: normal; height: 38px;" type="button">
+                                Reveal
+                            </button>
                         </div>
                     </div>
-                    <div id="loadingDiv" class="d-flex justify-content-center" style="display: none !important;">
-                        <div class="b" style="display: none">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                    <div class="mx-2 mathText" id="preview"></div>
+                </div>
+                <div class="w-100" id="resultDiv" style="display: none;">
+                    <a class="col-6 back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
+                    <h3 id="resultPreview">y = 2+4-x</h3>
+                    <div class="w-100">
+                        <div class="cardsGrid" id="cards">
                         </div>
-                        <p>
-                            Analisi in corso
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</main>
 <footer class="text-center blur-background fixed-bottom">
     <a class="footer-link" href="https://github.com/Onnwen/MathRevealer-Web/issues/new/choose">segnala un errore</a>•<a class="footer-link" href="https://garamante.it">garamante.it</a>
 </footer>
@@ -142,8 +128,7 @@
                 width: originalWidth,
                 opacity: "1"
             }, 1000);
-        }
-        else if (!showRevealButton && revealButtonDiv.width() !== 0) {
+        } else if (!showRevealButton && revealButtonDiv.width() !== 0) {
             revealButtonDiv.animate({
                 width: "0",
                 opacity: "0"
@@ -176,7 +161,7 @@
                         borderWidth: '0',
                         easing: animationLine,
                         duration: animationDuration,
-                        complete: function() {
+                        complete: function () {
                             card.hide();
                         }
                     })
@@ -194,8 +179,7 @@
 
             cardIcon.removeClass("bi-arrows-angle-expand");
             cardIcon.addClass("bi-arrows-angle-contract");
-        }
-        else {
+        } else {
             functionData.getResults().forEach(result => {
                 let card = $("#" + result.title + "Card");
                 card.show();
