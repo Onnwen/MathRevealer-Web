@@ -11,7 +11,13 @@ export class MathSolver {
                 case "*":
                     return firstValue * secondValue;
                 case "/":
-                    return firstValue / secondValue;
+                    if (true) {
+                        return firstValue / secondValue;
+                    }
+                    if (Number.isInteger(firstValue / secondValue)) {
+                        return firstValue / secondValue;
+                    }
+                    return [firstValue, operator, secondValue];
                 case "^":
                     return firstValue ** secondValue;
                 case "#":
@@ -21,5 +27,9 @@ export class MathSolver {
         catch (error) {
             return undefined;
         }
+    }
+
+    static solveEquation(variableValue, numericValue) {
+        return this.solveBasicOperation(variableValue, "/", numericValue);
     }
 }
