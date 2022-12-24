@@ -118,7 +118,7 @@ export class MathLevel {
         return false;
     }
 
-    toString() {
+    printDebug() {
         let string = "";
         this.level.forEach(value => {
             if (typeof value === 'object') {
@@ -127,6 +127,26 @@ export class MathLevel {
             else {
                 string += value;
             }
+            // string += "|";
         });
+        console.log(string);
+    }
+
+    getDebugString() {
+        let string = "";
+        this.level.forEach(value => {
+            if (typeof value === 'object') {
+                string += value.toString();
+            }
+            else {
+                string += value;
+            }
+            // string += "|";
+        });
+        return string;
+    }
+
+    getLevelLength() {
+        return this.level.length;
     }
 }
