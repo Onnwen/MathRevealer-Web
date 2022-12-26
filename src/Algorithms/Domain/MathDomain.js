@@ -1,4 +1,5 @@
 import {MathExistenceCondition} from "./MathExistenceCondition.js";
+import {MathReducer} from "../Function/MathReducer.js";
 
 export class MathDomain {
     constructor() {
@@ -16,6 +17,8 @@ export class MathDomain {
     }
 
     calculateDomain() {
+        this.reduceDomain();
+
         this.existenceConditions.forEach(existenceCondition => {
             let existenceConditionConsidered = false;
             this.domain.forEach((domainExistenceCondition, index) => {
@@ -54,5 +57,11 @@ export class MathDomain {
 
     getJson() {
         return JSON.stringify(this.domain);
+    }
+
+    reduceDomain() {
+        this.existenceConditions.forEach((existenceCondition, index) => {
+            this.existenceConditions[index] = MathReducer.analyse(existenceCondition.value);
+        });
     }
 }
