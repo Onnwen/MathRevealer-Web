@@ -52,15 +52,15 @@ export class MathLevel {
 
 
     getLastChar(): string {
-        return <string>this._level[this._level.length - 1];
+        return <string>this.level.at(-1);
     }
 
     safelyGetNumberAt(index: number): number | undefined {
-        if (index < 0 || index >= this._level.length) {
+        if (index < 0 || index >= this.getLevelLength()) {
             return undefined;
         }
-        if (Symbol.isNumber(this._level[index]) && (!Symbol.isPriorityOperation(this._level[index+1]) && !Symbol.isPriorityOperation(this._level[index-1]) || !Symbol.isVariable(this._level[index+1]) && !Symbol.isVariable(this._level[index-1]))) {
-            return this._level[index];
+        if (Symbol.isNumber(this.level[index]) && (!Symbol.isPriorityOperation(this.level[index+1]) && !Symbol.isPriorityOperation(this.level[index-1]) || !Symbol.isVariable(this.level[index+1]) && !Symbol.isVariable(this.level[index-1]))) {
+            return this.level[index];
         }
         return undefined;
     }
@@ -71,17 +71,17 @@ export class MathLevel {
 
     getExistenceConditions(): MathExistenceCondition[] {
         let existenceConditions: MathExistenceCondition[] = []
-        this._level.forEach((value, index) => {
+        this.level.forEach((value, index) => {
             if (value instanceof MathLevel) {
                 Array.prototype.push.apply(existenceConditions, value.getExistenceConditions());
             }
             else if (!Symbol.isExistenceGuaranteedByOperation(value)) {
                 switch (value) {
                     case "/":
-                        existenceConditions.push(new MathExistenceCondition(this._level[index+1], "!=", "0"));
+                        existenceConditions.push(new MathExistenceCondition(this.level[index+1], "!=", "0"));
                         break;
                     case "#":
-                        existenceConditions.push(new MathExistenceCondition(this._level[index+1], ">=", "0"));
+                        existenceConditions.push(new MathExistenceCondition(this.level[index+1], ">=", "0"));
                         break;
                 }
             }
@@ -91,63 +91,63 @@ export class MathLevel {
 
     addChar(char: string): void {
         if (Symbol.isOperation(char)) {
-            this._level.push(char);
+            this.level.push(char);
         }
         else {
             if (Symbol.isVariable(char)) {
-                this._haveVariable = true;
-                if (this._level.length > 0 && !Symbol.isOperation(this.getLastChar())) {
-                    this._level.push("*");
+                this.haveVariable = true;
+                if (this.getLevelLength() > 0 && !Symbol.isOperation(this.getLastChar())) {
+                    this.level.push("*");
                 }
-                this._level.push(char);
+                this.level.push(char);
             }
             else if (Symbol.isDecimalSeparator(char)) {
-                this._level[this._level.length-1] += ",";
+                this.level[this.getLevelLength() - 1] += ",";
             }
             else if (isNaN(Number(char))) {
                 let invalidCharLevel = new MathLevel();
                 invalidCharLevel.level.push(char);
                 invalidCharLevel.addError("Il carattere '" + char + "' non è riconosciuto.");
-                this._level.push(invalidCharLevel);
+                this.level.push(invalidCharLevel);
             }
             else {
-                this._level.length < 1 || !Symbol.isNumber(this._level[this._level.length-1]) ? this._level.push(char) : this._level[this._level.length-1] += char;
-                if (Symbol.isInvalidNumber(this._level[this._level.length-1])) {
+                this.getLevelLength() < 1 || !Symbol.isNumber(this.level[this.getLevelLength()-1]) ? this.level.push(char) : this.level[this.getLevelLength() - 1] += char;
+                if (Symbol.isInvalidNumber(this.level.at(-1))) {
                     let invalidNumberLevel = new MathLevel();
-                    invalidNumberLevel.level.push(this._level[this._level.length-1]);
-                    invalidNumberLevel.addError("Il valore '" + this._level[this._level.length-1] + "' presenta errori.");
-                    this._level.pop();
-                    this._level.push(invalidNumberLevel);
+                    invalidNumberLevel.level.push(this.level.at(-1));
+                    invalidNumberLevel.addError("Il valore '" + this.level.at(-1) + "' presenta errori.");
+                    this.level.pop();
+                    this.level.push(invalidNumberLevel);
                 }
             }
         }
     }
 
     closeBrackets(closingBracket: string): void {
-        if (this._brackets === "" || this._brackets === undefined) {
+        if (this.brackets === "" || this.brackets === undefined) {
             this.addError("È necessaria inserire una parentesi '" + Symbol.getRespectiveBracket(closingBracket) + "' perché la parentesi '" + closingBracket + "' non viene mai aperta.");
         }
-        else if (!Symbol.bracketsMatch(this._brackets[0], closingBracket)) {
-            this.addError("La parentesi di apertura '" + this._brackets[0] + "' non combacia con la parentesi di chiusura '" + closingBracket + "'");
+        else if (!Symbol.bracketsMatch(this.brackets[0], closingBracket)) {
+            this.addError("La parentesi di apertura '" + this.brackets[0] + "' non combacia con la parentesi di chiusura '" + closingBracket + "'");
         }
-        this._brackets += closingBracket;
+        this.brackets += closingBracket;
     }
 
     addError(errorString: string): void {
-        if (this._error !== undefined || this._error === "") {
-            this._error = errorString;
+        if (this.error !== undefined || this.error === "") {
+            this.error = errorString;
         } else {
-            this._error = this._error + "\n" + errorString;
+            this.error = this.error + "\n" + errorString;
         }
     }
 
     checkIfHaveVariable(): boolean {
-        if (this._haveVariable) {
+        if (this.haveVariable) {
             return true;
         }
-        this._level.forEach(element => {
-            if (typeof element === 'object') {
-                if (element.checkIfHaveVariable()) {
+        this.level.forEach(value => {
+            if (value instanceof MathLevel) {
+                if (value.checkIfHaveVariable()) {
                     return true;
                 }
             }
@@ -156,24 +156,16 @@ export class MathLevel {
     }
 
     printDebug(): void {
-        let string = "";
-        this._level.forEach(value => {
-            if (typeof value === 'object') {
-                string += value.toString();
-            }
-            else {
-                string += value;
-            }
-            // string += "|";
-        });
-        console.log(string);
+        console.log(this.getDebugString());
     }
 
     getDebugString(): string {
         let string = "";
-        this._level.forEach(value => {
-            if (typeof value === 'object') {
-                string += value.toString();
+        this.level.forEach(value => {
+            if (value instanceof MathLevel) {
+                string += value.brackets.at(0);
+                string += value.getDebugString();
+                string += value.brackets.at(-1);
             }
             else {
                 string += value;
@@ -184,6 +176,6 @@ export class MathLevel {
     }
 
     getLevelLength(): number {
-        return this._level.length;
+        return this.level.length;
     }
 }
