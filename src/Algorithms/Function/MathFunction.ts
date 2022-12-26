@@ -19,7 +19,7 @@ export class MathFunction {
         this._expression = value;
     }
 
-    private _domain: MathDomain;
+    private _domain: MathDomain | undefined;
 
     get domain(): MathDomain {
         if (this._domain !== undefined) {
@@ -35,18 +35,17 @@ export class MathFunction {
 
     constructor(expression: string | MathLevel | number) {
         if (expression instanceof MathLevel) {
-            this._expression = expression
-            this._domain = new MathDomain();
+            this._expression = expression;
         }
         else {
             this._expression = new MathLevel();
-            this._domain = new MathDomain();
             this.parse(String(expression));
         }
     }
 
     parse(expression: string): void {
         expression += "";
+        this.expression = new MathLevel();
         let workingLevels: MathLevel[] = [this.expression];
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
