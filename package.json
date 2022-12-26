@@ -4,7 +4,8 @@
   "version": "1.0.0-alpha",
   "private": true,
   "scripts": {
-    "start": "node out/src/Other/run.js",
+    "start": "node ./dist/Other/run.js",
+    "compile": "tsc && webpack",
     "test": "jasmine"
   },
   "dependencies": {
