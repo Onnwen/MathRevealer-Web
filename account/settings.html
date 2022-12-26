@@ -18,29 +18,93 @@
     <script src="../node_modules/mathjax/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<nav class="position-relative navbar fixed-top navbar-dark blur-background navbar-expand-md m-5">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <img src="../assets/logo/logo.webp" class="me-2" height="30" width="30" alt="">
-            <span style="font-family: Quicksand, sans-serif;">MathRevealer</span></a>
-        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5">
-            <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navcol-5">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="../index.html">Reveal</a></li>
-                <li class="nav-item"><a class="nav-link" href="chronology.html">Cronologia</a></li>
-                <li class="nav-item"><a class="nav-link active" href="./settings.html">Impostazioni</a></li>
-            </ul>
+<nav class="navbar fixed-top navbar-dark blur-background navbar-expand-md pt-5">
+    <div class="align-items-center maxWith w-100">
+        <div class="mx-5">
+            <div class="float-start">
+                <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                    <img src="../assets/logo/logo.webp" class="me-auto" style="width: 30px; height: 30px;" alt="">
+                    <span style="font-family: Quicksand, sans-serif;" class="ms-2">MathRevealer</span>
+                </a>
+            </div>
+            <button data-bs-toggle="collapse" class="navbar-toggler float-end" data-bs-target="#menu">
+                <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse pt-sm-5 pt-md-0 float-sm-start float-md-end" id="menu">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Reveal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./chronology.html">Cronologia</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="./settings.html">Impostazioni</a>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
-<main class="mt-5">
+
+<main class="mt-5 pt-4 mx-5">
     <div class="justify-content-center w-100 mt-5">
-        <div class="card form-card blurred mb-5 mx-5">
+        <div class="card form-card blurred mb-5">
             <div class="card-body d-flex flex-column">
                 <h2>Impostazioni</h2>
-                <h6 class="mt-5 mb-3">MATEMATICA</h6>
+                <h6 class="mt-5 mb-3">REVEAL</h6>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Dominio
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showDomain" checked disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Parità
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showParity" checked disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Segno
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showSign" checked disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Intersezioni
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showIntersections" checked disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Limiti
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showLimits" checked disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Derivate
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showDerivate" checked disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <p class="d-inline float-start text-nowrap">
+                        Grafico
+                    </p>
+                    <div class="form-check form-switch d-inline ms-auto">
+                        <input class="form-check-input active" type="checkbox" role="switch" id="showGraph" checked disabled>
+                    </div>
+                </div>
+                <hr class="mt-4 mb-5">
+                <h6 class="mb-3">MATEMATICA</h6>
                 <div class="d-flex flex-row">
                     <p class="d-inline float-start text-nowrap">
                         Mostra frazioni
@@ -78,6 +142,8 @@
                         <b>Alpha</b>
                     </p>
                 </div>
+                <button class="btn btn-primary text-center mt-5" id="reportBug">Segnala un problema</button>
+                <button class="btn btn-danger text-center mt-2" id="logout">Disconnettiti</button>
             </div>
         </div>
     </div>
