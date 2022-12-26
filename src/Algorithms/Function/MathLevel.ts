@@ -1,12 +1,47 @@
-import {Symbol} from '../../Other/Symbol.js';
-import {MathExistenceCondition} from "../Domain/MathExistenceCondition.js";
-import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter.js";
+import {Symbol} from '../../Other/Symbol';
+import {MathExistenceCondition} from "../Domain/MathExistenceCondition";
+import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
 
 export class MathLevel {
     private _level: any[];
+
+    get level(): any[] {
+        return this._level;
+    }
+
+    set level(value: any[]) {
+        this._level = value;
+    }
+
     private _brackets: string;
+
+    get brackets(): string {
+        return this._brackets;
+    }
+
+    set brackets(value: string) {
+        this._brackets = value;
+    }
+
     private _error: string;
+
+    get error(): string {
+        return this._error;
+    }
+
+    set error(value: string) {
+        this._error = value;
+    }
+
     private _haveVariable: boolean;
+
+    get haveVariable(): boolean {
+        return this._haveVariable;
+    }
+
+    set haveVariable(value: boolean) {
+        this._haveVariable = value;
+    }
 
     constructor() {
         this._level = [];
@@ -15,37 +50,9 @@ export class MathLevel {
         this._haveVariable = false;
     }
 
-    getLevel(): any[] {
-        return this._level;
-    }
 
     getLastChar(): string {
         return <string>this._level[this._level.length - 1];
-    }
-
-    getBrackets(): string {
-        return this._brackets;
-    }
-
-    getError(): string {
-        return this._error;
-    }
-
-
-    set level(value: any[]) {
-        this._level = value;
-    }
-
-    set brackets(value: string) {
-        this._brackets = value;
-    }
-
-    set error(value: string) {
-        this._error = value;
-    }
-
-    set haveVariable(value: boolean) {
-        this._haveVariable = value;
     }
 
     safelyGetNumberAt(index: number): number | undefined {
@@ -99,7 +106,7 @@ export class MathLevel {
             }
             else if (isNaN(Number(char))) {
                 let invalidCharLevel = new MathLevel();
-                invalidCharLevel.getLevel().push(char);
+                invalidCharLevel.level.push(char);
                 invalidCharLevel.addError("Il carattere '" + char + "' non è riconosciuto.");
                 this._level.push(invalidCharLevel);
             }
@@ -107,7 +114,7 @@ export class MathLevel {
                 this._level.length < 1 || !Symbol.isNumber(this._level[this._level.length-1]) ? this._level.push(char) : this._level[this._level.length-1] += char;
                 if (Symbol.isInvalidNumber(this._level[this._level.length-1])) {
                     let invalidNumberLevel = new MathLevel();
-                    invalidNumberLevel.getLevel().push(this._level[this._level.length-1]);
+                    invalidNumberLevel.level.push(this._level[this._level.length-1]);
                     invalidNumberLevel.addError("Il valore '" + this._level[this._level.length-1] + "' presenta errori.");
                     this._level.pop();
                     this._level.push(invalidNumberLevel);

@@ -2,12 +2,6 @@ import {MathExistenceCondition} from "./MathExistenceCondition";
 
 export class MathDomain {
     private _existenceConditions: MathExistenceCondition[];
-    private _domain: MathExistenceCondition[];
-
-    constructor() {
-        this._existenceConditions = [];
-        this._domain = [];
-    }
 
     get existenceConditions(): MathExistenceCondition[] {
         return this._existenceConditions;
@@ -17,12 +11,19 @@ export class MathDomain {
         this._existenceConditions = value;
     }
 
+    private _domain: MathExistenceCondition[];
+
     get domain(): MathExistenceCondition[] {
         return this._domain;
     }
 
     set domain(value: MathExistenceCondition[]) {
         this._domain = value;
+    }
+
+    constructor() {
+        this._existenceConditions = [];
+        this._domain = [];
     }
 
     getDomainExistenceCondition(index: number): MathExistenceCondition {

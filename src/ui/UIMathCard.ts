@@ -1,15 +1,5 @@
 export class UIMathCard {
     private _title: string;
-    private _description: string;
-    private _html: string | undefined;
-    private _notion: string | undefined;
-
-    constructor(title: string, description: string, notion: string = "", html: string = "") {
-        this._title = title;
-        this._description = description;
-        this._html = html;
-        this._notion = notion;
-    }
 
     get title(): string {
         return this._title;
@@ -19,6 +9,8 @@ export class UIMathCard {
         this._title = value;
     }
 
+    private _description: string;
+
     get description(): string {
         return this._description;
     }
@@ -26,6 +18,8 @@ export class UIMathCard {
     set description(value: string) {
         this._description = value;
     }
+
+    private _html: string | undefined;
 
     get html(): string | undefined {
         return this._html;
@@ -35,12 +29,21 @@ export class UIMathCard {
         this._html = value;
     }
 
+    private _notion: string | undefined;
+
     get notion(): string | undefined {
         return this._notion;
     }
 
     set notion(value: string | undefined) {
         this._notion = value;
+    }
+
+    constructor(title: string, description: string, notion: string = "", html: string = "") {
+        this._title = title;
+        this._description = description;
+        this._html = html;
+        this._notion = notion;
     }
 
     getHtml(): string {

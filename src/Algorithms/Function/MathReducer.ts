@@ -15,12 +15,12 @@ export class MathReducer {
         let reducedMathLevel = new MathLevel();
         let jumpNextValue = false;
 
-        mathLevel.getLevel().forEach((value: string | MathLevel, index: number) => {
+        mathLevel.level.forEach((value: string | MathLevel, index: number) => {
             if (!jumpNextValue) {
                 if (value instanceof MathLevel) {
                     reducedMathLevel.level[index] = MathReducer.analyse(value);
                 } else {
-                    if (!Symbol.isPriorityOperation(value) && Symbol.isOperation(value) && !Symbol.isVariable(mathLevel.getLevel()[index + 3])) {
+                    if (!Symbol.isPriorityOperation(value) && Symbol.isOperation(value) && !Symbol.isVariable(mathLevel.level[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
                         if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof Array)) {
                             reducedMathLevel.level.pop();
@@ -59,7 +59,7 @@ export class MathReducer {
         let reducedMathLevel = new MathLevel();
         let removedElement = 0;
 
-        mathLevel.getLevel().forEach((value: string | MathLevel, index: number) => {
+        mathLevel.level.forEach((value: string | MathLevel, index: number) => {
             if (removedElement === 0) {
                 if (value instanceof MathLevel) {
                     reducedMathLevel.level[index] = MathReducer.getSolvedPriorityOperationsMathLevel(value);
@@ -103,12 +103,12 @@ export class MathReducer {
         let reducedMathLevel = new MathLevel();
         let removedElement = 0;
 
-        mathLevel.getLevel().forEach((value: string | MathLevel, index: number) => {
+        mathLevel.level.forEach((value: string | MathLevel, index: number) => {
             if (removedElement === 0) {
                 if (value instanceof MathLevel) {
                     reducedMathLevel.level[index] = MathReducer.getSolvedVariablesOperationsMathLevel(value);
                 } else {
-                    if (Symbol.isOperation(value) && Symbol.isVariable(mathLevel.getLevel()[index - 1]) && Symbol.isVariable(mathLevel.getLevel()[index + 3])) {
+                    if (Symbol.isOperation(value) && Symbol.isVariable(mathLevel.level[index - 1]) && Symbol.isVariable(mathLevel.level[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-3) * (reducedMathLevel.level.at(-4) === "-" ? -1 : 1), value, mathLevel.safelyGetNumberAt(index + 1));
                         if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof Array)) {
                             reducedMathLevel.level.pop();
@@ -130,7 +130,7 @@ export class MathReducer {
                                     reducedMathLevel.level.push(Math.abs(solvedOperation));
                                 }
                                 reducedMathLevel.level.push("*");
-                                reducedMathLevel.level.push(mathLevel.getLevel()[index + 3]);
+                                reducedMathLevel.level.push(mathLevel.level[index + 3]);
                             }
                             removedElement += 3;
                         } else {
@@ -153,22 +153,22 @@ export class MathReducer {
         let priorityElements = [];
         let secondaryElements = []
         for(let i = 0; i < mathLevel.getLevelLength(); i++) {
-            if (Symbol.isVariable(mathLevel.getLevel()[i + 3])) {
-                if (i === 0 && mathLevel.getLevel()[i] === "-") {
-                    priorityElements.push(mathLevel.getLevel()[i + 1] * -1);
+            if (Symbol.isVariable(mathLevel.level[i + 3])) {
+                if (i === 0 && mathLevel.level[i] === "-") {
+                    priorityElements.push(mathLevel.level[i + 1] * -1);
                 }
                 else {
-                    priorityElements.push(mathLevel.getLevel()[i]);
-                    priorityElements.push(mathLevel.getLevel()[i + 1]);
+                    priorityElements.push(mathLevel.level[i]);
+                    priorityElements.push(mathLevel.level[i + 1]);
                 }
-                priorityElements.push(mathLevel.getLevel()[i + 2]);
-                priorityElements.push(mathLevel.getLevel()[i + 3]);
+                priorityElements.push(mathLevel.level[i + 2]);
+                priorityElements.push(mathLevel.level[i + 3]);
                 i+=3;
             } else {
-                if (i === 0 && mathLevel.getLevel()[i-1] !== "-") {
+                if (i === 0 && mathLevel.level[i-1] !== "-") {
                     secondaryElements.push("+");
                 }
-                secondaryElements.push(mathLevel.getLevel()[i]);
+                secondaryElements.push(mathLevel.level[i]);
             }
         }
 

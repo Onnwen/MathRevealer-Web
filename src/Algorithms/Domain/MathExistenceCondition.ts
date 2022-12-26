@@ -5,17 +5,8 @@ import * as module from "module";
 
 export class MathExistenceCondition {
     private _value: string | MathLevel;
-    private _sign: string;
-    private _set: string;
 
-    constructor(value: string | MathLevel, sign: string, set: string) {
-        this._value = value;
-        this._sign = sign;
-        this._set = set;
-    }
-
-
-    getValue(): string | MathLevel{
+    get value(): string | MathLevel {
         return this._value;
     }
 
@@ -23,7 +14,9 @@ export class MathExistenceCondition {
         this._value = value;
     }
 
-    getSign(): string {
+    private _sign: string;
+
+    get sign(): string {
         return this._sign;
     }
 
@@ -31,8 +24,20 @@ export class MathExistenceCondition {
         this._sign = value;
     }
 
+    private _set: string;
+
+    get set(): string {
+        return this._set;
+    }
+
     set set(value: string) {
         this._set = value;
+    }
+
+    constructor(value: string | MathLevel, sign: string, set: string) {
+        this._value = value;
+        this._sign = sign;
+        this._set = set;
     }
 
     getFloatingSet(): number {

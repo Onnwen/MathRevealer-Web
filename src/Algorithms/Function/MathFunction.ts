@@ -7,7 +7,31 @@ import {MathDomain} from "../Domain/MathDomain";
 
 export class MathFunction {
     private _expression: MathLevel;
+
+    get expression(): MathLevel {
+        if (this._expression) {
+            return this._expression;
+        }
+        return new MathLevel();
+    }
+
+    set expression(value: MathLevel) {
+        this._expression = value;
+    }
+
     private _domain: MathDomain;
+
+    get domain(): MathDomain {
+        if (this._domain !== undefined) {
+            return this._domain;
+        } else {
+            return new MathDomain();
+        }
+    }
+
+    set domain(value: MathDomain) {
+        this._domain = value;
+    }
 
     constructor(expression: string | MathLevel | number) {
         if (expression instanceof MathLevel) {
@@ -23,48 +47,44 @@ export class MathFunction {
 
     parse(expression: string): void {
         expression += "";
+        let workingLevels: MathLevel[] = [this.expression];
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
             if (expression[charIndex] !== " ") {
+                let currentLevel = workingLevels[workingLevels.length - 1];
                 if (Symbol.isClosingBracket(expression[charIndex])) {
-                    this._expression.level.at(-1).closeBrackets(expression[charIndex]);
-                    this._expression.level.pop();
+                    currentLevel.closeBrackets(expression[charIndex]);
+                    workingLevels.pop();
                 }
                 else if (Symbol.isOpeningBracket(expression[charIndex])) {
-                    if (Symbol.isValue(this._expression.level.at(-1).getLastChar())) {
-                        this._expression.level.at(-1).getLevel().push("*");
+                    if (Symbol.isValue(currentLevel.getLastChar())) {
+                        currentLevel.level.push("*");
                     }
-                    this._expression.level.push(new MathLevel());
-                    this._expression.level.at(-1).brackets = expression[charIndex];
-                    this._expression.level.at(-2).getLevel().push(this._expression.level.at(-1));
+                    workingLevels.push(new MathLevel());
+                    currentLevel.brackets = expression[charIndex];
+                    workingLevels.at(-2)?.level.push(currentLevel);
                 }
                 else if (charIndex > 0 && !Symbol.isValid(expression[charIndex-1])) {
-                    this._expression.level.at(this._expression.level.at(-2) !== undefined ? -2 : -1).addChar(expression[charIndex])
+                    (workingLevels.at(-2) !== undefined ? workingLevels.at(-2) : currentLevel)?.addChar(expression[charIndex])
                 }
                 else {
-                    this._expression.level.at(-1).addChar(expression[charIndex]);
+                    currentLevel.addChar(expression[charIndex]);
                 }
             }
         }
     }
 
+
     getHtml(): string {
-        return HtmlFormatter.parseMathLevel(this.getExpression());
+        return HtmlFormatter.parseMathLevel(this.expression);
     }
 
     getLaTeX(): string {
-        return LaTeXFormatter.parseMathLevel(this.getExpression());
+        return LaTeXFormatter.parseMathLevel(this.expression);
     }
 
     getJson(): string {
         return JSON.stringify(this);
-    }
-
-    getExpression(): MathLevel {
-        if (this._expression) {
-            return this._expression;
-        }
-        return new MathLevel();
     }
 
     getResults(): UIMathCard[] {
@@ -74,11 +94,11 @@ export class MathFunction {
         // Domain
         this.calculateDomain();
         if (this._expression.checkIfHaveVariable()) {
-            if (this.getDomain().getLastDoaminExistenceCondition().getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.getDomain().getHtml()));
+            if (this.domain.getLastDoaminExistenceCondition().getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
             }
             else {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + (this.getDomain().domain.length > 1 ? this.getDomain().domain.length : "una") + " condizion" + (this.getDomain().domain.length > 1 ? "i" : "e") + " di esistenza.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.", this.getDomain().getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + (this.domain.domain.length > 1 ? this.domain.domain.length : "una") + " condizion" + (this.domain.domain.length > 1 ? "i" : "e") + " di esistenza.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.", this.domain.getHtml()));
             }
         }
         else {
@@ -92,26 +112,9 @@ export class MathFunction {
         return UIResults;
     }
 
-
-    set expression(value: MathLevel) {
-        this._expression = value;
-    }
-
-    set domain(value: MathDomain) {
-        this._domain = value;
-    }
-
     calculateDomain(): void {
         this._domain = new MathDomain();
         this._domain.addExistenceCondition(this._expression.getExistenceConditions());
         this._domain.calculateDomain();
-    }
-
-    getDomain(): MathDomain {
-        if (this._domain !== undefined) {
-            return this._domain;
-        } else {
-            return new MathDomain();
-        }
     }
 }

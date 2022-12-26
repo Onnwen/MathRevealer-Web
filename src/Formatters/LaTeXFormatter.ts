@@ -5,37 +5,37 @@ export class LaTeXFormatter {
     static parseMathLevel(mathLevel: MathLevel): string {
         let LaTeX = "";
         if (typeof mathLevel === 'object' && mathLevel !== undefined) {
-            LaTeX += mathLevel.getBrackets()[0] !== undefined ? "\\left" + mathLevel.getBrackets()[0] : "";
-            for (let charIndex = 0; charIndex < mathLevel.getLevel().length; charIndex++) {
-                if (typeof mathLevel.getLevel()[charIndex] === 'object' && mathLevel.getLevel()[charIndex] !== undefined) {
-                    LaTeX += LaTeXFormatter.parseMathLevel(mathLevel.getLevel()[charIndex]);
+            LaTeX += mathLevel.brackets[0] !== undefined ? "\\left" + mathLevel.brackets[0] : "";
+            for (let charIndex = 0; charIndex < mathLevel.level.length; charIndex++) {
+                if (typeof mathLevel.level[charIndex] === 'object' && mathLevel.level[charIndex] !== undefined) {
+                    LaTeX += LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex]);
                 }
-                else if (!Symbol.isValid(mathLevel.getLevel()[charIndex])) {
-                    LaTeX += Symbol.getLaTeXSymbol(mathLevel.getLevel()[charIndex]);
+                else if (!Symbol.isValid(mathLevel.level[charIndex])) {
+                    LaTeX += Symbol.getLaTeXSymbol(mathLevel.level[charIndex]);
                 }
-                else if (mathLevel.getLevel()[charIndex+1] === "/") {
-                    LaTeX += " \\frac{" + LaTeXFormatter.parseMathLevel(mathLevel.getLevel()[charIndex]) + "}{" + (mathLevel.getLevel()[charIndex+2] !== undefined ? LaTeXFormatter.parseMathLevel(mathLevel.getLevel()[charIndex+2]) : '...') + "}";
+                else if (mathLevel.level[charIndex+1] === "/") {
+                    LaTeX += " \\frac{" + LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex]) + "}{" + (mathLevel.level[charIndex+2] !== undefined ? LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex+2]) : '...') + "}";
                     charIndex++;
                     charIndex++;
                 }
-                else if (mathLevel.getLevel()[charIndex] === "#") {
-                    LaTeX += "\\sqrt[2]{" + LaTeXFormatter.parseMathLevel(mathLevel.getLevel()[charIndex+1]) + "}";
+                else if (mathLevel.level[charIndex] === "#") {
+                    LaTeX += "\\sqrt[2]{" + LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex+1]) + "}";
                     charIndex++;
                 }
                 else {
-                    if (!Array.isArray(mathLevel.getLevel()[charIndex])) {
-                        if (mathLevel.getLevel()[charIndex] === "^") {
-                            LaTeX += "^{" + LaTeXFormatter.parseMathLevel(mathLevel.getLevel()[charIndex + 1]) + "}";
+                    if (!Array.isArray(mathLevel.level[charIndex])) {
+                        if (mathLevel.level[charIndex] === "^") {
+                            LaTeX += "^{" + LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex + 1]) + "}";
                             charIndex++;
                         } else {
-                            LaTeX += mathLevel.getLevel()[charIndex];
+                            LaTeX += mathLevel.level[charIndex];
                         }
                     } else {
-                        LaTeX += LaTeXFormatter.parseMathLevel(mathLevel.getLevel()[charIndex]);
+                        LaTeX += LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex]);
                     }
                 }
             }
-            LaTeX += mathLevel.getBrackets()[1] !== undefined ? "\\right" +mathLevel.getBrackets()[1] : "";
+            LaTeX += mathLevel.brackets[1] !== undefined ? "\\right" + mathLevel.brackets[1] : "";
             return LaTeX;
         }
         else {

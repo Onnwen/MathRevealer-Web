@@ -1,13 +1,16 @@
-import {MathLevel} from "./MathLevel";
-
 export class MathSolver {
-    static solveBasicOperation(firstValue: string | number, operator: string, secondValue: string | number): number | undefined | any[] {
+    static solveBasicOperation(firstValue: string | number | undefined, operator: string, secondValue: string | number | undefined): number | undefined | any[] {
+        if (firstValue === undefined || secondValue === undefined) {
+            return undefined;
+        }
+
         if (typeof firstValue === "string") {
             firstValue = Number.parseFloat(firstValue);
         }
         if (typeof secondValue === "string") {
             secondValue = Number.parseFloat(secondValue);
         }
+
         try {
             switch (operator) {
                 case "+":
