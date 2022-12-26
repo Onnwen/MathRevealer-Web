@@ -11,39 +11,39 @@ export class Symbol {
     static validSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols, Symbol.numberSymbols, Symbol.decimalSeparatorSymbols);
     static invalidNumberSymbols = Symbol.operationSymbols.concat(Symbol.openingBracketSymbols, Symbol.closingBracketSymbols, Symbol.variableSymbols);
 
-    static isOperation(symbol) {
+    static isOperation(symbol: string): boolean{
         return this.operationSymbols.indexOf(symbol) !== -1;
     }
 
-    static isPriorityOperation(symbol) {
+    static isPriorityOperation(symbol: string): boolean {
         return this.priorityOperationSymbols.indexOf(symbol) !== -1;
     }
 
-    static isExistenceGuaranteedByOperation(symbol) {
+    static isExistenceGuaranteedByOperation(symbol: string): boolean {
         return this.existenceNotGuaranteedByOperations.indexOf(symbol) === -1;
     }
 
-    static isOpeningBracket(symbol) {
+    static isOpeningBracket(symbol: string): boolean {
         return this.openingBracketSymbols.indexOf(symbol) !== -1;
     }
 
-    static isClosingBracket(symbol) {
+    static isClosingBracket(symbol: string): boolean {
         return this.closingBracketSymbols.indexOf(symbol) !== -1;
     }
 
-    static isVariable(symbol) {
+    static isVariable(symbol: string): boolean {
         return this.variableSymbols.indexOf(symbol) !== -1;
     }
 
-    static isDecimalSeparator(symbol) {
+    static isDecimalSeparator(symbol: string): boolean {
         return this.decimalSeparatorSymbols.indexOf(symbol) !== -1;
     }
 
-    static isValue(symbol) {
+    static isValue(symbol: string): boolean {
         return this.variableSymbols.concat(this.numberSymbols).indexOf(symbol) !== -1;
     }
 
-    static isNumber(number) {
+    static isNumber(number: string): boolean {
         if (number.length === 1) {
             return this.invalidNumberSymbols.indexOf(number) === -1;
         }
@@ -59,7 +59,7 @@ export class Symbol {
         }
     }
 
-    static isInvalidNumber(number) {
+    static isInvalidNumber(number: string): boolean {
         if (number.length === 1) {
             return this.invalidNumberSymbols.indexOf(number) !== -1;
         }
@@ -77,11 +77,11 @@ export class Symbol {
         }
     }
 
-    static isValid(symbol) {
+    static isValid(symbol: string): boolean {
         return this.validSymbols.indexOf(symbol) !== -1;
     }
 
-    static getRespectiveBracket(bracket) {
+    static getRespectiveBracket(bracket: string): string {
         if (this.isClosingBracket(bracket)) {
             return this.openingBracketSymbols[this.closingBracketSymbols.indexOf(bracket)];
         } else if (this.isOpeningBracket(bracket)) {
@@ -91,11 +91,11 @@ export class Symbol {
         }
     }
 
-    static bracketsMatch(openingBracket, closingBracket) {
+    static bracketsMatch(openingBracket: string, closingBracket: string): boolean {
         return this.openingBracketSymbols.indexOf(openingBracket) === this.closingBracketSymbols.indexOf(closingBracket);
     }
 
-    static getLaTeXSign(sign) {
+    static getLaTeXSign(sign: string): string {
         switch (sign) {
             case "<":
                 return "\\lt";
@@ -108,12 +108,13 @@ export class Symbol {
             case "!=":
                 return "\\neq";
             case "=":
-                return "="
-
+                return "=";
+            default:
+                return "";
         }
     }
 
-    static getLaTeXSymbol(symbol) {
+    static getLaTeXSymbol(symbol: any): string {
         switch (symbol) {
             case "R":
                 return "\\mathbb{R}";
