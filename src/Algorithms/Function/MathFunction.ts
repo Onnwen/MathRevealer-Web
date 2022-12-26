@@ -50,24 +50,27 @@ export class MathFunction {
 
         for (let charIndex = 0; charIndex < expression.length; charIndex++) {
             if (expression[charIndex] !== " ") {
-                let currentLevel = workingLevels[workingLevels.length - 1];
                 if (Symbol.isClosingBracket(expression[charIndex])) {
-                    currentLevel.closeBrackets(expression[charIndex]);
+                    workingLevels.at(-1)?.closeBrackets(expression[charIndex]);
                     workingLevels.pop();
                 }
                 else if (Symbol.isOpeningBracket(expression[charIndex])) {
-                    if (Symbol.isValue(currentLevel.getLastChar())) {
-                        currentLevel.level.push("*");
+                    // @ts-ignore
+                    if (workingLevels.at(-1) && Symbol.isValue(workingLevels.at(-1).getLastChar())) {
+                        workingLevels.at(-1)?.level.push("*");
                     }
                     workingLevels.push(new MathLevel());
-                    currentLevel.brackets = expression[charIndex];
-                    workingLevels.at(-2)?.level.push(currentLevel);
+                    if (workingLevels.at(-1)) {
+                        // @ts-ignore
+                        workingLevels.at(-1).brackets = expression[charIndex];
+                    }
+                    workingLevels.at(-2)?.level.push(workingLevels.at(-1));
                 }
                 else if (charIndex > 0 && !Symbol.isValid(expression[charIndex-1])) {
-                    (workingLevels.at(-2) !== undefined ? workingLevels.at(-2) : currentLevel)?.addChar(expression[charIndex])
+                    workingLevels.at(workingLevels.at(-2) !== undefined ? -2 : -1)?.addChar(expression[charIndex])
                 }
                 else {
-                    currentLevel.addChar(expression[charIndex]);
+                    workingLevels.at(-1)?.addChar(expression[charIndex]);
                 }
             }
         }
