@@ -7,3 +7,6 @@
 - shaJS
 - AnimeJS
 - MathJax
+- TypeScript
+- TS-Loader
+- Webpack

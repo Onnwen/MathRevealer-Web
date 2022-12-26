@@ -1,5 +1,5 @@
 class Debug {
-    static log(string) {
+    static log(string: string): void {
         console.log(string);
     }
 }

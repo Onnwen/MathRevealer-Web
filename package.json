@@ -1,9 +1,11 @@
 {
-  "type": "module",
   "name": "math_revealer_web",
+  "author": "Onnwen Cassitto",
   "version": "1.0.0-alpha",
+  "private": true,
   "scripts": {
-    "start": "node src/Other/run.js",
+    "start": "node ./dist/Other/run.js",
+    "compile": "tsc && webpack",
     "test": "jasmine"
   },
   "dependencies": {
@@ -16,6 +18,13 @@
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
-    "jasmine": "^4.5.0"
+    "@types/jest": "^29.2.4",
+    "@types/lodash": "^4.14.191",
+    "jasmine": "^4.5.0",
+    "jasmine-spec-reporter": "^7.0.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
