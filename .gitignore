@@ -6,4 +6,4 @@ node_modules/
 token.txt
 coverage/
 src/Other/run.ts
-out/
+dist/
