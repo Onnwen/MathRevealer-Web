@@ -6,7 +6,7 @@ p, input, .btn, .separator, a, h2, footer {
     text-justify: inter-word;
 }
 
-body {
+.maxWith, body {
     max-width: 1200px;
     margin: 0 auto;
 }
