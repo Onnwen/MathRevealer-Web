@@ -1,9 +1,11 @@
+import { MathLevel } from "../Algorithms/Function/MathLevel";
+
 export class HtmlFormatter {
-    static parseMathLevel(mathLevel) {
+    static parseMathLevel(mathLevel: MathLevel): string {
         let html = "";
         if (typeof mathLevel === 'object' && mathLevel !== undefined) {
-            if (mathLevel.error !== "") {
-                html += '<a href="#" data-toggle="tooltip" title="' + mathLevel.error + '" class="errorText">'
+            if (mathLevel.getError() !== "") {
+                html += '<a href="#" data-toggle="tooltip" title="' + mathLevel.getError() + '" class="errorText">'
             }
             html += mathLevel.getBrackets()[0] !== undefined ? mathLevel.getBrackets()[0] : "";
             for (let charIndex = 0; charIndex < mathLevel.getLevel().length; charIndex++) {
@@ -39,7 +41,7 @@ export class HtmlFormatter {
                 }
             }
             html += mathLevel.getBrackets()[1] !== undefined ? mathLevel.getBrackets()[1] : "";
-            if (mathLevel.error !== "") {
+            if (mathLevel.getError() !== "") {
                     html += '</a>';
                         }
             return html;

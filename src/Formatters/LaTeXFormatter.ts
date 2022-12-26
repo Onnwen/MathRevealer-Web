@@ -1,7 +1,8 @@
-import {Symbol} from "../Other/Symbol.js";
+import {Symbol} from "../Other/Symbol";
+import {MathLevel} from "../Algorithms/Function/MathLevel";
 
 export class LaTeXFormatter {
-    static parseMathLevel(mathLevel) {
+    static parseMathLevel(mathLevel: MathLevel): string {
         let LaTeX = "";
         if (typeof mathLevel === 'object' && mathLevel !== undefined) {
             LaTeX += mathLevel.getBrackets()[0] !== undefined ? "\\left" + mathLevel.getBrackets()[0] : "";

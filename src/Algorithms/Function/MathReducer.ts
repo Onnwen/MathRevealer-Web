@@ -1,9 +1,9 @@
-import {Symbol} from '../../Other/Symbol.js';
-import {MathSolver} from './MathSolver.js';
-import {MathLevel} from "./MathLevel.js";
+import {Symbol} from '../../Other/Symbol';
+import {MathSolver} from './MathSolver';
+import {MathLevel} from "./MathLevel";
 
 export class MathReducer {
-    static analyse(mathLevel) {
+    static analyse(mathLevel: MathLevel): MathLevel {
         let reducedMathLevel = MathReducer.getMathLevelGroupedByVariables(mathLevel);
         reducedMathLevel = MathReducer.getSolvedPriorityOperationsMathLevel(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedSecondaryOperationsMathLevel(reducedMathLevel);
@@ -11,14 +11,14 @@ export class MathReducer {
         return reducedMathLevel
     }
 
-    static getSolvedSecondaryOperationsMathLevel(mathLevel) {
+    private static getSolvedSecondaryOperationsMathLevel(mathLevel: MathLevel): MathLevel {
         let reducedMathLevel = new MathLevel();
         let jumpNextValue = false;
 
-        mathLevel.level.forEach((value, index) => {
+        mathLevel.getLevel().forEach((value: string | MathLevel, index: number) => {
             if (!jumpNextValue) {
-                if (value.level != null) {
-                    reducedMathLevel[index] = MathReducer.analyse(value);
+                if (value instanceof MathLevel) {
+                    reducedMathLevel.level[index] = MathReducer.analyse(value);
                 } else {
                     if (!Symbol.isPriorityOperation(value) && Symbol.isOperation(value) && !Symbol.isVariable(mathLevel.getLevel()[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
@@ -55,14 +55,14 @@ export class MathReducer {
         return reducedMathLevel;
     }
 
-    static getSolvedPriorityOperationsMathLevel(mathLevel) {
+    private static getSolvedPriorityOperationsMathLevel(mathLevel: MathLevel): MathLevel {
         let reducedMathLevel = new MathLevel();
         let removedElement = 0;
 
-        mathLevel.getLevel().forEach((value, index) => {
+        mathLevel.getLevel().forEach((value: string | MathLevel, index: number) => {
             if (removedElement === 0) {
-                if (value.level != null) {
-                    reducedMathLevel[index] = MathReducer.getSolvedPriorityOperationsMathLevel(value);
+                if (value instanceof MathLevel) {
+                    reducedMathLevel.level[index] = MathReducer.getSolvedPriorityOperationsMathLevel(value);
                 } else {
                     if (Symbol.isPriorityOperation(value)) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
@@ -99,14 +99,14 @@ export class MathReducer {
         return reducedMathLevel;
     }
 
-    static getSolvedVariablesOperationsMathLevel(mathLevel) {
+    private static getSolvedVariablesOperationsMathLevel(mathLevel: MathLevel): MathLevel {
         let reducedMathLevel = new MathLevel();
         let removedElement = 0;
 
-        mathLevel.getLevel().forEach((value, index) => {
+        mathLevel.getLevel().forEach((value: string | MathLevel, index: number) => {
             if (removedElement === 0) {
-                if (value.level != null) {
-                    reducedMathLevel[index] = MathReducer.getSolvedVariablesOperationsMathLevel(value);
+                if (value instanceof MathLevel) {
+                    reducedMathLevel.level[index] = MathReducer.getSolvedVariablesOperationsMathLevel(value);
                 } else {
                     if (Symbol.isOperation(value) && Symbol.isVariable(mathLevel.getLevel()[index - 1]) && Symbol.isVariable(mathLevel.getLevel()[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-3) * (reducedMathLevel.level.at(-4) === "-" ? -1 : 1), value, mathLevel.safelyGetNumberAt(index + 1));
@@ -149,7 +149,7 @@ export class MathReducer {
         return reducedMathLevel;
     }
 
-    static getMathLevelGroupedByVariables(mathLevel) {
+    private static getMathLevelGroupedByVariables(mathLevel: MathLevel): MathLevel {
         let priorityElements = [];
         let secondaryElements = []
         for(let i = 0; i < mathLevel.getLevelLength(); i++) {
@@ -165,7 +165,7 @@ export class MathReducer {
                 priorityElements.push(mathLevel.getLevel()[i + 3]);
                 i+=3;
             } else {
-                if (i === 0 && mathLevel.getLevel[i-1] !== "-") {
+                if (i === 0 && mathLevel.getLevel()[i-1] !== "-") {
                     secondaryElements.push("+");
                 }
                 secondaryElements.push(mathLevel.getLevel()[i]);
