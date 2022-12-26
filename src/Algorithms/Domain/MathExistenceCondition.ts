@@ -41,42 +41,42 @@ export class MathExistenceCondition {
     }
 
     getFloatingSet(): number {
-        return parseFloat(this._set);
+        return (parseFloat(this.set));
     }
 
     getSet(): string {
-        return this._set;
+        return this.set;
     }
 
     canBeCombinedWith(existenceCondition: MathExistenceCondition): boolean {
-        return this._value === existenceCondition._value && this._sign.charAt(0) === existenceCondition._sign.charAt(0) && (this._sign.charAt(0) === "<" || this._sign.charAt(0) === ">");
+        return this.value === existenceCondition.value && this.sign.charAt(0) === existenceCondition.sign.charAt(0) && (this.sign.charAt(0) === "<" || this.sign.charAt(0) === ">");
     }
 
     combineWith(existenceCondition: MathExistenceCondition): MathExistenceCondition {
         let sign = "";
-        if (this._sign.at(0) === ">") {
-            if ((this._sign === ">=" && this.getSet() > existenceCondition.getSet()) || (existenceCondition._sign === ">=" && existenceCondition.getSet() > this.getSet()) || (this._sign === ">=" && existenceCondition._sign === ">=")) {
+        if (this.sign.at(0) === ">") {
+            if ((this.sign === ">=" && this.getFloatingSet() > existenceCondition.getFloatingSet()) || (existenceCondition.sign === ">=" && existenceCondition.getFloatingSet() > this.getFloatingSet()) || (this.sign === ">=" && existenceCondition.sign === ">=")) {
                 sign = ">=";
             } else {
                 sign = ">";
             }
-            return new MathExistenceCondition(this._value, sign, this.getSet() > existenceCondition.getSet() ? this.set : existenceCondition.getSet());
+            return new MathExistenceCondition(this.value, sign, this.getFloatingSet() > existenceCondition.getFloatingSet() ? this.set : existenceCondition.getSet());
         } else {
-            if ((this._sign === "<=" && this.getSet() < existenceCondition.getSet()) || (existenceCondition._sign === ">=" && existenceCondition.getSet() < this.getSet()) || (this._sign === ">=" && existenceCondition._sign === ">=")) {
+            if ((this.sign === "<=" && this.getFloatingSet() < existenceCondition.getFloatingSet()) || (existenceCondition.sign === ">=" && existenceCondition.getFloatingSet() < this.getFloatingSet()) || (this.sign === ">=" && existenceCondition.sign === ">=")) {
                 sign = "<=";
             } else {
                 sign = "<";
             }
-            return new MathExistenceCondition(this._value, sign, this.getSet() < existenceCondition.getSet() ? this._set : existenceCondition._set);
+            return new MathExistenceCondition(this.value, sign, this.getFloatingSet() < existenceCondition.getFloatingSet() ? this.set : existenceCondition.set);
         }
     }
 
     getLaTeX(): string {
-        if (this._value instanceof MathLevel) {
-            return this._value.getLaTeX() + Symbol.getLaTeXSign(this._sign) + new MathFunction(this._set).getLaTeX()
+        if (this.value instanceof MathLevel) {
+            return this.value.getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
         }
         else {
-            return new MathFunction(this._value).getLaTeX() + Symbol.getLaTeXSign(this._sign) + new MathFunction(this._set).getLaTeX()
+            return new MathFunction(this.value).getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
         }
     }
 
