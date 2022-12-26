@@ -1,7 +1,6 @@
 import {MathFunction} from "../Function/MathFunction";
 import {Symbol} from '../../Other/Symbol';
 import {MathLevel} from "../Function/MathLevel";
-import * as module from "module";
 
 export class MathExistenceCondition {
     private _value: string | MathLevel;
