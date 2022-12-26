@@ -4,10 +4,10 @@ import {MathLevel} from "../Algorithms/Function/MathLevel";
 export class LaTeXFormatter {
     static parseMathLevel(mathLevel: MathLevel): string {
         let LaTeX = "";
-        if (typeof mathLevel === 'object' && mathLevel !== undefined) {
+        if (mathLevel instanceof MathLevel) {
             LaTeX += mathLevel.brackets[0] !== undefined ? "\\left" + mathLevel.brackets[0] : "";
             for (let charIndex = 0; charIndex < mathLevel.level.length; charIndex++) {
-                if (typeof mathLevel.level[charIndex] === 'object' && mathLevel.level[charIndex] !== undefined) {
+                if (mathLevel.level[charIndex] instanceof MathLevel) {
                     LaTeX += LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex]);
                 }
                 else if (!Symbol.isValid(mathLevel.level[charIndex])) {

@@ -3,13 +3,13 @@ import { MathLevel } from "../Algorithms/Function/MathLevel";
 export class HtmlFormatter {
     static parseMathLevel(mathLevel: MathLevel): string {
         let html = "";
-        if (typeof mathLevel === 'object' && mathLevel !== undefined) {
+        if (mathLevel instanceof MathLevel) {
             if (mathLevel.error !== "") {
                 html += '<a href="#" data-toggle="tooltip" title="' + mathLevel.error + '" class="errorText">'
             }
             html += mathLevel.brackets[0] !== undefined ? mathLevel.brackets[0] : "";
             for (let charIndex = 0; charIndex < mathLevel.level.length; charIndex++) {
-                if (typeof mathLevel.level[charIndex] === 'object' && mathLevel.level[charIndex] !== undefined) {
+                if (mathLevel.level[charIndex] instanceof MathLevel) {
                     html += HtmlFormatter.parseMathLevel(mathLevel.level[charIndex]);
                 }
                 else if (mathLevel.level[charIndex+1] === "/") {
