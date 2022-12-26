@@ -2,7 +2,7 @@
 const MathFunction_1 = require('../dist/Algorithms/Function/MathFunction');
 describe('MathFunction', () => {
     it('parsing: "1-2"', () => {
-        expect(new MathFunction_1.MathFunction("1-2").getJson()).toEqual('{"_expression":{"__level":["1","-","2"],"_brackets":"","_error":"","_haveVariable":false}}');
+        expect(new MathFunction_1.MathFunction("1-2").getJson()).toEqual('{"_expression":{"_level":["1","-","2"],"_brackets":"","_error":"","_haveVariable":false}}');
     });
 
     it('parsing: "1-2+(3-4)"', () => {
