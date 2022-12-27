@@ -1,6 +1,8 @@
 import {Symbol} from '../../Other/Symbol';
 import {MathExistenceCondition} from "../Domain/MathExistenceCondition";
 import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
+import {MathReducer} from "../Calculator/MathReducer";
+import {MathSolver} from "../Calculator/MathSolver";
 
 export class MathLevel {
     private _level: any[];
@@ -36,7 +38,19 @@ export class MathLevel {
     private _haveVariable: boolean;
 
     get haveVariable(): boolean {
-        return this._haveVariable;
+        if (this._haveVariable) {
+            return true;
+        }
+        else {
+            this.level.forEach(value => {
+                if (value instanceof MathLevel) {
+                    if (value.haveVariable) {
+                        this._haveVariable = value.haveVariable;
+                    }
+                }
+            })
+            return this._haveVariable;
+        }
     }
 
     set haveVariable(value: boolean) {
@@ -141,41 +155,67 @@ export class MathLevel {
         }
     }
 
-    checkIfHaveVariable(): boolean {
-        if (this.haveVariable) {
-            return true;
-        }
-        this.level.forEach(value => {
-            if (value instanceof MathLevel) {
-                if (value.checkIfHaveVariable()) {
-                    return true;
-                }
-            }
-        })
-        return false;
+    printDebug(showSeparator: boolean = false): void {
+        console.log(this.getDebugString(showSeparator));
     }
 
-    printDebug(): void {
-        console.log(this.getDebugString());
-    }
-
-    getDebugString(): string {
+    getDebugString(showSeparator: boolean = false): string {
         let string = "";
         this.level.forEach(value => {
             if (value instanceof MathLevel) {
                 string += value.brackets.at(0);
-                string += value.getDebugString();
+                if (showSeparator && value.brackets.at(0) !== undefined) {
+                    string += "|";
+                }
+                string += value.getDebugString(showSeparator);
                 string += value.brackets.at(-1);
             }
             else {
                 string += value;
             }
-            // string += "|";
+            string += showSeparator ? "|" : "";
         });
         return string;
     }
 
     getLevelLength(): number {
         return this.level.length;
+    }
+
+    getHierarchyGroups(): MathLevel[] {
+        let variablesMathLevel = new MathLevel();
+        let numericalValuesMathLevel = new MathLevel();
+
+        for(let i = 0; i < this.getLevelLength(); i++) {
+            if ((i === 0 && Symbol.isVariable(this.level[i + 2])) || Symbol.isVariable(this.level[i + 3])) {
+                if (i === 0 && this.level[i] === "-") {
+                    variablesMathLevel.level.push(this.level[i + 1] * -1);
+                }
+                else {
+                    variablesMathLevel.level.push(this.level[i]);
+                    variablesMathLevel.level.push(this.level[i + 1]);
+                }
+                variablesMathLevel.level.push(this.level[i + 2]);
+                if (!(i === 0 && Symbol.isVariable(this.level[i + 2]))) {
+                    variablesMathLevel.level.push(this.level[i + 3]);
+                }
+                i+=3;
+            } else {
+                if (i === 0 && this.level[i-1] !== "-") {
+                    numericalValuesMathLevel.level.push("+");
+                }
+                numericalValuesMathLevel.level.push(this.level[i]);
+            }
+        }
+
+        return [variablesMathLevel.getClearedLevel(), numericalValuesMathLevel.getClearedLevel()];
+    }
+
+    getClearedLevel(): MathLevel {
+        return MathReducer.clear(this);
+    }
+
+    getX() {
+        return MathSolver.getXValue(this);
     }
 }

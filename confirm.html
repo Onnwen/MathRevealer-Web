@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>MathRevealer</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/stylesheet.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
+    <!--
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/it_IT/appleid.auth.js"></script>
+    -->
+</head>
+
+<body>
+
+<div class="modal fade" id="modalEmail" tabindex="-1" aria-labelledby="modalEmailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEmailLabel">Richiedi email di conferma</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Inserisci l'email utilizzata in fase di registrazione.
+                </p>
+                <form id="formEmail">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="email-addon">Email</span>
+                        <input type="email" class="form-control" aria-describedby="email-addon" id="email" name="email" placeholder="Inserisci la tua email">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" id="btnSendEmail">Invia</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="position-relative py-4 py-xl-5">
+    <div class="container" id="pending">
+        <div class="row mb-5">
+            <div class="text-center mx-auto">
+                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
+                    MathRevealer</h1>
+                <p style="color: var(--bs-gray-300);" class="text-center">Registrazione in corso.</p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-11 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
+                <div class="card mb-5 form-card">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary mt-4" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-center mt-5">
+                        <p class="text-center">
+                            La tua registrazione è in corso di approvazione.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-none" id="success">
+        <div class="row mb-5">
+            <div class="text-center mx-auto">
+                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
+                    MathRevealer</h1>
+                <p style="color: var(--bs-gray-300);" class="text-center">Tra poco potrai usare MathRevealer.</p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-10 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
+                <div class="card mb-5 form-card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <p>
+                            La tua registrazione è stata confermata con successo! Ora puoi accedere a MathRevealer.
+                        </p>
+                        <button class="btn btn-primary d-block w-100 mb-2 mt-4 text-center" type='button' id="signUp">
+                            Usa MathRevealer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-none" id="fail">
+        <div class="row mb-5">
+            <div class="text-center mx-auto">
+                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
+                    MathRevealer</h1>
+                <p style="color: var(--bs-gray-300);" class="text-center">Registrazione fallita.</p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-10 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
+                <div class="card mb-5 form-card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <p>
+                            La tua registrazione non è andata a buon fine. È possibile che il link di conferma sia scaduto.
+                        </p>
+                        <button type="button" class="btn btn-primary w-100 text-center mt-4" data-bs-toggle="modal" data-bs-target="#modalEmail">
+                            Invia nuova email di conferma
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        let params = new URLSearchParams(location.search);
+        $.ajax({
+            url: 'https://mathrevealer.garamante.it/api/users/confirm',
+            type: 'POST',
+            data: {
+                code: params.get('registration')
+            },
+            success: function (data) {
+                if (data.success) {
+                    $('#pending').addClass('d-none');
+                    $('#success').removeClass('d-none');
+                } else {
+                    $('#pending').addClass('d-none');
+                    $('#fail').removeClass('d-none');
+                }
+            },
+            error: function (data) {
+                $('#pending').addClass('d-none');
+                $('#fail').removeClass('d-none');
+            }
+        });
+    });
+
+    $('#btnSendEmail').click(function () {
+        $.ajax({
+            url: 'https://mathrevealer.garamante.it/api/users/resend',
+            type: 'POST',
+            data: {
+                email: $('#email').val()
+            },
+            success: function (data) {
+                if (data.success) {
+                    $('#modalEmail').modal('hide');
+                    $('#modalSuccess').modal('show');
+                } else {
+                    $('#modalEmail').modal('hide');
+                    $('#modalFail').modal('show');
+                }
+            },
+            error: function (data) {
+                $('#modalEmail').modal('hide');
+                $('#modalFail').modal('show');
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

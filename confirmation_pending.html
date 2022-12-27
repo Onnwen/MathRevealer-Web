@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>MathRevealer</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/stylesheet.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
+    <!--
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/it_IT/appleid.auth.js"></script>
+    -->
+</head>
+
+<body>
+<section class="position-relative py-4 py-xl-5">+
+    <div class="container d-none" id="fail">
+        <div class="row mb-5">
+            <div class="text-center mx-auto">
+                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
+                    MathRevealer</h1>
+                <p style="color: var(--bs-gray-300);" class="text-center">In attesa di conferma.</p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-11 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
+                <div class="card mb-5 form-card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <p>
+                            Il tuo account è stato creato correttamente ma non la registrazione non è ancora stata confermata. Controlla la tua casella di posta elettronica per confermare la registrazione.
+                        </p>
+                        <p>
+                            Se non hai ricevuto la mail di conferma, puoi richiederne una nuova.
+                        </p>
+                        <button type="button" class="btn btn-primary w-100 text-center mt-4" id="resendButton">
+                            Invia nuova email di conferma
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $("#resendButton").on("click", function() {
+        $.ajax({
+            url: 'https://mathrevealer.garamante.com/api/users/',
+            type: 'POST',
+            data: {
+                code: params.get('registration')
+            },
+            success: function (data) {
+                if (data.success) {
+                    $('#pending').addClass('d-none');
+                    $('#success').removeClass('d-none');
+                } else {
+                    $('#pending').addClass('d-none');
+                    $('#fail').removeClass('d-none');
+                }
+            },
+            error: function (data) {
+                $('#pending').addClass('d-none');
+                $('#fail').removeClass('d-none');
+            }
+        });
+    })
+</script>
+</body>
+
+</html>

@@ -49,7 +49,7 @@ export class UIMathCard {
     getHtml(): string {
         return `<div class="mathResultCard" id="${this._title}Card">` +
             `<button class="vertical mathResultCardEnlargeButton" id="${this._title}CardButton" type="button" style="float: right; margin-bottom: auto;">` +
-            `<i id="${this._title}CardButtonSizeIcon" class="bi bi-arrows-angle-expand"></i>` +
+            // `<i id="${this._title}CardButtonSizeIcon" class="bi bi-arrows-angle-expand d-none d-md-flex"></i>` +
             `</button>` +
             `<h2> ${this._title} </h2>` +
             `<hr/>` +
@@ -63,12 +63,12 @@ export class UIMathCard {
             :
                 "")
             +
-            (this._notion !== undefined && this._notion !== "" ?
-                `<hr/>` +
-                `<p class="mathTextResultDescription">${this._notion}</p>`
-                :
-                "")
-            +
+            // (this._notion !== undefined && this._notion !== "" ?
+            //     `<hr/>` +
+            //     `<p class="mathTextResultDescription">${this._notion}</p>`
+            //     :
+            //     "")
+            // +
             `</div>`;
     }
 }

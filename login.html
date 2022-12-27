@@ -16,6 +16,8 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./node_modules/sha.js/sha256.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
     <!--
     <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/it_IT/appleid.auth.js"></script>
     -->
@@ -28,12 +30,12 @@
             <div class="text-center mx-auto">
                 <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
                     MathRevealer</h1>
-                <p style="color: var(--bs-gray-300);">Registrati a MathRevealer per rivelare il magico
+                <p style="color: var(--bs-gray-300);" class="text-center">Accedi a MathRevealer per rivelare il magico
                     mondo della matematica.&nbsp;</p>
             </div>
         </div>
         <div class="row d-flex justify-content-center">
-            <div class="col-10 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
+            <div class="col-11 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
                 <div class="card mb-5 form-card">
                     <div class="card-body d-flex flex-column align-items-center">
                         <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
@@ -45,9 +47,9 @@
                             <div class="mb-5"><input id="passwordField" class="form-control" type="password"
                                                      name="password" placeholder="Password"
                                                      autocomplete="current-password"></div>
-                            <button class="btn btn-primary d-block w-100 mb-1" type="submit">Accedi</button>
+                            <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Accedi</button>
                             <div class="separator"> Oppure</div>
-                            <button class="btn btn-primary d-block w-100 mb-2 mt-1" type='button' id="signUp">
+                            <button class="btn btn-primary d-block w-100 mb-2 mt-1 text-center" type='button' id="signUp">
                                 Registrati
                             </button>
                             <!--
@@ -62,27 +64,29 @@
     </div>
 </section>
 
-<script type="module">
-    import apiUrl from "./apiConfig.js";
-
+<script>
     $("#signUp").on("click", function () {
         window.location.href = "./register.html";
     });
 
     $("#loginForm").on("submit", function (event) {
         event.preventDefault();
-        $.post(apiUrl + "/users/login", {
+        $.post("https://garamante.it/api/mathrevealer/users/login", {
             email: $("#emailField").val(),
-            hashed_password: sha256($("#passwordField").val())
+            password: $("#passwordField").val()
         })
             .done(function (data) {
                 if (data.status_code === 1) {
                     window.location.href = "./index.html";
                 }
-                else {
-                    console.log("Not logged")
+                else if (data.status_code === 2) {
+                    window.location.href = "./confirmation_pending.html";
                 }
             })
+            .fail(function (data) {
+                $("#emailField").addClass("is-invalid");
+                $("#passwordField").addClass("is-invalid");
+            });
     });
 </script>
 </body>

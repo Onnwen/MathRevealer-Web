@@ -1,6 +1,7 @@
 import {MathFunction} from "../Function/MathFunction";
 import {Symbol} from '../../Other/Symbol';
 import {MathLevel} from "../Function/MathLevel";
+import {MathSolver} from "../Calculator/MathSolver";
 
 export class MathExistenceCondition {
     private _value: string | MathLevel;
@@ -71,11 +72,16 @@ export class MathExistenceCondition {
     }
 
     getLaTeX(): string {
-        if (this.value instanceof MathLevel) {
-            return this.value.getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+        const xValue = MathSolver.getXValue(this.value);
+        if (xValue) {
+            return "x" + Symbol.getLaTeXSign(this.sign) + new MathFunction(xValue).getLaTeX()
         }
         else {
-            return new MathFunction(this.value).getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+            if (this.value instanceof MathLevel) {
+                return this.value.getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+            } else {
+                return new MathFunction(this.value).getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+            }
         }
     }
 

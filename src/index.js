@@ -18,23 +18,25 @@ $(document).on('click', '.mathResultCardEnlargeButton', function (event) {
 });
 
 searchField.on("keyup", function () {
-    functionData.parse(searchField.val());
+    functionData.parse(String(searchField.val()));
     $("#preview, #resultPreview").html((searchField.val() !== "" ? "y = " : "") + functionData.getHtml());
     $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
     revealButtonVisibility();
 });
 
-$("#revealButton").on("click", function () {
-    let cardsHtml = "";
-    functionData.getResults().forEach(result => {
-        cardsHtml += '<div class="col">' + result.getHtml() + '</div>';
-    })
-    $("#cards").html(cardsHtml);
-    MathJax.typesetPromise()
-    $("#searchFormDiv").hide();
-    $("#resultDiv").show("slow", function () {
-    });
+$(".revealButton").each(function () {
+   $(this).on("click", function () {
+           let cardsHtml = "";
+           functionData.getResults().forEach(result => {
+               cardsHtml += '<div class="col">' + result.getHtml() + '</div>';
+           })
+           $("#cards").html(cardsHtml);
+           MathJax.typesetPromise()
+           $("#searchFormDiv").hide();
+           $("#resultDiv").show("slow", function () {
+           });
+       });
 });
 
 $("#backButton").on("click", function () {
@@ -43,23 +45,24 @@ $("#backButton").on("click", function () {
 });
 
 function revealButtonVisibility() {
-    let revealButtonDiv = $("#revealButtonDiv");
-    showRevealButton = searchField.val() !== "";
+    $(".revealButtonDiv").each(function () {
+        showRevealButton = searchField.val() !== "";
 
-    if (showRevealButton && revealButtonDiv.width() === 0) {
-        revealButtonDiv.show();
-        revealButtonDiv.animate({
-            width: originalWidth,
-            opacity: "1"
-        }, 1000);
-    } else if (!showRevealButton && revealButtonDiv.width() !== 0) {
-        revealButtonDiv.animate({
-            width: "0",
-            opacity: "0"
-        }, 500, function () {
-            revealButtonDiv.hide();
-        });
-    }
+        if (showRevealButton && $(this).width() === 0) {
+            $(this).show();
+            $(this).animate({
+                width: originalWidth,
+                opacity: "1"
+            }, 1000);
+        } else if (!showRevealButton && $(this).width() !== 0) {
+            $(this).animate({
+                width: "0",
+                opacity: "0"
+            }, 500, function () {
+                $(this).hide();
+            });
+        }
+    });
 }
 
 function changeCardSize(cardButtonId) {
