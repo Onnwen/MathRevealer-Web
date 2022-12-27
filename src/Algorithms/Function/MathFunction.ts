@@ -95,7 +95,7 @@ export class MathFunction {
 
         // Domain
         this.calculateDomain();
-        if (this._expression.checkIfHaveVariable()) {
+        if (this._expression.haveVariable) {
             if (this.domain.getLastDoaminExistenceCondition().getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
                 UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
             }
