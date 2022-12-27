@@ -1,14 +1,31 @@
 import {Symbol} from '../../Other/Symbol';
 import {MathSolver} from './MathSolver';
 import {MathLevel} from "./MathLevel";
+import {MathFunction} from "./MathFunction";
 
 export class MathReducer {
     static analyse(mathLevel: MathLevel): MathLevel {
-        let reducedMathLevel = MathReducer.getMathLevelGroupedByVariables(mathLevel);
+        let reducedMathLevel = MathReducer.analyseInnerParentheses(mathLevel);
+        reducedMathLevel = MathReducer.getMathLevelGroupedByVariables(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedPriorityOperationsMathLevel(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedSecondaryOperationsMathLevel(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedVariablesOperationsMathLevel(reducedMathLevel);
+        reducedMathLevel = MathReducer.clear(reducedMathLevel);
         return reducedMathLevel
+    }
+
+    private static analyseInnerParentheses(mathLevel: MathLevel): MathLevel {
+        let reducedMathLevel = new MathLevel();
+
+        mathLevel.level.forEach((value: string | MathLevel) => {
+            if (value instanceof MathLevel) {
+                Array.prototype.push.apply(reducedMathLevel.level, MathReducer.analyse(value).level);
+            } else {
+                reducedMathLevel.level.push(value);
+            }
+        });
+
+        return reducedMathLevel;
     }
 
     private static getSolvedSecondaryOperationsMathLevel(mathLevel: MathLevel): MathLevel {
@@ -18,7 +35,7 @@ export class MathReducer {
         mathLevel.level.forEach((value: string | MathLevel, index: number) => {
             if (!jumpNextValue) {
                 if (value instanceof MathLevel) {
-                    reducedMathLevel.level[index] = MathReducer.analyse(value);
+                    reducedMathLevel.level.concat(MathReducer.analyse(value).level);
                 } else {
                     if (!Symbol.isPriorityOperation(value) && Symbol.isOperation(value) && !Symbol.isVariable(mathLevel.level[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
@@ -28,7 +45,7 @@ export class MathReducer {
                                 solvedOperation.forEach((value) => {
                                     reducedMathLevel.level.push(value);
                                 });
-                            } else {
+                            } else if (solvedOperation !== 0) {
                                 if (solvedOperation < 0) {
                                     reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "-";
                                     reducedMathLevel.level.push(solvedOperation * -1);
@@ -73,7 +90,7 @@ export class MathReducer {
                                     reducedMathLevel.level.push(value);
                                 });
                                 removedElement += solvedOperation.length - 1;
-                            } else {
+                            } else if (solvedOperation !== 0) {
                                 if (solvedOperation < 0) {
                                     reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "-";
                                     reducedMathLevel.level.push(solvedOperation * -1);
@@ -121,7 +138,7 @@ export class MathReducer {
                                 solvedOperation.forEach((value) => {
                                     reducedMathLevel.level.push(value);
                                 });
-                            } else {
+                            } else if (solvedOperation !== 0) {
                                 if (solvedOperation < 0) {
                                     reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "-";
                                     reducedMathLevel.level.push(solvedOperation * -1);
@@ -175,5 +192,34 @@ export class MathReducer {
         let groupedMathLevel = new MathLevel();
         groupedMathLevel.level = priorityElements.concat(secondaryElements);
         return groupedMathLevel;
+    }
+
+    private static clear(mathLevel: MathLevel): MathLevel {
+        let reducedMathLevel = new MathLevel();
+        let numberCount = 0;
+
+        mathLevel.level.forEach((value: string | MathLevel, index: number) => {
+            if (value instanceof MathLevel) {
+                reducedMathLevel.level.push(MathReducer.clear(value));
+            } else {
+                if (Symbol.isNumber(value)) {
+                    numberCount++;
+                }
+                if (Symbol.isOperation(mathLevel.level.at(index-1)) && Symbol.isOperation(value)) {
+                    reducedMathLevel.level.pop();
+                }
+                reducedMathLevel.level.push(value);
+            }
+        });
+
+        if (mathLevel.level.at(0) == "+") {
+            reducedMathLevel.level.shift();
+        }
+
+        if (numberCount > 0) {
+            return reducedMathLevel;
+        } else {
+            return new MathFunction("0").expression;
+        }
     }
 }
