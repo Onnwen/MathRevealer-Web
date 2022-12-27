@@ -7,3 +7,4 @@ token.txt
 coverage/
 src/Other/run.ts
 dist/
+tsconfig.tsbuildinfo
