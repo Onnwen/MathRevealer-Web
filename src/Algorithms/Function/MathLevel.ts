@@ -1,6 +1,7 @@
 import {Symbol} from '../../Other/Symbol';
 import {MathExistenceCondition} from "../Domain/MathExistenceCondition";
 import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
+import {MathReducer} from "./MathReducer";
 
 export class MathLevel {
     private _level: any[];
@@ -36,7 +37,19 @@ export class MathLevel {
     private _haveVariable: boolean;
 
     get haveVariable(): boolean {
-        return this._haveVariable;
+        if (this._haveVariable) {
+            return true;
+        }
+        else {
+            this.level.forEach(value => {
+                if (value instanceof MathLevel) {
+                    if (value.haveVariable) {
+                        this._haveVariable = value.haveVariable;
+                    }
+                }
+            })
+            return this._haveVariable;
+        }
     }
 
     set haveVariable(value: boolean) {
@@ -141,20 +154,6 @@ export class MathLevel {
         }
     }
 
-    checkIfHaveVariable(): boolean {
-        if (this.haveVariable) {
-            return true;
-        }
-        this.level.forEach(value => {
-            if (value instanceof MathLevel) {
-                if (value.checkIfHaveVariable()) {
-                    return true;
-                }
-            }
-        })
-        return false;
-    }
-
     printDebug(showSeparator: boolean = false): void {
         console.log(this.getDebugString(showSeparator));
     }
@@ -180,5 +179,36 @@ export class MathLevel {
 
     getLevelLength(): number {
         return this.level.length;
+    }
+
+    getHierarchyGroups(): MathLevel[] {
+        let variablesMathLevel = new MathLevel();
+        let numericalValuesMathLevel = new MathLevel();
+
+        for(let i = 0; i < this.getLevelLength(); i++) {
+            if (Symbol.isVariable(this.level[i + 3])) {
+                if (i === 0 && this.level[i] === "-") {
+                    variablesMathLevel.level.push(this.level[i + 1] * -1);
+                }
+                else {
+                    variablesMathLevel.level.push(this.level[i]);
+                    variablesMathLevel.level.push(this.level[i + 1]);
+                }
+                variablesMathLevel.level.push(this.level[i + 2]);
+                variablesMathLevel.level.push(this.level[i + 3]);
+                i+=3;
+            } else {
+                if (i === 0 && this.level[i-1] !== "-") {
+                    numericalValuesMathLevel.level.push("+");
+                }
+                numericalValuesMathLevel.level.push(this.level[i]);
+            }
+        }
+
+        return [variablesMathLevel.getClearedLevel(), numericalValuesMathLevel.getClearedLevel()];
+    }
+
+    getClearedLevel(): MathLevel {
+        return MathReducer.clear(this);
     }
 }
