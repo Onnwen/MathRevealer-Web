@@ -39,10 +39,10 @@ export class MathReducer {
                 } else {
                     if (!Symbol.isPriorityOperation(value) && Symbol.isOperation(value) && !Symbol.isVariable(mathLevel.level[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
-                        if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof Array)) {
+                        if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof MathLevel)) {
                             reducedMathLevel.level.pop();
-                            if (solvedOperation instanceof Array) {
-                                solvedOperation.forEach((value) => {
+                            if (solvedOperation instanceof MathLevel) {
+                                solvedOperation.level.forEach((value) => {
                                     reducedMathLevel.level.push(value);
                                 });
                             } else if (solvedOperation !== 0) {
@@ -83,13 +83,13 @@ export class MathReducer {
                 } else {
                     if (Symbol.isPriorityOperation(value)) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
-                        if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof Array)) {
+                        if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof MathLevel)) {
                             reducedMathLevel.level.pop();
-                            if (solvedOperation instanceof Array) {
-                                solvedOperation.forEach((value) => {
+                            if (solvedOperation instanceof MathLevel) {
+                                solvedOperation.level.forEach((value) => {
                                     reducedMathLevel.level.push(value);
                                 });
-                                removedElement += solvedOperation.length - 1;
+                                removedElement += solvedOperation.getLevelLength() - 1;
                             } else if (solvedOperation !== 0) {
                                 if (solvedOperation < 0) {
                                     reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "-";
@@ -127,15 +127,15 @@ export class MathReducer {
                 } else {
                     if (Symbol.isOperation(value) && Symbol.isVariable(mathLevel.level[index - 1]) && Symbol.isVariable(mathLevel.level[index + 3])) {
                         const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-3) * (reducedMathLevel.level.at(-4) === "-" ? -1 : 1), value, mathLevel.safelyGetNumberAt(index + 1));
-                        if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof Array)) {
+                        if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof MathLevel)) {
                             reducedMathLevel.level.pop();
                             reducedMathLevel.level.pop();
                             reducedMathLevel.level.pop();
                             if (solvedOperation > 0 ) {
                                 reducedMathLevel.level.pop();
                             }
-                            if (solvedOperation instanceof Array) {
-                                solvedOperation.forEach((value) => {
+                            if (solvedOperation instanceof MathLevel) {
+                                solvedOperation.level.forEach((value) => {
                                     reducedMathLevel.level.push(value);
                                 });
                             } else if (solvedOperation !== 0) {
