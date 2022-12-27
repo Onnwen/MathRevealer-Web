@@ -2,6 +2,7 @@ import {Symbol} from '../../Other/Symbol';
 import {MathExistenceCondition} from "../Domain/MathExistenceCondition";
 import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
 import {MathReducer} from "./MathReducer";
+import {MathSolver} from "./MathSolver";
 
 export class MathLevel {
     private _level: any[];
@@ -186,7 +187,7 @@ export class MathLevel {
         let numericalValuesMathLevel = new MathLevel();
 
         for(let i = 0; i < this.getLevelLength(); i++) {
-            if (Symbol.isVariable(this.level[i + 3])) {
+            if ((i === 0 && Symbol.isVariable(this.level[i + 2])) || Symbol.isVariable(this.level[i + 3])) {
                 if (i === 0 && this.level[i] === "-") {
                     variablesMathLevel.level.push(this.level[i + 1] * -1);
                 }
@@ -195,7 +196,9 @@ export class MathLevel {
                     variablesMathLevel.level.push(this.level[i + 1]);
                 }
                 variablesMathLevel.level.push(this.level[i + 2]);
-                variablesMathLevel.level.push(this.level[i + 3]);
+                if (!(i === 0 && Symbol.isVariable(this.level[i + 2]))) {
+                    variablesMathLevel.level.push(this.level[i + 3]);
+                }
                 i+=3;
             } else {
                 if (i === 0 && this.level[i-1] !== "-") {
@@ -210,5 +213,9 @@ export class MathLevel {
 
     getClearedLevel(): MathLevel {
         return MathReducer.clear(this);
+    }
+
+    getX() {
+        return MathSolver.getXValue(this);
     }
 }
