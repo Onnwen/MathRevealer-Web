@@ -37,6 +37,21 @@ h6 {
     overflow: hidden;
 }
 
+@media (max-width: 992px) {
+    .mathResultCard {
+        width: 48%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mathResultCard {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
+
 .cardsGrid {
     width: 100%;
 }

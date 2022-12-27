@@ -41,25 +41,31 @@
     </div>
 </nav>
 
-<main class="mt-5 pt-4 mx-5">
+<main class="mt-5 pt-4 mx-3 mx-md-4 mx-lg-5">
     <div class="justify-content-center w-100 mt-5">
-        <div class="card form-card blurred mb-5">
+        <div class="card p-0 p-md-4 form-card blurred mb-5">
             <div class="card-body d-flex flex-column">
-                <div id="searchFormDiv" class="mt-3">
+                <div id="searchFormDiv">
                     <div class="row d-flex justify-content-center">
                         <div class="col" id="searchFieldDiv">
-                            <form class="text-center w-100 mb-3" id="searchForm" method="get">
+                            <form class="text-center w-100" id="searchForm" method="get">
                                 <input id="searchField" class="form-control" type="text" name="email"
                                        placeholder="Inserisci una funzione..." autocomplete="off">
                             </form>
                         </div>
-                        <div class="col-2" id="revealButtonDiv">
-                            <button class="btn w-100 btn-primary text-center" id="revealButton" style="font-family: Quicksand, sans-serif; font-weight: normal; height: 38px;" type="button">
+                        <div class="col-2 d-none d-md-flex revealButtonDiv">
+                            <button class="btn w-100 btn-primary text-center revealButton" style="font-family: Quicksand, sans-serif; font-weight: normal; height: 38px;" type="button">
                                 Reveal
                             </button>
                         </div>
                     </div>
-                    <div class="mx-2 mathText" id="preview"></div>
+                    <div class="mx-2 mathText mt-3 mt-md-4" id="preview"></div>
+
+                    <div class="w-100 d-flex d-md-none mt-3 revealButtonDiv">
+                        <button class="btn w-100 btn-primary text-center revealButton" style="font-family: Quicksand, sans-serif; font-weight: normal; height: 38px;" type="button">
+                            Reveal
+                        </button>
+                    </div>
                 </div>
                 <div class="w-100" id="resultDiv" style="display: none;">
                     <a class="col-6 back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
