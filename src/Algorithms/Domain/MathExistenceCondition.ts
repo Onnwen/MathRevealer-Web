@@ -1,7 +1,7 @@
 import {MathFunction} from "../Function/MathFunction";
 import {Symbol} from '../../Other/Symbol';
 import {MathLevel} from "../Function/MathLevel";
-import {MathSolver} from "../Function/MathSolver";
+import {MathSolver} from "../Calculator/MathSolver";
 
 export class MathExistenceCondition {
     private _value: string | MathLevel;

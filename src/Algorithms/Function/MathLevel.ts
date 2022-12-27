@@ -1,8 +1,8 @@
 import {Symbol} from '../../Other/Symbol';
 import {MathExistenceCondition} from "../Domain/MathExistenceCondition";
 import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
-import {MathReducer} from "./MathReducer";
-import {MathSolver} from "./MathSolver";
+import {MathReducer} from "../Calculator/MathReducer";
+import {MathSolver} from "../Calculator/MathSolver";
 
 export class MathLevel {
     private _level: any[];

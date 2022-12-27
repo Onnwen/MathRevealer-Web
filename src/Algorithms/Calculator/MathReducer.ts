@@ -1,7 +1,7 @@
 import {Symbol} from '../../Other/Symbol';
 import {MathSolver} from './MathSolver';
-import {MathLevel} from "./MathLevel";
-import {MathFunction} from "./MathFunction";
+import {MathLevel} from "../Function/MathLevel";
+import {MathFunction} from "../Function/MathFunction";
 
 export class MathReducer {
     static analyse(mathLevel: MathLevel): MathLevel {

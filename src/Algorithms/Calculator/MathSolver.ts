@@ -1,5 +1,5 @@
-import {MathFunction} from "./MathFunction";
-import {MathLevel} from "./MathLevel";
+import {MathFunction} from "../Function/MathFunction";
+import {MathLevel} from "../Function/MathLevel";
 import {MathExistenceCondition} from "../Domain/MathExistenceCondition";
 import {MathReducer} from "./MathReducer";
 
@@ -66,6 +66,10 @@ export class MathSolver {
         mathLevelExpression.printDebug();
 
         return this.solveBasicOperation(hierarchyGroups[1].level[0], "/", hierarchyGroups[0].level[0]);
+    }
+
+    static getValue(expression: string | MathFunction | MathLevel | MathExistenceCondition, value: number) {
+        // To-Do: Risolvere equazione dato un numero da sostiuire a x.
     }
 
     static solveEquation(variableValue: string | number, numericValue: string | number) {
