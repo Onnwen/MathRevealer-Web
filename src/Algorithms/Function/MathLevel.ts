@@ -155,22 +155,25 @@ export class MathLevel {
         return false;
     }
 
-    printDebug(): void {
-        console.log(this.getDebugString());
+    printDebug(showSeparator: boolean = false): void {
+        console.log(this.getDebugString(showSeparator));
     }
 
-    getDebugString(): string {
+    getDebugString(showSeparator: boolean = false): string {
         let string = "";
         this.level.forEach(value => {
             if (value instanceof MathLevel) {
                 string += value.brackets.at(0);
-                string += value.getDebugString();
+                if (showSeparator && value.brackets.at(0) !== undefined) {
+                    string += "|";
+                }
+                string += value.getDebugString(showSeparator);
                 string += value.brackets.at(-1);
             }
             else {
                 string += value;
             }
-            // string += "|";
+            string += showSeparator ? "|" : "";
         });
         return string;
     }
