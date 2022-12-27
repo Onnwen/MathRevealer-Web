@@ -15,6 +15,16 @@ describe('MathReduce', () => {
         expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("5*10*32-4x-32*2+129x").expression).getDebugString()).toEqual('125*x+1536');
     });
     it('reducing: "1x-1x+2x+3-3"', () => {
-        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+1x-2x+3-3").expression).getDebugString()).toEqual('-0*x+0');
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+1x-2x+3-3").expression).getDebugString()).toEqual('0');
+    });
+
+    it('reducing: "1x+(1x+2x)+3+3"', () => {
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+(1x+2x)+3+3").expression).getDebugString()).toEqual('4*x+6');
+    });
+    it('reducing: "(1x+2)"', () => {
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("(1x+2)").expression).getDebugString()).toEqual('1*x+2');
+    });
+    it('reducing: "1x+(-1x+3)-3+8"', () => {
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+(-1x+3)-3+8").expression).getDebugString()).toEqual('8');
     });
 });
