@@ -29,7 +29,7 @@
         <div class="row mb-5">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
                 <h1 class="mt-3">MathRevealer</h1>
-                <p class="w-lg-50 text-on-dark">Registrati a MathRevealer per rivelare il magico mondo della matematica.&nbsp;</p>
+                <p class="w-lg-50 text-on-dark text-center">Registrati a MathRevealer per rivelare il magico mondo della matematica.&nbsp;</p>
             </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -54,11 +54,11 @@
                             <div class="mb-5">
                                 <input id="passwordField" class="form-control" type="password" name="password" placeholder="Password" autocomplete="new-password">
                             </div>
-                            <button class="btn btn-primary d-block w-100 mb-1" type="submit">Registrati</button>
+                            <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Registrati</button>
                             <div class="separator"> Oppure</div>
                             <div class="row mt-1">
                                 <div>
-                                    <button class="btn btn-primary d-block w-100" type='button' id="signIn">Accedi</button>
+                                    <button class="btn btn-primary d-block w-100 text-center" type='button' id="signIn">Accedi</button>
                                 </div>
                                 <!--
                                 <div class="col-lg-6 mb-sm-3">
@@ -74,15 +74,13 @@
     </div>
 </section>
 <script type="module">
-    import apiUrl from "./apiConfig.js";
-
     $("#signIn").on("click", function () {
         window.location.href = "./login.html";
     });
 
     $("#registerForm").on("submit", function (event) {
         event.preventDefault();
-        $.post(apiUrl + "/users/register", {
+        $.post("https://garamante.it/api/mathrevealer/users/register", {
             first_name: $("#firstNameField").val(),
             last_name: $("#lastNameField").val(),
             email: $("#emailField").val(),
@@ -91,7 +89,7 @@
             .done(function (data) {
                 switch (data.status_code) {
                     case 1:
-                        window.location.href = "./index.html";
+                        window.location.href = "./confirm.html";
                         break;
                     case 0:
                         console.log("Not registered")
