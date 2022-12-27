@@ -17,14 +17,19 @@ describe('MathReduce', () => {
     it('reducing: "1x-1x+2x+3-3"', () => {
         expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+1x-2x+3-3").expression).getDebugString()).toEqual('0');
     });
-
     it('reducing: "1x+(1x+2x)+3+3"', () => {
         expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+(1x+2x)+3+3").expression).getDebugString()).toEqual('4*x+6');
     });
     it('reducing: "(1x+2)"', () => {
         expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("(1x+2)").expression).getDebugString()).toEqual('1*x+2');
     });
-    it('reducing: "1x+(-1x+3)-3+8"', () => {
-        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("1x+(-1x+3)-3+8").expression).getDebugString()).toEqual('8');
+    it('reducing: "(2x-9+9x+(2+3-2x)+3+(2x-2x-3))"', () => {
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("(2x-9+9x+(2+3-2x)+3+(2x-2x-3))").expression).getDebugString()).toEqual('9*x-4');
+    });
+    it('reducing: "(1x+2)-1x"', () => {
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("(1x+2)").expression).getDebugString()).toEqual('2');
+    });
+    it('reducing: "(2-x)"', () => {
+        expect(MathReducer_1.MathReducer.analyse(new MathFunction_1.MathFunction("(2-x)").expression).getDebugString()).toEqual('2-1*x');
     });
 });
