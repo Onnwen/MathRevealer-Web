@@ -168,7 +168,8 @@ export class MathReducer {
 
     private static getMathLevelGroupedByVariables(mathLevel: MathLevel): MathLevel {
         let priorityElements = [];
-        let secondaryElements = []
+        let secondaryElements = [];
+
         for(let i = 0; i < mathLevel.getLevelLength(); i++) {
             if (Symbol.isVariable(mathLevel.level[i + 3])) {
                 if (i === 0 && mathLevel.level[i] === "-") {
@@ -194,7 +195,7 @@ export class MathReducer {
         return groupedMathLevel;
     }
 
-    private static clear(mathLevel: MathLevel): MathLevel {
+    static clear(mathLevel: MathLevel): MathLevel {
         let reducedMathLevel = new MathLevel();
         let numberCount = 0;
 
