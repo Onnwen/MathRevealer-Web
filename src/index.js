@@ -37,9 +37,10 @@ $(".revealButton").each(function () {
         $("#resultDiv").show("slow", function () {
         });
 
-        $.post("https://mathrevealer.garamante.it/users/saveExpression", {
-            expression: searchField.val(),
-            user_id: Account.getId()
+        console.log(Account.getId());
+
+        $.post("https://mathrevealer.garamante.it/api/users/saveExpression", {
+            expression: searchField.val()
         });
     });
 });
