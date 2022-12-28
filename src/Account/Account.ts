@@ -19,7 +19,7 @@ class Account {
             type: 'GET',
             success: function (data) {
                 if (data.status_code == 1) {
-                    this.setUserInformation(data.userInformation);
+                    Account.setUserInformation(data.userInformation);
                     return data;
                 } else {
                     localStorage.clear();
