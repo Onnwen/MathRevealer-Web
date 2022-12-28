@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="assets/css/stylesheet.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./node_modules/sha.js/sha256.js"></script>
+    <script src="./dist/Account/Account.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
     <!--
@@ -65,22 +65,32 @@
 </section>
 
 <script>
+    $(document).ready(function () {
+        Account.loadAccountData();
+    });
+
     $("#signUp").on("click", function () {
         window.location.href = "./register.html";
     });
 
     $("#loginForm").on("submit", function (event) {
         event.preventDefault();
-        $.post("https://garamante.it/api/mathrevealer/users/login", {
+        $.post("https://mathrevealer.garamante.it/api/users/login", {
             email: $("#emailField").val(),
             password: $("#passwordField").val()
         })
             .done(function (data) {
                 if (data.status_code === 1) {
+                    Account.setUserInformation(data.userInformation);
                     window.location.href = "./index.html";
                 }
                 else if (data.status_code === 2) {
+                    Account.setUserInformation(data);
                     window.location.href = "./confirmation_pending.html";
+                }
+                else {
+                    $("#emailField").addClass("is-invalid");
+                    $("#passwordField").addClass("is-invalid");
                 }
             })
             .fail(function (data) {

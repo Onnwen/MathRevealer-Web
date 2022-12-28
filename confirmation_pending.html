@@ -13,14 +13,47 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap">
-    <!--
-    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/it_IT/appleid.auth.js"></script>
-    -->
+    <script src="./dist/Account/Account.js"></script>
 </head>
 
 <body>
+
+<div class="modal fade" id="emailSentModal" tabindex="-1" aria-labelledby="emailSentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailSentModalLabel">Email di conferma inviata</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Abbiamo inviato una email di conferma all'indirizzo <span id="emailSent"></span>. Per favore, controlla la tua casella di posta elettronica.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="fail" tabindex="-1" role="dialog" aria-labelledby="failModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="failModal">È stato riscontrato un errore</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>È stato riscontrato un errore inaspettato. Per favore, riprova più tardi.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section class="position-relative py-4 py-xl-5">+
-    <div class="container d-none" id="fail">
+    <div class="container d-none" id="pending">
         <div class="row mb-5">
             <div class="text-center mx-auto">
                 <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
@@ -48,21 +81,46 @@
     </div>
 </section>
 
+<section class="position-relative py-4 py-xl-5">+
+    <div class="container" id="loading">
+        <div class="row d-flex justify-content-center">
+            <div class="col-11 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
+                <div class="card mb-5 form-card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                        </div>
+                        <p class="mt-5">Recupero informazioni account...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <script>
-    $("#resendButton").on("click", function() {
+    $(document).ready(async function () {
+        if (await Account.getEmail()) {
+            $("#pending").removeClass("d-none");
+            $("#loading").addClass("d-none");
+        }
+        else {
+            // window.location.href = "login.html";
+        }
+    });
+
+    $("#resendButton").on("click", async function () {
         $.ajax({
-            url: 'https://mathrevealer.garamante.com/api/users/',
+            url: 'https://mathrevealer.garamante.it/api/users/resend',
             type: 'POST',
             data: {
-                code: params.get('registration')
+                email: await Account.getEmail()
             },
-            success: function (data) {
+            success: async function (data) {
                 if (data.success) {
-                    $('#pending').addClass('d-none');
-                    $('#success').removeClass('d-none');
+                    $('#emailSent').text(await Account.getEmail());
+                    $('#emailSentModal').modal('show');
                 } else {
-                    $('#pending').addClass('d-none');
-                    $('#fail').removeClass('d-none');
+                    $('#fail').modal('show');
                 }
             },
             error: function (data) {

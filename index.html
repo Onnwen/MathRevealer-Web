@@ -84,5 +84,13 @@
 </footer>
 
 <script src="./dist/main.js"></script>
+<script src="./dist/Account/Account.js"></script>
+<script>
+    $(document).ready(async function () {
+        if (!(await Account.isLogged())) {
+            window.location.href = "./login.html";
+        }
+    });
+</script>
 </body>
 </html>

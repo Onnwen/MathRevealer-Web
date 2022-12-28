@@ -63,3 +63,12 @@
 <footer class="text-center blur-background fixed-bottom">
     <a class="footer-link" href="https://github.com/Onnwen/MathRevealer-Web/issues/new/choose">segnala un errore</a>•<a class="footer-link" href="https://garamante.it">garamante.it</a>
 </footer>
+
+<script src="../dist/Account/Account.js"></script>
+<script>
+    $(document).ready(async function () {
+        if (!(await Account.isLogged())) {
+            window.location.href = "../login.html";
+        }
+    });
+</script>

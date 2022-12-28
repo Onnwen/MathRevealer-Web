@@ -17,13 +17,31 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="./node_modules/sha.js/sha256.js"></script>
     <!--
     <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/it_IT/appleid.auth.js"></script>
     -->
 </head>
 
 <body style="background: var(--bs-gray-900);">
+
+<div class="modal fade" id="emailSentModal" tabindex="-1" aria-labelledby="emailSentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailSentModalLabel">Email di conferma inviata</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Una email di conferma è stata inviata all'indirizzo email inserito. Per completare la registrazione, clicca sul link contenuto nell'email. Se non hai ricevuto l'email è possibile chiederne una nuova.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href = './confirmation_pending.html';">Reinvia</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section class="position-relative py-4 py-xl-5">
     <div class="container">
         <div class="row mb-5">
@@ -80,27 +98,32 @@
 
     $("#registerForm").on("submit", function (event) {
         event.preventDefault();
-        $.post("https://garamante.it/api/mathrevealer/users/register", {
+        $.post("https://mathrevealer.garamante.it/api/users/register", {
             first_name: $("#firstNameField").val(),
             last_name: $("#lastNameField").val(),
             email: $("#emailField").val(),
-            hashed_password: sha256($("#passwordField").val())
+            password: $("#passwordField").val()
         })
             .done(function (data) {
                 switch (data.status_code) {
-                    case 1:
-                        window.location.href = "./confirm.html";
+                    case 3:
+                        window.location.href = "./index.html";
+                        break;
+                    case 2:
+                        window.location.href = "./confirmation_pending.html";
                         break;
                     case 0:
-                        console.log("Not registered")
+                        window.location.href = "./login.html";
                         break;
                     case -1:
-                        console.log("Already registered")
+                        alert("Errore interno");
                         break;
+                    case 1:
+                        $("emailSentModal").show();
                 }
             })
             .fail(function () {
-
+                alert("Errore interno");
             })
     });
 </script>

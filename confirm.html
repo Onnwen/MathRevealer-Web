@@ -20,6 +20,58 @@
 
 <body>
 
+<div class="modal fade" id="alreadyRegisteredModal" tabindex="-1" role="dialog" aria-labelledby="alreadyRegisteredModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alreadyRegisteredModalLabel">Utente già registrato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>L'email inserita è già confermata.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='./login.html'">Accedi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="emailNotRegisteredModal" tabindex="-1" aria-labelledby="emailNotRegisteredModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailNotRegisteredModalLabel">Email non registrata</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>L'email inserita non è risulta essere registrata.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="emailSentModal" tabindex="-1" aria-labelledby="emailSentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailSentModalLabel">Email di conferma inviata</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Abbiamo inviato una email di conferma all'indirizzo <span id="emailSent"></span>. Per favore, controlla la tua casella di posta elettronica.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalEmail" tabindex="-1" aria-labelledby="modalEmailLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -110,7 +162,7 @@
                 <div class="card mb-5 form-card">
                     <div class="card-body d-flex flex-column align-items-center">
                         <p>
-                            La tua registrazione non è andata a buon fine. È possibile che il link di conferma sia scaduto.
+                            La tua registrazione non è andata a buon fine. È possibile che la tua registrazione sia già stata confermata o che il link di conferma sia scaduto.
                         </p>
                         <button type="button" class="btn btn-primary w-100 text-center mt-4" data-bs-toggle="modal" data-bs-target="#modalEmail">
                             Invia nuova email di conferma
@@ -155,12 +207,19 @@
                 email: $('#email').val()
             },
             success: function (data) {
-                if (data.success) {
+                console.log(data);
+                if (data.status_code === 0) {
                     $('#modalEmail').modal('hide');
-                    $('#modalSuccess').modal('show');
-                } else {
+                    $('#emailNotRegisteredModal').modal('show');
+                }
+                else if (data.status_code === 2) {
                     $('#modalEmail').modal('hide');
-                    $('#modalFail').modal('show');
+                    $('#alreadyRegisteredModal').modal('show');
+                }
+                else {
+                    $('#modalEmail').modal('hide');
+                    $('#emailSent').text($('#email').val());
+                    $('#emailSentModal').modal('show');
                 }
             },
             error: function (data) {
