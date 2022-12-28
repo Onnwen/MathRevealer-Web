@@ -17,23 +17,25 @@ class Account {
         return $.ajax({
             url: 'https://mathrevealer.garamante.it/api/users/myaccount',
             type: 'GET',
-            success: function (data) {
+            success: (data) => {
                 if (data.status_code == 1) {
-                    Account.setUserInformation(data.userInformation);
+                    this.setUserInformation(data.userInformation);
                     return data;
                 } else {
                     localStorage.clear();
-                    return undefined
+                    return undefined;
                 }
             },
-            error: function (data) {
+            error: (data) => {
                 localStorage.clear();
-                return undefined
+                return undefined;
             }
         });
     }
 
     static setUserInformation(userInformation: any) {
+        this.clear();
+
         localStorage.setItem('id', userInformation.id);
         localStorage.setItem('email', userInformation.email);
         localStorage.setItem('first_name', userInformation.first_name);
