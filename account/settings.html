@@ -143,7 +143,7 @@
                     </p>
                 </div>
                 <button class="btn btn-primary text-center mt-5" id="reportBug" disabled>Segnala un problema</button>
-                <button class="btn btn-danger text-center mt-2" id="logout" disabled>Disconnettiti</button>
+                <button class="btn btn-danger text-center mt-2" id="logout">Disconnettiti</button>
             </div>
         </div>
     </div>
@@ -151,3 +151,23 @@
 <footer class="text-center blur-background fixed-bottom">
     <a class="footer-link" href="https://github.com/Onnwen/MathRevealer-Web/issues/new/choose">segnala un errore</a>•<a class="footer-link" href="https://garamante.it">garamante.it</a>
 </footer>
+
+<script src="../dist/Account/Account.js"></script>
+<script>
+    $(document).ready(async function () {
+        if (!(await Account.isLogged())) {
+            window.location.href = "../login.html";
+        }
+    });
+
+    $("#logout").on("click", function () {
+        $.post("https://mathrevealer.garamante.it/api/users/logout")
+            .done(function () {
+                Account.clear();
+                window.location.href = "../login.html";
+            })
+            .fail(function () {
+                alert("Errore interno.");
+            });
+    });
+</script>
