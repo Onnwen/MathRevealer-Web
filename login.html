@@ -8,6 +8,7 @@
     <meta name="appleid-signin-scope" content="[SCOPES]">
     <meta name="appleid-signin-redirect-uri" content="[REDIRECT_URI]">
     <meta name="appleid-signin-state" content="[STATE]">
+    <link rel="icon" type="image/x-icon" href="assets/logo/favicon.ico">
     <title>MathRevealer</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
@@ -65,10 +66,6 @@
 </section>
 
 <script>
-    $(document).ready(function () {
-        Account.loadAccountData();
-    });
-
     $("#signUp").on("click", function () {
         window.location.href = "./register.html";
     });
