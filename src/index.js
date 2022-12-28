@@ -26,17 +26,22 @@ searchField.on("keyup", function () {
 });
 
 $(".revealButton").each(function () {
-   $(this).on("click", function () {
-           let cardsHtml = "";
-           functionData.getResults().forEach(result => {
-               cardsHtml += '<div class="col">' + result.getHtml() + '</div>';
-           })
-           $("#cards").html(cardsHtml);
-           MathJax.typesetPromise()
-           $("#searchFormDiv").hide();
-           $("#resultDiv").show("slow", function () {
-           });
-       });
+    $(this).on("click", function () {
+        let cardsHtml = "";
+        functionData.getResults().forEach(result => {
+            cardsHtml += '<div class="col">' + result.getHtml() + '</div>';
+        })
+        $("#cards").html(cardsHtml);
+        MathJax.typesetPromise()
+        $("#searchFormDiv").hide();
+        $("#resultDiv").show("slow", function () {
+        });
+
+        $.post("https://mathrevealer.garamante.it/users/saveExpression", {
+            expression: searchField.val(),
+            user_id: Account.getId()
+        });
+    });
 });
 
 $("#backButton").on("click", function () {
