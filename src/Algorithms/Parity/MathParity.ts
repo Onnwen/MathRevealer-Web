@@ -1,4 +1,6 @@
 import {MathFunction} from "../Function/MathFunction";
+import {MathLevel} from "../Function/MathLevel";
+import {MathReducer} from "../Calculator/MathReducer";
 
 export class MathParity {
     private _isEven: boolean;
@@ -24,12 +26,20 @@ export class MathParity {
     constructor(mathFunction: MathFunction) {
         this._isEven = false;
         this._isOdd = false;
+
+        this.checkParity(mathFunction.expression);
     }
 
-    checkParity(): void {
+    checkParity(mathLevel: MathLevel): void {
         const randomXValue = Math.floor(Math.random() * 100) + 2;
-
-
+        const expression = mathLevel.getMathLevelWithSubstituedVariable("x", randomXValue);
+        const oppositeExpression = mathLevel.getMathLevelWithSubstituedVariable("x", randomXValue * -1);
+        if (expression.getAsNumber() === oppositeExpression.getAsNumber()) {
+            this._isEven = true;
+        }
+        else if (oppositeExpression.getAsNumber() === expression.getAsNumber() * -1) {
+            this._isOdd = true;
+        }
     }
 
     getHtml(): string {
@@ -38,6 +48,9 @@ export class MathParity {
 
     getLaTeX(): string {
         let LaTeX = ""
+        LaTeX += "f(x)" + this.isEven ? "=" : "\\neq" + "f(-x)";
+        LaTeX += "\\newline";
+        LaTeX += "f(-x)" + this.isOdd ? "=" : "\\neq" + "-f(x)";
         return LaTeX;
     }
 }
