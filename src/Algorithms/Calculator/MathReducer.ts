@@ -5,9 +5,7 @@ import {MathFunction} from "../Function/MathFunction";
 
 export class MathReducer {
     static analyse(mathLevel: MathLevel): MathLevel {
-        console.log(mathLevel.getDebugString());
         let reducedMathLevel = MathReducer.analyseInnerParentheses(mathLevel);
-        console.log(reducedMathLevel.getDebugString());
         reducedMathLevel = MathReducer.getMathLevelGroupedByVariables(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedPriorityOperationsMathLevel(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedSecondaryOperationsMathLevel(reducedMathLevel);
@@ -20,18 +18,18 @@ export class MathReducer {
         let reducedMathLevel = new MathLevel();
         mathLevel.level.forEach((value: string | MathLevel, index) => {
             if (value instanceof MathLevel) {
-                if (Symbol.isOperation(mathLevel.level.at(index - 1)) && mathLevel.level.at(index - 1) == "-") {
+                let mathLevelToConcat = [];
+                if (Symbol.isOperation(reducedMathLevel.getLastLevelChar()) && reducedMathLevel.getLastLevelChar() == "-") {
                     reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "+";
-                    const mathLevelToConcact = MathReducer.analyse(value).getInvertedSignsLevel().level;
-                    if (Symbol.isOperation(mathLevelToConcact[0]) && Symbol.isOperation(mathLevel.level.at(index - 1))) {
-                        reducedMathLevel.level.pop();
-                    }
-                    Array.prototype.push.apply(reducedMathLevel.level, mathLevelToConcact);
-                    debugger
+                    mathLevelToConcat = MathReducer.analyse(value).getInvertedSignsLevel().level;
                 }
                 else {
-                    Array.prototype.push.apply(reducedMathLevel.level, MathReducer.analyse(value).level);
+                    mathLevelToConcat = MathReducer.analyse(value).level;
                 }
+                if (Symbol.isOperation(mathLevelToConcat[0]) && Symbol.isOperation(reducedMathLevel.getLastLevelChar())) {
+                    reducedMathLevel.level.pop();
+                }
+                Array.prototype.push.apply(reducedMathLevel.level, mathLevelToConcat);
             } else {
                 reducedMathLevel.level.push(value);
             }
@@ -93,9 +91,19 @@ export class MathReducer {
                     reducedMathLevel.level[index] = MathReducer.getSolvedPriorityOperationsMathLevel(value);
                 } else {
                     if (Symbol.isPriorityOperation(value)) {
-                        const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, mathLevel.level.at(index + 1));
+                        let secondValue = mathLevel.level.at(index + 1);
+                        let isNegative = false;
+                        if (secondValue === "-") {
+                            secondValue = mathLevel.level.at(index + 2) * -1;
+                            isNegative = true;
+                        }
+                        const solvedOperation = MathSolver.solveBasicOperation(reducedMathLevel.level.at(-1) * (reducedMathLevel.level.at(-2) === "-" ? -1 : 1), value, secondValue);
                         if (solvedOperation !== undefined && (!Number.isNaN(solvedOperation) || solvedOperation instanceof MathLevel)) {
                             reducedMathLevel.level.pop();
+                            if (reducedMathLevel.level.at(-1) === "-" && solvedOperation > 0) {
+                                reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "+";
+                            }
+                            removedElement += isNegative ? 1 : 0;
                             if (solvedOperation instanceof MathLevel) {
                                 solvedOperation.level.forEach((value) => {
                                     reducedMathLevel.level.push(value);
@@ -217,14 +225,14 @@ export class MathReducer {
                 if (Symbol.isNumber(value)) {
                     numberCount++;
                 }
-                if (Symbol.isOperation(mathLevel.level.at(index-1)) && Symbol.isOperation(value)) {
+                if (Symbol.isOperation(reducedMathLevel.level.at(index-1)) && Symbol.isOperation(value)) {
                     reducedMathLevel.level.pop();
                 }
                 reducedMathLevel.level.push(value);
             }
         });
 
-        if (mathLevel.level.at(0) == "+") {
+        while (reducedMathLevel.level.at(0) == "+") {
             reducedMathLevel.level.shift();
         }
 
