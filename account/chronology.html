@@ -74,15 +74,19 @@
             } else {
                 let chronology = data.chronology;
                 let chronologyKeys = Object.keys(chronology);
-                $("#chronology").html("");
+                let chronologyDiv = $("#chronology");
+                chronologyDiv.html("");
                 chronologyKeys.forEach(function (key) {
                     let labelName = chronology[key].labelName.toUpperCase();
                     let expressions = chronology[key].expressions;
-                    $("#chronology").append("<h6 class='mt-5 mb-2'>" + labelName + "</h6>");
+                    chronologyDiv.append("<h6 class='mt-5 mb-2'>" + labelName + "</h6>");
                     expressions.forEach(function (expression) {
-                        $("#chronology").append("<p>" + expression + "</p>");
+                        chronologyDiv.append("<p>" + expression + "</p>");
                     });
-                    $("#chronology").append("<hr class='mt-1 mb-4'>");
+                     // if is not last
+                    if (chronologyKeys.indexOf(key) !== chronologyKeys.length - 1) {
+                        chronologyDiv.append("<hr class='mt-1 mb-4'>");
+                    }
                 });
             }
         });
