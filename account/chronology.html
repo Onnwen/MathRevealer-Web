@@ -53,8 +53,8 @@
                     </div>
                     <p class="text-center">Carico...</p>
                 </div>
+            </div>
         </div>
-    </div>
 </main>
 <footer class="text-center blur-background fixed-bottom">
     <a class="footer-link" href="https://github.com/Onnwen/MathRevealer-Web/issues/new/choose">segnala un errore</a>•<a class="footer-link" href="https://garamante.it">garamante.it</a>
@@ -68,13 +68,10 @@
         }
 
         $.get("https://mathrevealer.garamante.it/api/myAccount/chronology", function (data) {
-            if (data.length === 0) {
-                $("#chronology").html('<p class="mt-5"><b>La tua cronologia è vuota.</b></p>\n' +
-                    '                <p>Le funzioni che cercherai su MathRevealer saranno visualizzate qui.</p>');
-            } else {
-                let chronology = data.chronology;
-                let chronologyKeys = Object.keys(chronology);
-                let chronologyDiv = $("#chronology");
+            let chronology = data.chronology;
+            let chronologyKeys = Object.keys(chronology);
+            let chronologyDiv = $("#chronology");
+            if (chronologyKeys.length > 1) {
                 chronologyDiv.html("");
                 chronologyKeys.forEach(function (key) {
                     let labelName = chronology[key].labelName.toUpperCase();
@@ -87,6 +84,10 @@
                         chronologyDiv.append("<hr class='mt-3 mb-4'>");
                     }
                 });
+            } else {
+                chronologyDiv.html('<p class="mt-5"><b>La tua cronologia è vuota.</b></p>\n' +
+                    '                <p>Le funzioni che cercherai su MathRevealer saranno visualizzate qui.</p>');
+
             }
         });
     });
