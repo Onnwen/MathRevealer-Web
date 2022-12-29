@@ -133,10 +133,10 @@
     }
 
     $("#sendError").on("click", function () {
-        $.post("https://mathrevealer.garamante.it/api/reports/addDescription/", {
-                description: $("#errorDescription").val(),
-                report_id: lastReportId
-            })
+        $.post("https://mathrevealer.garamante.it/api/reports/addDescription", {
+            description: $("#errorDescription").val(),
+            report_id: lastReportId
+        })
             .done(function () {
                 $("#reportModal").modal("hide");
             });
