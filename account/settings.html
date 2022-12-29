@@ -161,7 +161,7 @@
     });
 
     $("#logout").on("click", function () {
-        $.post("https://mathrevealer.garamante.it/api/users/logout")
+        $.post("https://mathrevealer.garamante.it/api/myAccount/logout")
             .done(function () {
                 Account.clear();
                 window.location.href = "../login.html";

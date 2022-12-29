@@ -15,7 +15,7 @@ class UserInformation {
 class Account {
     static async loadAccountData() {
         return $.ajax({
-            url: 'https://mathrevealer.garamante.it/api/users/myaccount',
+            url: 'https://mathrevealer.garamante.it/api/myAccount/information',
             type: 'GET',
             success: (data) => {
                 if (data.status_code == 1) {

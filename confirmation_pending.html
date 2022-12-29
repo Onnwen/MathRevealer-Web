@@ -111,7 +111,7 @@
 
     $("#resendButton").on("click", async function () {
         $.ajax({
-            url: 'https://mathrevealer.garamante.it/api/users/resend',
+            url: 'https://mathrevealer.garamante.it/api/registration/resend',
             type: 'POST',
             data: {
                 email: await Account.getEmail()

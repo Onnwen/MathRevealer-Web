@@ -46,17 +46,13 @@
         <div class="card pt-4 p-0 p-md-4 p-lg-5 form-card blurred mb-5">
             <div class="card-body d-flex flex-column">
                 <h2>Cronologia</h2>
-                <p class="mt-5"><b>La tua cronologia è vuota.</b></p>
-                <p>Le funzioni che cercherai su MathRevealer saranno visualizzate qui.</p>
-                <p class="mt-4 note">
-                    <em>Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.</em></p>
-                <!--        <h6 class="mt-5 mb-2">IERI</h6>-->
-                <!--        <p>y = 2x - 3</p>-->
-                <!--        <p>y = 2x  + 8 - 3</p>-->
-                <!--        <hr class="mt-1 mb-4">-->
-                <!--        <h6 class="mb-2">2 GIONI FA</h6>-->
-                <!--        <p>y = 5 - 3</p>-->
-            </div>
+                <div id="chronology">
+                    <div class="d-flex justify-content-center align-items-center p-5">
+                        <div class="spinner-border text-primary" role="status">
+                        </div>
+                    </div>
+                    <p class="text-center">Carico...</p>
+                </div>
         </div>
     </div>
 </main>
@@ -70,5 +66,25 @@
         if (!(await Account.isLogged())) {
             window.location.href = "../login.html";
         }
+
+        $.get("https://mathrevealer.garamante.it/api/myAccount/chronology", function (data) {
+            if (data.length === 0) {
+                $("#chronology").html('<p class="mt-5"><b>La tua cronologia è vuota.</b></p>\n' +
+                    '                <p>Le funzioni che cercherai su MathRevealer saranno visualizzate qui.</p>');
+            } else {
+                let chronology = data.chronology;
+                let chronologyKeys = Object.keys(chronology);
+                $("#chronology").html("");
+                chronologyKeys.forEach(function (key) {
+                    let labelName = chronology[key].labelName.toUpperCase();
+                    let expressions = chronology[key].expressions;
+                    $("#chronology").append("<h6 class='mt-5 mb-2'>" + labelName + "</h6>");
+                    expressions.forEach(function (expression) {
+                        $("#chronology").append("<p>" + expression + "</p>");
+                    });
+                    $("#chronology").append("<hr class='mt-1 mb-4'>");
+                });
+            }
+        });
     });
 </script>
