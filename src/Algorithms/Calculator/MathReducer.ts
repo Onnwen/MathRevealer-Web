@@ -5,7 +5,9 @@ import {MathFunction} from "../Function/MathFunction";
 
 export class MathReducer {
     static analyse(mathLevel: MathLevel): MathLevel {
+        console.log(mathLevel.getDebugString());
         let reducedMathLevel = MathReducer.analyseInnerParentheses(mathLevel);
+        console.log(reducedMathLevel.getDebugString());
         reducedMathLevel = MathReducer.getMathLevelGroupedByVariables(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedPriorityOperationsMathLevel(reducedMathLevel);
         reducedMathLevel = MathReducer.getSolvedSecondaryOperationsMathLevel(reducedMathLevel);
@@ -16,15 +18,24 @@ export class MathReducer {
 
     private static analyseInnerParentheses(mathLevel: MathLevel): MathLevel {
         let reducedMathLevel = new MathLevel();
-
-        mathLevel.level.forEach((value: string | MathLevel) => {
+        mathLevel.level.forEach((value: string | MathLevel, index) => {
             if (value instanceof MathLevel) {
-                Array.prototype.push.apply(reducedMathLevel.level, MathReducer.analyse(value).level);
+                if (Symbol.isOperation(mathLevel.level.at(index - 1)) && mathLevel.level.at(index - 1) == "-") {
+                    reducedMathLevel.level[reducedMathLevel.getLevelLength() - 1] = "+";
+                    const mathLevelToConcact = MathReducer.analyse(value).getInvertedSignsLevel().level;
+                    if (Symbol.isOperation(mathLevelToConcact[0]) && Symbol.isOperation(mathLevel.level.at(index - 1))) {
+                        reducedMathLevel.level.pop();
+                    }
+                    Array.prototype.push.apply(reducedMathLevel.level, mathLevelToConcact);
+                    debugger
+                }
+                else {
+                    Array.prototype.push.apply(reducedMathLevel.level, MathReducer.analyse(value).level);
+                }
             } else {
                 reducedMathLevel.level.push(value);
             }
         });
-
         return reducedMathLevel;
     }
 

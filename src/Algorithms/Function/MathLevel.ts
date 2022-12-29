@@ -218,4 +218,24 @@ export class MathLevel {
     getX() {
         return MathSolver.getXValue(this);
     }
+
+    getInvertedSignsLevel(): MathLevel {
+        let invertedSignsLevel = new MathLevel();
+        this.level.forEach((value, index) => {
+            if (Symbol.isNumber(value) && index == 0) {
+                invertedSignsLevel.level.push("-");
+                invertedSignsLevel.level.push(value);
+            }
+            else if (value === "-") {
+                invertedSignsLevel.level.push("+");
+            }
+            else if (value === "+") {
+                invertedSignsLevel.level.push("-");
+            }
+            else {
+                invertedSignsLevel.level.push(value);
+            }
+        });
+        return invertedSignsLevel;
+    }
 }
