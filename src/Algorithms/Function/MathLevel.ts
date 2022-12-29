@@ -220,7 +220,8 @@ export class MathLevel {
     }
 
     getInvertedSignsLevel(): MathLevel {
-        let invertedSignsLevel = new MathLevel();
+        let invertedSignsLevel = this.clone();
+        invertedSignsLevel.level = [];
         this.level.forEach((value, index) => {
             if (Symbol.isNumber(value) && index == 0) {
                 invertedSignsLevel.level.push("-");
@@ -237,5 +238,55 @@ export class MathLevel {
             }
         });
         return invertedSignsLevel;
+    }
+
+    getMathLevelWithSubstituedVariable(variable: string, number: number): MathLevel {
+        let substitutedLevel = this.clone();
+        substitutedLevel.level = [];
+        this.level.forEach(value => {
+            if (value instanceof MathLevel) {
+                substitutedLevel.level.push(value.getMathLevelWithSubstituedVariable(variable, number));
+            }
+            else {
+                if (value === variable) {
+                    substitutedLevel.level.push(number);
+                } else {
+                    substitutedLevel.level.push(value);
+                }
+            }
+        });
+        return substitutedLevel;
+    }
+
+    clone() {
+        let clonedLevel = new MathLevel();
+        clonedLevel.brackets = this.brackets;
+        clonedLevel.error = this.error;
+        this.level.forEach(value => {
+            if (value instanceof MathLevel) {
+                clonedLevel.level.push(value.clone());
+            }
+            else {
+                clonedLevel.level.push(value);
+            }
+        });
+        return clonedLevel;
+    }
+
+    getLastLevelChar(): string {
+        return this.level.at(-1);
+    }
+
+    getAsNumber(): number {
+        const analysed = MathReducer.analyse(this);
+        if (analysed.getLevelLength() === 1) {
+            return analysed.level[0];
+        }
+        else if (analysed.getLevelLength() === 2) {
+            return analysed.level[1] * -1;
+        }
+        else {
+            return this.getMathLevelWithSubstituedVariable("x", 0).getAsNumber();
+        }
     }
 }
