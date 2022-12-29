@@ -65,13 +65,10 @@ class Account {
         }
     }
 
-    static resendVerificationEmail() {
-
-    }
-
     static async isLogged() {
         if (await this.loadAccountData()) {
-            return await this.getEmail() != undefined && localStorage.getItem('email_verified');
+            console.log(localStorage.getItem('email_verified'));
+            return await this.getEmail() != undefined && localStorage.getItem('email_verified') == "1";
         }
         else {
             return false;
