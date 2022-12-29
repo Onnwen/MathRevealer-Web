@@ -82,7 +82,7 @@
                     window.location.href = "./index.html";
                 }
                 else if (data.status_code === 2) {
-                    Account.setUserInformation(data);
+                    Account.setUserInformation(data.userInformation);
                     window.location.href = "./confirmation_pending.html";
                 }
                 else {
