@@ -18,6 +18,29 @@
     <script src="node_modules/mathjax/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+<div class="modal fade" role="dialog" tabindex="-1" id="errorModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Errore segnalato correttamente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="errorDescription">
+                    <p>Se vuoi, puoi dirci di più sull'errore riscontrato:</p>
+                </label>
+                <textarea class="form-control" id="errorDescription" placeholder="Descrivi l'errore riscontrato" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Chiudi</button>
+                <button class="btn btn-primary" type="button" id="sendError" data-bs-dismiss="modal">Invia</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <nav class="navbar fixed-top navbar-dark blur-background navbar-expand-md pt-5">
     <div class="align-items-center maxWith w-100">
         <div class="mx-5">
@@ -68,8 +91,11 @@
                     </div>
                 </div>
                 <div class="w-100" id="resultDiv" style="display: none;">
-                    <a class="col-6 back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
-                    <h3 id="resultPreview">y = 2+4-x</h3>
+                    <div class="d-flex mx-1">
+                        <a class="float-start back-button justify-content-start" id="backButton"><i class="bi bi-arrow-left"></i>&nbsp;&nbsp;Cerca un'altra funzione</a>
+                        <a class="ms-auto back-button report-button me-3" id="reportButton" onclick="report()">Segnala</a>
+                    </div>
+                    <h3 id="resultPreview"></h3>
                     <div class="w-100">
                         <div class="cardsGrid" id="cards">
                         </div>
@@ -88,9 +114,13 @@
 <script>
     $(document).ready(async function () {
         if (!(await Account.isLogged())) {
-            window.location.href = "./login.html";
+            // window.location.href = "./login.html";
         }
     });
+
+    function report() {
+        $("#errorModal").modal("show");
+    }
 </script>
 </body>
 </html>
