@@ -148,6 +148,20 @@ h2 {
     color: #2f87ff;
 }
 
+.report-button {
+    color: #910505;
+    text-decoration: none;
+    transition: ease-in-out 250ms;
+}
+
+.report-button:hover {
+    color: #600303;
+}
+
+.report-button:active {
+    color: #bd0a0a;
+}
+
 .mathText, .mathTextResult {
     font-family: Quicksand, sans-serif;
 }
