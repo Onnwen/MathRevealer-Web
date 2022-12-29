@@ -39,7 +39,7 @@ $(".revealButton").each(function () {
 
         console.log(Account.getId());
 
-        $.post("https://mathrevealer.garamante.it/api/users/saveExpression", {
+        $.post("https://mathrevealer.garamante.it/api/myAccount/saveExpression", {
             expression: searchField.val()
         });
     });

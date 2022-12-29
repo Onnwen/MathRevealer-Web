@@ -72,7 +72,7 @@
 
     $("#loginForm").on("submit", function (event) {
         event.preventDefault();
-        $.post("https://mathrevealer.garamante.it/api/users/login", {
+        $.post("https://mathrevealer.garamante.it/api/myAccount/login", {
             email: $("#emailField").val(),
             password: $("#passwordField").val()
         })

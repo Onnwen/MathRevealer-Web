@@ -98,7 +98,7 @@
 
     $("#registerForm").on("submit", function (event) {
         event.preventDefault();
-        $.post("https://mathrevealer.garamante.it/api/users/register", {
+        $.post("https://mathrevealer.garamante.it/api/registration/register", {
             first_name: $("#firstNameField").val(),
             last_name: $("#lastNameField").val(),
             email: $("#emailField").val(),
