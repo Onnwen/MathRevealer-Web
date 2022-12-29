@@ -67,7 +67,6 @@ class Account {
 
     static async isLogged() {
         if (await this.loadAccountData()) {
-            console.log(localStorage.getItem('email_verified'));
             return await this.getEmail() != undefined && localStorage.getItem('email_verified') == "1";
         }
         else {
