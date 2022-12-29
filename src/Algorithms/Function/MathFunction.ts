@@ -104,7 +104,7 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Parità", "Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
+        let results = ["Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
         let UIResults = [];
 
         // Domain
