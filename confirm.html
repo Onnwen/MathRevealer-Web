@@ -208,7 +208,6 @@
                 email: $('#email').val()
             },
             success: function (data) {
-                console.log(data);
                 if (data.status_code === 0) {
                     $('#modalEmail').modal('hide');
                     $('#emailNotRegisteredModal').modal('show');
