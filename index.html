@@ -125,19 +125,19 @@
                 expression: $("#searchField").val(),
             })
             .done(function (data) {
-                lastReportId = data.id;
+                lastReportId = data.report_id;
             });
 
         $("#errorModal").modal("show");
 
     }
 
-    $("#sendError").click(function () {
+    $("#sendError").on("click", function () {
         $.post("https://mathrevealer.garamante.it/api/reports/addDescription/", {
                 description: $("#errorDescription").val(),
                 report_id: lastReportId
             })
-            .done(function (data) {
+            .done(function () {
                 $("#reportModal").modal("hide");
             });
     });
