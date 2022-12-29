@@ -117,7 +117,7 @@
                 email: await Account.getEmail()
             },
             success: async function (data) {
-                if (data.success) {
+                if (data.status_code === 1) {
                     $('#emailSent').text(await Account.getEmail());
                     $('#emailSentModal').modal('show');
                 } else {
