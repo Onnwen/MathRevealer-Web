@@ -112,6 +112,8 @@
 <script src="./dist/main.js"></script>
 <script src="./dist/Account/Account.js"></script>
 <script>
+    let lastReportId = 0;
+
     $(document).ready(async function () {
         if (!(await Account.isLogged())) {
             // window.location.href = "./login.html";
@@ -119,8 +121,24 @@
     });
 
     function report() {
-        $("#errorModal").modal("show");
+        $.post("https://mathrevealer.garamante.it/api/reports/expression", {
+                expression: $("#searchField").val(),
+            })
+            .done(function (data) {
+                lastReportId = data.id;
+                $("#reportModal").modal("show");
+            });
     }
+
+    $("#sendError").click(function () {
+        $.post("https://mathrevealer.garamante.it/api/reports/addDescription/", {
+                description: $("#errorDescription").val(),
+                report_id: lastReportId
+            })
+            .done(function (data) {
+                $("#reportModal").modal("hide");
+            });
+    });
 </script>
 </body>
 </html>
