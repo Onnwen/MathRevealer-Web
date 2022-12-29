@@ -70,7 +70,12 @@ class Account {
     }
 
     static async isLogged() {
-        return await this.getEmail() != undefined && localStorage.getItem('email_verified');
+        if (await this.loadAccountData()) {
+            return await this.getEmail() != undefined && localStorage.getItem('email_verified');
+        }
+        else {
+            return false;
+        }
     }
 
     static clear() {
