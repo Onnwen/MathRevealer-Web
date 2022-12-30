@@ -7,8 +7,9 @@ p, input, .btn, .separator, a, h2, footer {
 }
 
 .maxWith, body {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
+    padding: 0;
 }
 
 .note {
@@ -120,6 +121,15 @@ hr {
 .mathTextResult {
     font-size: 18px;
 }
+
+.navbar-toggler {
+    border: none;
+    background: none;
+    transition: opacity ease-in-out 200ms;
+    padding: 0;
+    outline: none;
+}
+
 
 h3 {
     font-size: 23px;
