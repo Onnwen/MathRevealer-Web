@@ -72,15 +72,19 @@ export class MathExistenceCondition {
     }
 
     getLaTeX(): string {
-        const xValue = MathSolver.getXValue(this.value);
-        if (xValue) {
-            return "x" + Symbol.getLaTeXSign(this.sign) + new MathFunction(xValue).getLaTeX()
+        if (this.set === "R") {
+            return this.value + this.sign + this.set;
         }
         else {
-            if (this.value instanceof MathLevel) {
-                return this.value.getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+            const xValue = MathSolver.getXValue(this.value);
+            if (xValue) {
+                return "x" + Symbol.getLaTeXSign(this.sign) + new MathFunction(xValue).getLaTeX()
             } else {
-                return new MathFunction(this.value).getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+                if (this.value instanceof MathLevel) {
+                    return this.value.getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+                } else {
+                    return new MathFunction(this.value).getLaTeX() + Symbol.getLaTeXSign(this.sign) + new MathFunction(this.set).getLaTeX()
+                }
             }
         }
     }
