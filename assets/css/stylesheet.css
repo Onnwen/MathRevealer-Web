@@ -114,6 +114,7 @@ hr {
 
 .mathTextResultDescription {
     opacity: 0.5;
+    text-align: left;
 }
 
 .mathTextResult {
