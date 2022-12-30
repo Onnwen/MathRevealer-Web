@@ -71,7 +71,7 @@
             let chronology = data.chronology;
             let chronologyKeys = Object.keys(chronology);
             let chronologyDiv = $("#chronology");
-            if (chronologyKeys.length > 1) {
+            if (chronologyKeys.length > 0) {
                 chronologyDiv.html("");
                 chronologyKeys.forEach(function (key) {
                     let labelName = chronology[key].labelName.toUpperCase();
