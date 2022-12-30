@@ -110,7 +110,8 @@ export class MathFunction {
         // Domain
         this.calculateDomain();
         if (this.expression.haveVariable) {
-            if (this.domain.getLastDoaminExistenceCondition().getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
+            if (this.domain.getLastDoaminExistenceCondition().set === "R") {
+                console.log(this.domain)
                 UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
             }
             else {
@@ -118,7 +119,7 @@ export class MathFunction {
             }
         }
         else {
-            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati dalla funzione. In questo caso, la funzione non presenta variabili, quindi il dominio è costante e non presenta condizioni di esistenza."));
+            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati dalla funzione. In questo caso, la funzione non presenta variabili, quindi il dominio è costante e non presenta condizioni di esistenza.", this.domain.getHtml()));
         }
 
         // Parity
