@@ -66,6 +66,10 @@ class Account {
     }
 
     static async isLogged() {
+        if (location.hostname.includes('localhost') || location.hostname.includes('127.0.0.1')) {
+            console.log("Localhost detected, skipping login check");
+            return true;
+        }
         if (await this.loadAccountData()) {
             return await this.getEmail() != undefined && localStorage.getItem('email_verified') == "1";
         }
