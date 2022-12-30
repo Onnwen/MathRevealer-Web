@@ -47,10 +47,10 @@ export class MathParity {
     }
 
     getLaTeX(): string {
-        let LaTeX = ""
-        LaTeX += "f(x)" + this.isEven ? "=" : "\\neq" + "f(-x)";
-        LaTeX += "\\newline";
-        LaTeX += "f(-x)" + this.isOdd ? "=" : "\\neq" + "-f(x)";
+        let LaTeX = "\\displaylines{"
+        LaTeX += "f(x)" + (this.isEven ? "=" : " \\neq ") + "f(-x)";
+        LaTeX += " \\\\ ";
+        LaTeX += "f(-x)" + (this.isOdd ? "=" : " \\neq ") + "-f(x) }";
         return LaTeX;
     }
 }
