@@ -29,37 +29,33 @@
     <div class="container">
         <div class="row mb-5">
             <div class="text-center mx-auto">
-                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 60px;color: var(--bs-gray-100);">
+                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 40px;color: var(--bs-gray-100);">
                     MathRevealer</h1>
                 <p style="color: var(--bs-gray-300);" class="text-center">Accedi a MathRevealer per rivelare il magico
-                    mondo della matematica.&nbsp;</p>
+                                                                          mondo della matematica.&nbsp;</p>
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-11 col-sm-10 col-md-8 col-lg-8 col-xl-6" style="max-width: 500px">
-                <div class="card mb-5 form-card">
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <form class="text-center w-100" style="max-width: 375px" id="loginForm">
-                            <div class="mb-3 mt-5"><input id="emailField" class="form-control" type="email" name="email"
-                                                          placeholder="Email" autocomplete="email"></div>
-                            <div class="mb-5"><input id="passwordField" class="form-control" type="password"
-                                                     name="password" placeholder="Password"
-                                                     autocomplete="current-password"></div>
-                            <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Accedi</button>
-                            <div class="separator"> Oppure</div>
-                            <button class="btn btn-primary d-block w-100 mb-2 mt-1 text-center" type='button' id="signUp">
-                                Registrati
-                            </button>
-                            <!--
-                            <div id="appleid-signin" class="signin-button w-100 mb-1" data-type="continue"
-                                 data-color="black" data-border="false"></div>
-                                 -->
-                        </form>
-                    </div>
+        <div class="card mb-5 form-card p-2 m-2 p-md-4 m-md-4 p-lg-5 m-lg-5">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
+                    <i class="bi bi-person"></i>
                 </div>
+                <form class="text-center w-100" style="max-width: 375px" id="loginForm">
+                    <div class="mb-3 mt-5"><input id="emailField" class="form-control" type="email" name="email"
+                                                  placeholder="Email" autocomplete="email"></div>
+                    <div class="mb-5"><input id="passwordField" class="form-control" type="password"
+                                             name="password" placeholder="Password"
+                                             autocomplete="current-password"></div>
+                    <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Accedi</button>
+                    <div class="separator"> Oppure</div>
+                    <button class="btn btn-primary d-block w-100 mb-2 mt-1 text-center" type='button' id="signUp">
+                        Registrati
+                    </button>
+                    <!--
+                    <div id="appleid-signin" class="signin-button w-100 mb-1" data-type="continue"
+                         data-color="black" data-border="false"></div>
+                         -->
+                </form>
             </div>
         </div>
     </div>
@@ -80,12 +76,10 @@
                 if (data.status_code === 1) {
                     Account.setUserInformation(data.userInformation);
                     window.location.href = "./index.html";
-                }
-                else if (data.status_code === 2) {
-                    Account.setUserInformation(data);
+                } else if (data.status_code === 2) {
+                    Account.setUserInformation(data.userInformation);
                     window.location.href = "./confirmation_pending.html";
-                }
-                else {
+                } else {
                     $("#emailField").addClass("is-invalid");
                     $("#passwordField").addClass("is-invalid");
                 }

@@ -4,6 +4,8 @@ import {Symbol} from '../../Other/Symbol';
 import {UIMathCard} from "../../UI/UIMathCard";
 import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
 import {MathDomain} from "../Domain/MathDomain";
+import {MathParity} from "../Parity/MathParity";
+import {MathIntersections} from "../MathIntersections/MathIntersections";
 
 export class MathFunction {
     private _expression: MathLevel;
@@ -31,6 +33,32 @@ export class MathFunction {
 
     set domain(value: MathDomain) {
         this._domain = value;
+    }
+
+    private _parity: MathParity | undefined;
+
+    get parity(): MathParity {
+        if (this._parity === undefined) {
+            this.calculateParity();
+        }
+        return <MathParity>this._parity;
+    }
+
+    set parity(value: MathParity | undefined) {
+        this._parity = value;
+    }
+
+    private _intersections: MathIntersections | undefined;
+
+    get intersections(): MathIntersections {
+        if (this._intersections === undefined) {
+            this.calculateIntersections();
+        }
+        return <MathIntersections>this._intersections;
+    }
+
+    set intersections(value: MathIntersections | undefined) {
+        this._intersections = value;
     }
 
     constructor(expression: string | MathLevel | number) {
@@ -90,13 +118,14 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Parità", "Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
+        let results = ["Segno", "Limiti", "Derivata", "Grafico"];
         let UIResults = [];
 
         // Domain
         this.calculateDomain();
-        if (this._expression.haveVariable) {
-            if (this.domain.getLastDoaminExistenceCondition().getJson() === "{\"value\":\"x\",\"sign\":\"=\",\"set\":\"R\"}") {
+        if (this.expression.haveVariable) {
+            if (this.domain.getLastDoaminExistenceCondition().set === "R") {
+                console.log(this.domain)
                 UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
             }
             else {
@@ -104,12 +133,34 @@ export class MathFunction {
             }
         }
         else {
-            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati dalla funzione. In questo caso, la funzione non presenta variabili, quindi il dominio è costante e non presenta condizioni di esistenza."));
+            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati dalla funzione. In questo caso, la funzione non presenta variabili, quindi il dominio è costante e non presenta condizioni di esistenza.", this.domain.getHtml()));
+        }
+
+        // Parity
+        this.calculateParity();
+        if (this.parity.isEven) {
+            UIResults.push(new UIMathCard("Parità", "La funzione è pari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
+        }
+        else if (this.parity.isOdd) {
+            UIResults.push(new UIMathCard("Parità", "La funzione è dispari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
+        }
+        else {
+            UIResults.push(new UIMathCard("Parità", "La funzione non è né pari né dispari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
+        }
+
+        // Intersections
+        this.calculateIntersections()
+        if (this.intersections.getTotalIntersections() > 0) {
+            UIResults.push(new UIMathCard("Intersezioni", "La funzione ha " + this.intersections.getTotalIntersections() + " intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
+        }
+        else {
+            UIResults.push(new UIMathCard("Intersezioni", "La funzione non ha intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
         }
 
         results.forEach(result => {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer."));
         })
+
 
         return UIResults;
     }
@@ -118,5 +169,13 @@ export class MathFunction {
         this._domain = new MathDomain();
         this._domain.addExistenceCondition(this._expression.getExistenceConditions());
         this._domain.calculateDomain();
+    }
+
+    calculateParity(): void {
+        this._parity = new MathParity(this);
+    }
+
+    calculateIntersections(): void {
+        this._intersections = new MathIntersections(this);
     }
 }

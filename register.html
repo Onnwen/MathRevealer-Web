@@ -46,47 +46,44 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h1 class="mt-3">MathRevealer</h1>
+                <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 40px;color: var(--bs-gray-100);">
+                    MathRevealer</h1>
                 <p class="w-lg-50 text-on-dark text-center">Registrati a MathRevealer per rivelare il magico mondo della matematica.&nbsp;</p>
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-sm-11 col-md-8 col-xl-6">
-                <div class="card mb-5 form-card">
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
-                            <i class="bi bi-person-plus"></i>
-                        </div>
-                        <form class="text-center w-100" method="post" id="registerForm">
-                            <div class="row mt-5">
-                                <div class="col-lg-6 mb-sm-3">
-                                    <input id="firstNameField" class="form-control" type="text" name="firstName" placeholder="Nome" autocomplete="given-name">
-                                </div>
-                                <div class="col-lg-6 mb-sm-3">
-                                    <input id="lastNameField" class="form-control" type="text" name="lastName" placeholder="Cognome" autocomplete="family-name">
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <input id="emailField" class="form-control" type="email" name="email" placeholder="Email" autocomplete="email">
-                            </div>
-                            <div class="mb-5">
-                                <input id="passwordField" class="form-control" type="password" name="password" placeholder="Password" autocomplete="new-password">
-                            </div>
-                            <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Registrati</button>
-                            <div class="separator"> Oppure</div>
-                            <div class="row mt-1">
-                                <div>
-                                    <button class="btn btn-primary d-block w-100 text-center" type='button' id="signIn">Accedi</button>
-                                </div>
-                                <!--
-                                <div class="col-lg-6 mb-sm-3">
-                                    <div id="appleid-signin" class="signin-button w-100" data-type="sign-up" data-color="black" data-border="false"></div>
-                                </div>
-                                -->
-                            </div>
-                        </form>
-                    </div>
+        <div class="card mb-5 form-card p-2 m-2 p-md-4 m-md-4 p-lg-5 m-lg-5">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
+                    <i class="bi bi-person-plus"></i>
                 </div>
+                <form class="text-center w-100" method="post" id="registerForm">
+                    <div class="row mt-5">
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            <input id="firstNameField" class="form-control" type="text" name="firstName" placeholder="Nome" autocomplete="given-name">
+                        </div>
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            <input id="lastNameField" class="form-control" type="text" name="lastName" placeholder="Cognome" autocomplete="family-name">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input id="emailField" class="form-control" type="email" name="email" placeholder="Email" autocomplete="email">
+                    </div>
+                    <div class="mb-5">
+                        <input id="passwordField" class="form-control" type="password" name="password" placeholder="Password" autocomplete="new-password">
+                    </div>
+                    <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Registrati</button>
+                    <div class="separator"> Oppure</div>
+                    <div class="row mt-1">
+                        <div>
+                            <button class="btn btn-primary d-block w-100 text-center" type='button' id="signIn">Accedi</button>
+                        </div>
+                        <!--
+                        <div class="col-lg-6 mb-sm-3">
+                            <div id="appleid-signin" class="signin-button w-100" data-type="sign-up" data-color="black" data-border="false"></div>
+                        </div>
+                        -->
+                    </div>
+                </form>
             </div>
         </div>
     </div>

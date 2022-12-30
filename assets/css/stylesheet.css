@@ -9,6 +9,7 @@ p, input, .btn, .separator, a, h2, footer {
 .maxWith, body {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0;
 }
 
 .note {
@@ -114,11 +115,21 @@ hr {
 
 .mathTextResultDescription {
     opacity: 0.5;
+    text-align: left;
 }
 
 .mathTextResult {
     font-size: 18px;
 }
+
+.navbar-toggler {
+    border: none;
+    background: none;
+    transition: opacity ease-in-out 200ms;
+    padding: 0;
+    outline: none;
+}
+
 
 h3 {
     font-size: 23px;
@@ -146,6 +157,20 @@ h2 {
 
 .back-button:active {
     color: #2f87ff;
+}
+
+.report-button {
+    color: #910505;
+    text-decoration: none;
+    transition: ease-in-out 250ms;
+}
+
+.report-button:hover {
+    color: #600303;
+}
+
+.report-button:active {
+    color: #bd0a0a;
 }
 
 .mathText, .mathTextResult {
