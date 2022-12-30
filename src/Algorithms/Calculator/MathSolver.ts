@@ -63,7 +63,7 @@ export class MathSolver {
         mathLevelExpression = MathReducer.analyse(mathLevelExpression);
         const hierarchyGroups = mathLevelExpression.getHierarchyGroups();
 
-        return this.solveBasicOperation(hierarchyGroups[1].level[0], "/", hierarchyGroups[0].level[0]);
+        return this.solveBasicOperation(hierarchyGroups[1].level[0], "/", hierarchyGroups[0].level[0] * -1);
     }
 
     static getValue(expression: string | MathFunction | MathLevel | MathExistenceCondition, value: number) {
