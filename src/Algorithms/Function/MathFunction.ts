@@ -5,6 +5,7 @@ import {UIMathCard} from "../../UI/UIMathCard";
 import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
 import {MathDomain} from "../Domain/MathDomain";
 import {MathParity} from "../Parity/MathParity";
+import {MathIntersections} from "../MathIntersections/MathIntersections";
 
 export class MathFunction {
     private _expression: MathLevel;
@@ -45,6 +46,19 @@ export class MathFunction {
 
     set parity(value: MathParity | undefined) {
         this._parity = value;
+    }
+
+    private _intersections: MathIntersections | undefined;
+
+    get intersections(): MathIntersections {
+        if (this._intersections === undefined) {
+            this.calculateIntersections();
+        }
+        return <MathIntersections>this._intersections;
+    }
+
+    set intersections(value: MathIntersections | undefined) {
+        this._intersections = value;
     }
 
     constructor(expression: string | MathLevel | number) {
@@ -104,7 +118,7 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Segno", "Intersezioni", "Limiti", "Derivata", "Grafico"];
+        let results = ["Segno", "Limiti", "Derivata", "Grafico"];
         let UIResults = [];
 
         // Domain
@@ -134,9 +148,19 @@ export class MathFunction {
             UIResults.push(new UIMathCard("Parità", "La funzione non è né pari né dispari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
         }
 
+        // Intersections
+        this.calculateIntersections()
+        if (this.intersections.getTotalIntersections() > 0) {
+            UIResults.push(new UIMathCard("Intersezioni", "La funzione ha " + this.intersections.getTotalIntersections() + " intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
+        }
+        else {
+            UIResults.push(new UIMathCard("Intersezioni", "La funzione non ha intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
+        }
+
         results.forEach(result => {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer."));
         })
+
 
         return UIResults;
     }
@@ -149,5 +173,9 @@ export class MathFunction {
 
     calculateParity(): void {
         this._parity = new MathParity(this);
+    }
+
+    calculateIntersections(): void {
+        this._intersections = new MathIntersections(this);
     }
 }
