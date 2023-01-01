@@ -219,6 +219,11 @@ export class MathLevel {
         return MathSolver.getXValue(this);
     }
 
+    getY(x: number): number {
+        const substitutedLevel = this.getMathLevelWithSubstituedVariable("x", x);
+        return substitutedLevel.getAnalysis().getAsNumber();
+    }
+
     getInvertedSignsLevel(): MathLevel {
         let invertedSignsLevel = this.clone();
         invertedSignsLevel.level = [];
@@ -288,5 +293,9 @@ export class MathLevel {
         else {
             return this.getMathLevelWithSubstituedVariable("x", 0).getAsNumber();
         }
+    }
+
+    getAnalysis(): MathLevel {
+        return MathReducer.analyse(this);
     }
 }
