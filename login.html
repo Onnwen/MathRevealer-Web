@@ -9,7 +9,7 @@
     <meta name="appleid-signin-redirect-uri" content="[REDIRECT_URI]">
     <meta name="appleid-signin-state" content="[STATE]">
     <link rel="icon" type="image/x-icon" href="assets/logo/favicon.ico">
-    <title>MathRevealer</title>
+    <title>MathRevealer | Accedi</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
@@ -31,31 +31,35 @@
             <div class="text-center mx-auto">
                 <h1 class="mt-3" style="font-family: Quicksand, sans-serif;font-size: 40px;color: var(--bs-gray-100);">
                     MathRevealer</h1>
-                <p style="color: var(--bs-gray-300);" class="text-center">Accedi a MathRevealer per rivelare il magico
-                                                                          mondo della matematica.&nbsp;</p>
+                <p style="color: var(--bs-gray-300);" class="text-center">Accedi a MathRevealer per rivelare il magico mondo della matematica.&nbsp;</p>
             </div>
         </div>
-        <div class="card mb-5 form-card p-2 m-2 p-md-4 m-md-4 p-lg-5 m-lg-5">
-            <div class="card-body d-flex flex-column align-items-center">
-                <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
-                    <i class="bi bi-person"></i>
+        <div class="row mb-5 d-flex justify-content-center align-items-center m-2 m-2 p-md-4 m-md-4 m-lg-5">
+            <div class="card form-card mb-5 p-2 p-lg-4" style="max-width: 500px">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-2">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <form class="text-center w-100" id="loginForm">
+                        <div class="mb-3 mt-5">
+                            <label for="emailField"></label>
+                            <input id="emailField" class="form-control" type="email" name="email" placeholder="Email" autocomplete="email">
+                        </div>
+                        <div class="mb-5">
+                            <label for="passwordField"></label>
+                            <input id="passwordField" class="form-control" type="password" name="password" placeholder="Password" autocomplete="current-password">
+                        </div>
+                        <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Accedi</button>
+                        <div class="separator"> Oppure</div>
+                        <button class="btn btn-primary d-block w-100 mb-2 mt-1 text-center" type='button' id="signUp">
+                            Registrati
+                        </button>
+                        <!--
+                        <div id="appleid-signin" class="signin-button w-100 mb-1" data-type="continue"
+                             data-color="black" data-border="false"></div>
+                             -->
+                    </form>
                 </div>
-                <form class="text-center w-100" style="max-width: 375px" id="loginForm">
-                    <div class="mb-3 mt-5"><input id="emailField" class="form-control" type="email" name="email"
-                                                  placeholder="Email" autocomplete="email"></div>
-                    <div class="mb-5"><input id="passwordField" class="form-control" type="password"
-                                             name="password" placeholder="Password"
-                                             autocomplete="current-password"></div>
-                    <button class="btn btn-primary d-block w-100 mb-1 text-center" type="submit">Accedi</button>
-                    <div class="separator"> Oppure</div>
-                    <button class="btn btn-primary d-block w-100 mb-2 mt-1 text-center" type='button' id="signUp">
-                        Registrati
-                    </button>
-                    <!--
-                    <div id="appleid-signin" class="signin-button w-100 mb-1" data-type="continue"
-                         data-color="black" data-border="false"></div>
-                         -->
-                </form>
             </div>
         </div>
     </div>
