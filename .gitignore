@@ -8,3 +8,4 @@ coverage/
 src/Other/run.ts
 dist/
 tsconfig.tsbuildinfo
+testing.html
