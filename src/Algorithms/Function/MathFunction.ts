@@ -7,6 +7,9 @@ import {MathDomain} from "../Domain/MathDomain";
 import {MathParity} from "../Parity/MathParity";
 import {MathIntersections} from "../MathIntersections/MathIntersections";
 import {MathSign} from "../Sign/MathSign";
+import {MathLimits} from "../Limits/MathLimits";
+import {MathDerivate} from "../Derivate/MathDerivate";
+import {MathGraph} from "../MathGraph/MathGraph";
 
 export class MathFunction {
     private _expression: MathLevel;
@@ -73,6 +76,45 @@ export class MathFunction {
 
     set sign(value: MathSign) {
         this._sign = value;
+    }
+
+    private _limits: MathLimits | undefined;
+
+    get limits(): MathLimits {
+        if (this._limits === undefined) {
+            this._limits = new MathLimits(this);
+        }
+        return this._limits;
+    }
+
+    set limits(value: MathLimits | undefined) {
+        this._limits = value;
+    }
+
+    private _derivate: MathDerivate | undefined;
+
+    get derivate(): MathDerivate {
+        if (this._derivate === undefined) {
+            this._derivate = new MathDerivate(this);
+        }
+        return this._derivate;
+    }
+
+    set derivate(value: MathDerivate | undefined) {
+        this._derivate = value;
+    }
+
+    private _graph: MathGraph | undefined;
+
+    get graph(): MathGraph {
+        if (this._graph === undefined) {
+            this._graph = new MathGraph(this);
+        }
+        return this._graph;
+    }
+
+    set graph(value: MathGraph | undefined) {
+        this._graph = value;
     }
 
     constructor(expression: string | MathLevel | number) {
