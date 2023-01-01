@@ -1,30 +1,48 @@
 import {MathFunction} from "../Function/MathFunction";
 import {MathDomain} from "../Domain/MathDomain";
+import {MathInterval} from "./MathInterval";
 
 export class MathSign {
-    private _positivityInterval: MathDomain;
+    private _positivityInterval: MathInterval;
 
-    get positivityInterval(): MathDomain {
+    get positivityInterval(): MathInterval {
         return this._positivityInterval;
     }
 
-    set positivityInterval(value: MathDomain) {
+    set positivityInterval(value: MathInterval) {
         this._positivityInterval = value;
     }
 
-    private _negativityInterval: MathDomain;
+    private _negativityInterval: MathInterval;
 
-    get negativityInterval(): MathDomain {
+    get negativityInterval(): MathInterval {
         return this._negativityInterval;
     }
 
-    set negativityInterval(value: MathDomain) {
+    set negativityInterval(value: MathInterval) {
         this._negativityInterval = value;
     }
 
     constructor(mathFunction: MathFunction) {
-        this._positivityInterval = new MathDomain();
-        this._negativityInterval = new MathDomain();
+        this._positivityInterval = new MathInterval();
+        this._negativityInterval = new MathInterval();
+
+        this.calculateSign(mathFunction);
+    }
+
+    calculateSign(mathFunction: MathFunction): void {
+        const xValue = mathFunction.expression.getX();
+        if (typeof xValue == "number") {
+            const yValue = mathFunction.expression.getY(xValue);
+
+            if (yValue > 0) {
+                this.positivityInterval.addInterval(xValue, "Infinity");
+                this.negativityInterval = this.positivityInterval.getInvertedInterval();
+            } else if (yValue < 0) {
+                this.negativityInterval.addInterval("-Infinity", xValue);
+                this.positivityInterval = this.negativityInterval.getInvertedInterval();
+            }
+        }
     }
 
     getHtml(): string {
@@ -32,7 +50,9 @@ export class MathSign {
     }
 
     getLaTeX(): string {
-        let LaTeX = ""
+        let LaTeX = "\\displaylines{"
+        LaTeX += "I.P. = " + this.positivityInterval.getLaTeX() + " \\\\ ";
+        LaTeX += "I.N. = " + this.negativityInterval.getLaTeX() + "}";
         return LaTeX;
     }
 }

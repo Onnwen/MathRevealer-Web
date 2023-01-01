@@ -6,6 +6,7 @@ import {LaTeXFormatter} from "../../Formatters/LaTeXFormatter";
 import {MathDomain} from "../Domain/MathDomain";
 import {MathParity} from "../Parity/MathParity";
 import {MathIntersections} from "../MathIntersections/MathIntersections";
+import {MathSign} from "../Sign/MathSign";
 
 export class MathFunction {
     private _expression: MathLevel;
@@ -59,6 +60,19 @@ export class MathFunction {
 
     set intersections(value: MathIntersections | undefined) {
         this._intersections = value;
+    }
+
+    private _sign: MathSign | undefined;
+
+    get sign(): MathSign {
+        if (this._sign === undefined) {
+            this.calculateSign();
+        }
+        return <MathSign>this._sign;
+    }
+
+    set sign(value: MathSign) {
+        this._sign = value;
     }
 
     constructor(expression: string | MathLevel | number) {
@@ -118,7 +132,7 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Segno", "Limiti", "Derivata", "Grafico"];
+        let results = ["Limiti", "Derivata", "Grafico"];
         let UIResults = [];
 
         // Domain
@@ -126,10 +140,10 @@ export class MathFunction {
         if (this.expression.haveVariable) {
             if (this.domain.getLastDoaminExistenceCondition().set === "R") {
                 console.log(this.domain)
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
             }
             else {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio della funzione possiede " + (this.domain.domain.length > 1 ? this.domain.domain.length : "una") + " condizion" + (this.domain.domain.length > 1 ? "i" : "e") + " di esistenza.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.", this.domain.getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio possiede " + (this.domain.domain.length > 1 ? this.domain.domain.length : "una") + " condizion" + (this.domain.domain.length > 1 ? "i" : "e") + " di esistenza.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.", this.domain.getHtml()));
             }
         }
         else {
@@ -157,10 +171,13 @@ export class MathFunction {
             UIResults.push(new UIMathCard("Intersezioni", "La funzione non ha intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
         }
 
+        // Sign
+        this.calculateSign();
+        UIResults.push(new UIMathCard("Segno", "Sono stati calcolati gli insiemi di positività e negatività.", "Il segno di una funzione indica se la funzione è crescente o decrescente.", this.sign.getHtml()));
+
         results.forEach(result => {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer."));
         })
-
 
         return UIResults;
     }
@@ -177,5 +194,9 @@ export class MathFunction {
 
     calculateIntersections(): void {
         this._intersections = new MathIntersections(this);
+    }
+
+    calculateSign(): void {
+        this._sign = new MathSign(this);
     }
 }
