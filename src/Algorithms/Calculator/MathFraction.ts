@@ -48,4 +48,12 @@ export class MathFraction {
         }
         return firstValue;
     }
+
+    static getNumberFromFraction(fraction: string): number {
+        const fractionValues = fraction.split("/");
+        if (fractionValues.length === 2) {
+            return Number.parseFloat(fractionValues[0]) / Number.parseFloat(fractionValues[1]);
+        }
+        return Number.parseFloat(fraction);
+    }
 }
