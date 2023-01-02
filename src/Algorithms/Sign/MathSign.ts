@@ -1,6 +1,8 @@
 import {MathFunction} from "../Function/MathFunction";
 import {MathDomain} from "../Domain/MathDomain";
 import {MathInterval} from "./MathInterval";
+import {MathLevel} from "../Function/MathLevel";
+import {MathFraction} from "../Calculator/MathFraction";
 
 export class MathSign {
     private _positivityInterval: MathInterval;
@@ -31,14 +33,20 @@ export class MathSign {
     }
 
     calculateSign(mathFunction: MathFunction): void {
-        const xValue = mathFunction.expression.getX();
-        if (typeof xValue == "number") {
-            const yValue = mathFunction.expression.getY(xValue);
+        let xValue = mathFunction.expression.getX();
 
-            if (yValue > 0) {
+        if (xValue instanceof MathLevel) {
+            xValue = MathFraction.getNumberFromFraction(xValue.getDebugString());
+        }
+
+        if (xValue) {
+            const yValue = mathFunction.expression.getY(xValue);
+            console.log("function: " + mathFunction.expression.getDebugString() + " x: " + xValue + " - y: " + yValue);
+
+            if (yValue >= 0) {
                 this.positivityInterval.addInterval(xValue, "Infinity");
                 this.negativityInterval = this.positivityInterval.getInvertedInterval();
-            } else if (yValue < 0) {
+            } else {
                 this.negativityInterval.addInterval("-Infinity", xValue);
                 this.positivityInterval = this.negativityInterval.getInvertedInterval();
             }
@@ -67,5 +75,9 @@ export class MathSign {
             "Sono quindi stati ricavati gli insiemi di positività e di negatività della funzione:" +
             "$$ I.P. = [-1,1]$$" +
             "$$ I.N. = [-\\infty,-1] \\cup [1,\\infty]$$";
+    }
+
+    getDebugString(): string {
+        return "I.P.: " + this.positivityInterval.getDebugString() + " - " + "I.N.: " + this.negativityInterval.getDebugString();
     }
 }
