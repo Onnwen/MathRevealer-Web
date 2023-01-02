@@ -110,7 +110,10 @@ export class MathLevel {
         else {
             if (Symbol.isVariable(char)) {
                 this.haveVariable = true;
-                if (this.getLevelLength() > 0 && !Symbol.isOperation(this.getLastChar())) {
+                if (this.getLevelLength() > 0 && !Symbol.isPriorityOperation(this.getLastChar())) {
+                    if (!Symbol.isNumber(this.level.at(-1))) {
+                        this.level.push("1");
+                    }
                     this.level.push("*");
                 }
                 this.level.push(char);
