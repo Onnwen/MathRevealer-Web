@@ -47,8 +47,6 @@ export class MathInterval {
     }
 
     getLaTeX(): string {
-        console.log(this._interval);
-
         let LaTeX = ""
 
         this.interval.forEach((interval, index) => {
