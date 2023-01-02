@@ -92,7 +92,7 @@ h6 {
 
 .mathResultCard h2 {
     text-align: center;
-    width: 80px;
+    width: 0;
     transition: width 1s ease-in-out, margin-bottom 1.25s ease-in-out, margin-top 1.25s ease-in-out, scale 1.25s ease-in-out;
     white-space: nowrap;
 }
@@ -118,11 +118,11 @@ h6 {
     transition: opacity .3s ease-in-out;
 }
 
-.mathResultCard:hover.expandable .bi-arrows-angle-expand {
+.mathResultCard.expandable:hover .bi-arrows-angle-expand {
     opacity: .5;
 }
 
-.mathResultCard.big .bi-arrows-angle-expand {
+.mathResultCard.big:hover .bi-arrows-angle-expand {
     opacity: 0;
 }
 
