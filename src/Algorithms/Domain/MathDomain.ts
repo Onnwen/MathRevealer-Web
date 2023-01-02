@@ -89,6 +89,15 @@ export class MathDomain {
         return JSON.stringify(this._domain);
     }
 
+    getTheory(): string {
+        return "Il dominio di una funzione è l'insieme di tutti i possibili valori di \\( x \\) che possono essere inseriti nella funzione.<br><br>" +
+            "Ecco un esempio di funzione con il suo dominio:<br>" +
+            "$$f(x) = \\frac{x^2}{x-1}$$" +
+            "Dominio: $$x\\in (-\\infty, 1) \\cup (1, \\infty)$$" +
+            "In questo caso, il dominio della funzione è l'insieme di tutti i valori di \\( x \\) che non fanno dividere per zero nel denominatore.<br><br>" +
+            "Se il dominio non viene esplicitamente indicato, di solito si assume che sia l'insieme di tutti i numeri reali. Tuttavia, ci sono alcune funzioni che hanno un dominio più limitato. Ad esempio, una funzione con una radice quadrata ha come dominio solo i numeri non negativi, poiché non è possibile calcolare la radice quadrata di un numero negativo."
+    }
+
     // reduceDomain() {
     //     this._existenceConditions.forEach((existenceCondition, index) => {
     //         this._existenceConditions[index] = MathReducer.analyse(existenceCondition.value);

@@ -53,4 +53,16 @@ export class MathParity {
         LaTeX += "f(-x)" + (this.isOdd ? "=" : " \\neq ") + "-f(x) }";
         return LaTeX;
     }
+
+    getTheory(): string {
+        return "La parità di una funzione indica come varia la funzione quando la x viene cambiata di segno. Una funzione può essere pari, dispari oppure senza parità.<br><br>" +
+            "Una funzione è pari se \\(f(-x) = f(x)\\) per ogni \\( x \\) appartenente al dominio della funzione. Ad esempio:" +
+            "$$f(x) = x^2$$" +
+            "$$f(-x) = (-x)^2 = x^2$$" +
+            "Quindi, \\(f(x)\\) è una funzione pari.<br><br>" +
+            "Una funzione è dispari se \\(f(-x) = -f(x)\\) per ogni \\(x\\) appartenente al dominio della funzione. Ad esempio:" +
+            "$$f(x) = x^3$$" +
+            "$$f(-x) = (-x)^3 = -x^3$$" +
+            "Quindi, \\(f(x)\\) è una funzione dispari.";
+    }
 }

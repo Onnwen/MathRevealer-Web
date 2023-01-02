@@ -59,4 +59,20 @@ export class MathIntersections {
     getTotalIntersections(): number {
         return this.x.length + this.y.length;
     }
+
+    getTheory(): string {
+        return "Le intersezioni con gli assi di una funzione sono i punti in cui la funzione incontra l'asse delle x o l'asse delle y.<br><br>" +
+            "Considerando la seguente funzione:" +
+            "$$f(x) = x^2 - 2x + 1$$" +
+            "Le intersezioni con l'asse delle x sono:" +
+            "$$ \\begin{align}" +
+            "f(x) = 0 \\\\" +
+            "x^2 - 2x + 1 = 0 \\\\" +
+            "(x-1)^2 = 0 \\\\" +
+            "x = 1" +
+            "\\end{align} $$" +
+            "Le intersezioni con l'asse delle y sono:" +
+            "$$f(0) = 0^2 - 2*0 + 1 = 1$$" +
+            "Quindi, le intersezioni con gli assi di questa funzione sono \\( (1,0) \\) e \\( (0,1) \\)."
+    }
 }
