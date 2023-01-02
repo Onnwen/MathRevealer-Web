@@ -182,43 +182,43 @@ export class MathFunction {
         if (this.expression.haveVariable) {
             if (this.domain.getLastDoaminExistenceCondition().set === "R") {
                 console.log(this.domain)
-                UIResults.push(new UIMathCard("Dominio", "Il dominio appartiene all'insieme dei numeri reali.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.",  this.domain.getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio appartiene all'insieme dei numeri reali.", this.domain.getTheory(), this.domain.getHtml(),));
             }
             else {
-                UIResults.push(new UIMathCard("Dominio", "Il dominio possiede " + (this.domain.domain.length > 1 ? this.domain.domain.length : "una") + " condizion" + (this.domain.domain.length > 1 ? "i" : "e") + " di esistenza.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati.", this.domain.getHtml()));
+                UIResults.push(new UIMathCard("Dominio", "Il dominio possiede " + (this.domain.domain.length > 1 ? this.domain.domain.length : "una") + " condizion" + (this.domain.domain.length > 1 ? "i" : "e") + " di esistenza.", this.domain.getTheory(), this.domain.getHtml()));
             }
         }
         else {
-            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", "Il dominio di una funzione è l'insieme di tutti i valori che sono accettati dalla funzione. In questo caso, la funzione non presenta variabili, quindi il dominio è costante e non presenta condizioni di esistenza.", this.domain.getHtml()));
+            UIResults.push(new UIMathCard("Dominio", "La funzione è costante e non presenta variabili.", this.domain.getTheory(), this.domain.getHtml()));
         }
 
         // Parity
         this.calculateParity();
         if (this.parity.isEven) {
-            UIResults.push(new UIMathCard("Parità", "La funzione è pari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
+            UIResults.push(new UIMathCard("Parità", "La funzione analizzata risulta essere pari. ", this.parity.getTheory(), this.parity.getHtml()));
         }
         else if (this.parity.isOdd) {
-            UIResults.push(new UIMathCard("Parità", "La funzione è dispari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
+            UIResults.push(new UIMathCard("Parità", "La funzione analizzata risulta essere dispari.", this.parity.getTheory(), this.parity.getHtml()));
         }
         else {
-            UIResults.push(new UIMathCard("Parità", "La funzione non è né pari né dispari.", "La parità di una funzione indica se la funzione è simmetrica rispetto all'asse delle ascisse.", this.parity.getHtml()));
+            UIResults.push(new UIMathCard("Parità", "La funzione non è né pari né dispari.", this.parity.getTheory(), this.parity.getHtml()));
         }
 
         // Intersections
         this.calculateIntersections()
         if (this.intersections.getTotalIntersections() > 0) {
-            UIResults.push(new UIMathCard("Intersezioni", "La funzione ha " + this.intersections.getTotalIntersections() + " intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
+            UIResults.push(new UIMathCard("Intersezioni", "La funzione ha " + this.intersections.getTotalIntersections() + " intersezioni con gli assi.", this.intersections.getTheory(), this.intersections.getHtml()));
         }
         else {
-            UIResults.push(new UIMathCard("Intersezioni", "La funzione non ha intersezioni con gli assi.", "Le intersezioni di una funzione sono i punti in cui la funzione interseca gli assi.", this.intersections.getHtml()));
+            UIResults.push(new UIMathCard("Intersezioni", "La funzione non ha intersezioni con gli assi.", this.intersections.getTheory(), this.intersections.getHtml()));
         }
 
         // Sign
         this.calculateSign();
-        UIResults.push(new UIMathCard("Segno", "Sono stati calcolati gli insiemi di positività e negatività.", "Il segno di una funzione indica se la funzione è crescente o decrescente.", this.sign.getHtml()));
+        UIResults.push(new UIMathCard("Segno", "Sono stati calcolati gli insiemi di positività e negatività.", this.sign.getTheory(), this.sign.getHtml()));
 
         results.forEach(result => {
-            UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer."));
+            UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.", "", "", false));
         })
 
         return UIResults;
