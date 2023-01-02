@@ -26,36 +26,141 @@ h6 {
 }
 
 .mathResultCard {
-    float: left;
+    box-sizing: border-box;
+    margin: 10px;
+    z-index: 1;
     background-color: #f3f3f3;
     padding: 20px;
     border-radius: 20px;
     border: 2px solid #ececec;
-    height: 300px;
-    width: 31%;
-    margin: 1%;
-    display: block;
     overflow: hidden;
+    height: 100%;
+
+    transition: box-shadow .3s ease-in-out, scale .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, margin .3s ease-in-out, filter .6s ease-in-out, margin .6s ease-in-out, opacity .6s ease-in-out;
+}
+
+.expandable:hover {
+    z-index: 2;
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .05);
+    border: 2px solid #e5e5e5;
+    background-color: #eeeeee;
+    margin: 9px;
+}
+
+.expandable:active {
+    z-index: 3;
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .1);
+    border: 2px solid #e5e5e5;
+    background-color: #e5e5e5;
+}
+
+.cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 300px);
+    row-gap: 20px;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 @media (max-width: 992px) {
-    .mathResultCard {
-        width: 48%;
+    .cardsGrid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 400px);
     }
 }
 
 @media (max-width: 768px) {
-    .mathResultCard {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
+    .cardsGrid {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(7, 400px);
     }
 }
 
-.cardsGrid {
-    width: 100%;
+.fullscreen {
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 3;
 }
+
+.mathTexResultTheory {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.mathResultCard h2 {
+    text-align: center;
+    width: 80px;
+    transition: width 1s ease-in-out, margin-bottom 1.25s ease-in-out, margin-top 1.25s ease-in-out, scale 1.25s ease-in-out;
+    white-space: nowrap;
+}
+
+.mathResultCard .mathTextResult {
+    transition: margin 1.25s ease-in-out;
+}
+
+.mathResultCard.big hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mathResultCard.big h2 {
+    width: 100%;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    scale: 1.2;
+}
+
+.mathResultCard .bi-arrows-angle-expand {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+}
+
+.mathResultCard:hover.expandable .bi-arrows-angle-expand {
+    opacity: .5;
+}
+
+.mathResultCard.big .bi-arrows-angle-expand {
+    opacity: 0;
+}
+
+.mathResultCard.fullscreen .mathTextResultDescription {
+    justify-content: center;
+}
+
+.mathResultCard.big .mathTextResult {
+    margin: 50px;
+}
+
+.mathResultCard.big .mathTexResultTheory {
+    opacity: 1;
+}
+
+.mathResultCard hr, h2, p, .mathTextResultDescription {
+    transition: 1s ease-in-out;
+}
+
+.mathTextResultDescription {
+    line-height: 2.5ex;
+    height: 5ex;
+    display: flex;
+    align-items: center;
+    transition: justify-content 1.25s ease-in-out;
+}
+
+.background-card {
+    filter: blur(5px) brightness(.9);
+    margin: 25px;
+    opacity: .0;
+}
+
+
+
+
+
+
 
 .blur-background {
     background-color: rgba(33, 37, 41, 0.85);
@@ -113,9 +218,15 @@ hr {
     opacity: 0.8;
 }
 
-.mathTextResultDescription {
+.mathTextResultDescription, .mathTextTheory {
     opacity: 0.5;
     text-align: left;
+}
+
+.mathTextTheory {
+    text-align: justify;
+    text-justify: inter-word;
+    margin: 0 0 1em;
 }
 
 .mathTextResult {
