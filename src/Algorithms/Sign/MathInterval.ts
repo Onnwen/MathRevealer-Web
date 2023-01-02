@@ -1,3 +1,5 @@
+import {MathFraction} from "../Calculator/MathFraction";
+
 export class MathInterval {
     private _interval: [string, string][] ;
 
@@ -67,6 +69,15 @@ export class MathInterval {
                 secondValue =  "\\infty";
             }
 
+            if (firstValue.indexOf(".") != -1) {
+                const fraction = MathFraction.getFraction(Number(firstValue));
+                firstValue = fraction.numerator + "/" + fraction.denominator;
+            }
+            if (secondValue.indexOf(".") != -1) {
+                const fraction = MathFraction.getFraction(Number(secondValue));
+                secondValue = fraction.numerator + "/" + fraction.denominator;
+            }
+
             LaTeX += "\\left[" + firstValue + ", " + secondValue + "\\right]";
 
             if (index != this.interval.length - 1) {
@@ -75,5 +86,27 @@ export class MathInterval {
         });
 
         return LaTeX;
+    }
+
+    getDebugString(): string {
+        let debugString = "";
+
+        this.interval.forEach((interval, index) => {
+            if (interval[0].indexOf(".") != -1) {
+                const fraction = MathFraction.getFraction(Number(interval[0]));
+                interval[0] = fraction.numerator + "/" + fraction.denominator;
+            }
+            if (interval[1].indexOf(".") != -1) {
+                const fraction = MathFraction.getFraction(Number(interval[1]));
+                interval[1] = fraction.numerator + "/" + fraction.denominator;
+            }
+            debugString += "[" + interval[0] + ", " + interval[1] + "]";
+
+            if (index != this.interval.length - 1) {
+                debugString += " U ";
+            }
+        });
+
+        return debugString;
     }
 }
