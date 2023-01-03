@@ -1,4 +1,3 @@
-const MathReducer_1 = require('../dist/Algorithms/Function/MathReducer');
 const MathFunction_1 = require('../dist/Algorithms/Function/MathFunction');
 
 describe('MathParity', () => {
