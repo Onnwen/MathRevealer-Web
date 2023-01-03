@@ -221,6 +221,14 @@ export class MathLevel {
                 }
             }
         }
+
+        if (variablesMathLevel.getLevelLength() == 0) {
+            variablesMathLevel.level.push("0");
+        }
+        if (numericalValuesMathLevel.getLevelLength() == 0) {
+            numericalValuesMathLevel.level.push("0");
+        }
+
         return [variablesMathLevel.getClearedLevel(), numericalValuesMathLevel.getClearedLevel()];
     }
 
