@@ -45,7 +45,7 @@ export class MathPoint {
     }
 
     getLaTeX(): string {
-        return "(" + this.getXAsMathLevel().getLaTeX() + "; " + this.getYAsMathLevel().getLaTeX() + ")";
+        return "\\left(" + this.getXAsMathLevel().getLaTeX() + "; " + this.getYAsMathLevel().getLaTeX() + "\\right)";
     }
 
     getDebugString(): string {
