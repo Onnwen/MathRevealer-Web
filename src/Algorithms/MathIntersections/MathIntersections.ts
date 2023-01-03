@@ -41,6 +41,19 @@ export class MathIntersections {
             return [mathPoint];
         }
         else {
+            if (x) {
+                if (x.level.at(0) == "-") {
+                    if (x.level.at(3) == "0") {
+                        return [];
+                    }
+                    return [new MathPoint(x.level.at(1) / x.level.at(3) * -1, 0)];
+                } else {
+                    if (x.level.at(2) == "0") {
+                        return [];
+                    }
+                    return [new MathPoint(x.level.at(0) / x.level.at(2), 0)];
+                }
+            }
             return [];
         }
     }
@@ -51,8 +64,12 @@ export class MathIntersections {
 
     getLaTeX(): string {
         let LaTeX = "\\displaylines{";
-        LaTeX += "x = " + this.x.map(point => "(0; " + point.x + ")").join(", ") + " \\\\ ";
-        LaTeX += "y = " + this.y.map(point => "(" + point.y + "; 0)").join(", ") + " }";
+        if (this.x.length > 0) {
+            LaTeX += "x = " + this.x.map(point => point.getLaTeX()).join(", ") + " \\\\ ";
+        }
+        if (this.y.length > 0) {
+            LaTeX += "y = " + this.y.map(point => point.getLaTeX()).join(", ") + " }";
+        }
         return LaTeX;
     }
 
@@ -74,5 +91,9 @@ export class MathIntersections {
             "Le intersezioni con l'asse delle y sono:" +
             "$$f(0) = 0^2 - 2*0 + 1 = 1$$" +
             "Quindi, le intersezioni con gli assi di questa funzione sono \\( (1,0) \\) e \\( (0,1) \\)."
+    }
+
+    getDebugString(): string {
+        return "x: " + this.x.map(point => point.getDebugString()).join(", ") + " - y: " + this.y.map(point => point.getDebugString()).join(", ");
     }
 }

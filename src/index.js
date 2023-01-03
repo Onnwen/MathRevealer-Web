@@ -22,7 +22,9 @@ $(document).on('click', '.mathResultCardEnlargeButton', function (event) {
 searchField.on("keyup", function () {
     functionData.parse(String(searchField.val()));
     $("#preview, #resultPreview").html((searchField.val() !== "" ? "y = " : "") + functionData.getHtml());
-    $("body").tooltip({selector: '[data-toggle=tooltip]'});
+
+    // To-Fix: Genera log errore. (Era utilizzato per visualizzato correttamente i tooltip)
+    // $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
     revealButtonVisibility();
 });
@@ -38,8 +40,6 @@ $(".revealButton").each(function () {
         $("#searchFormDiv").hide();
         $("#resultDiv").show("slow", function () {
         });
-
-        console.log(Account.getId());
 
         $.post("https://mathrevealer.garamante.it/api/myAccount/saveExpression", {
             expression: searchField.val()
@@ -193,6 +193,9 @@ $(document).on('click', '.expandable', function () {
             begin: function () {
                 cards.addClass("background-card");
                 $(self).removeClass("background-card");
+            },
+            complete: function () {
+                document.getElementById("resultPreview").scrollIntoView({behavior: "smooth", block: "nearest"});
             }
         });
     }
@@ -200,10 +203,8 @@ $(document).on('click', '.expandable', function () {
 
 function duplicate(cardId) {
     const card = $(`#${cardId}`);
-    const nextCard = card.next();
-    if (nextCard.length !== 0) {
-        nextCard.replaceWith(`<div class="mathResultCard" id="${cardId}copy">${card.html()}</div>` + `<div class="mathResultCard ${nextCard.hasClass("expandable") ? "expandable" : "" }" id="${nextCard.attr('id')}">${nextCard.html()}</div>`);
-    }
+
+    card.after(`<div class="mathResultCard" id="${cardId}copy">${card.html()}</div>` );
 
     cards = $('.mathResultCard');
 }

@@ -1,6 +1,9 @@
 import {MathFunction} from "../Function/MathFunction";
 import {MathDomain} from "../Domain/MathDomain";
 import {MathInterval} from "./MathInterval";
+import {MathLevel} from "../Function/MathLevel";
+import {MathFraction} from "../Calculator/MathFraction";
+import {MathSolver} from "../Calculator/MathSolver";
 
 export class MathSign {
     private _positivityInterval: MathInterval;
@@ -31,18 +34,20 @@ export class MathSign {
     }
 
     calculateSign(mathFunction: MathFunction): void {
-        const xValue = mathFunction.expression.getX();
-        if (typeof xValue == "number") {
-            const yValue = mathFunction.expression.getY(xValue);
+        let inequality = MathSolver.inequalityFromMathLevel(mathFunction.expression);
 
-            if (yValue > 0) {
-                this.positivityInterval.addInterval(xValue, "Infinity");
-                this.negativityInterval = this.positivityInterval.getInvertedInterval();
-            } else if (yValue < 0) {
-                this.negativityInterval.addInterval("-Infinity", xValue);
-                this.positivityInterval = this.negativityInterval.getInvertedInterval();
+        if (inequality.result != undefined) {
+            if (inequality.sign === ">") {
+                this.positivityInterval.addInterval(inequality.result, "Infinity");
+            } else if (inequality.sign === "<") {
+                this.positivityInterval.addInterval("-Infinity", inequality.result);
             }
         }
+        else {
+            this.positivityInterval.addInterval("-Infinity", "Infinity");
+        }
+
+        this.negativityInterval = this.positivityInterval.getInvertedInterval();
     }
 
     getHtml(): string {
@@ -50,9 +55,17 @@ export class MathSign {
     }
 
     getLaTeX(): string {
-        let LaTeX = "\\displaylines{"
-        LaTeX += "I.P. = " + this.positivityInterval.getLaTeX() + " \\\\ ";
-        LaTeX += "I.N. = " + this.negativityInterval.getLaTeX() + "}";
+        let LaTeX = "";
+        if (this.positivityInterval.getDebugString() !== "[-Infinity,Infinity]" || this.negativityInterval.getDebugString() !== "[-Infinity,Infinity]") {
+            LaTeX += "\\displaylines{";
+            LaTeX += "I.P. = " + this.positivityInterval.getLaTeX() + " \\\\ ";
+            LaTeX += "I.N. = " + this.negativityInterval.getLaTeX() + "}";
+        } else if (this.positivityInterval.getDebugString() === "[-Infinity,Infinity]") {
+            LaTeX += "I.P. = " + this.positivityInterval.getLaTeX();
+        }
+        else if (this.negativityInterval.getDebugString() === "[-Infinity,Infinity]") {
+            LaTeX += "I.N. = " + this.negativityInterval.getLaTeX();
+        }
         return LaTeX;
     }
 
@@ -67,5 +80,9 @@ export class MathSign {
             "Sono quindi stati ricavati gli insiemi di positività e di negatività della funzione:" +
             "$$ I.P. = [-1,1]$$" +
             "$$ I.N. = [-\\infty,-1] \\cup [1,\\infty]$$";
+    }
+
+    getDebugString(): string {
+        return "I.P.: " + this.positivityInterval.getDebugString() + " - " + "I.N.: " + this.negativityInterval.getDebugString();
     }
 }

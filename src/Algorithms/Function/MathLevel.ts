@@ -110,7 +110,10 @@ export class MathLevel {
         else {
             if (Symbol.isVariable(char)) {
                 this.haveVariable = true;
-                if (this.getLevelLength() > 0 && !Symbol.isOperation(this.getLastChar())) {
+                if (this.getLevelLength() > 0 && !Symbol.isPriorityOperation(this.getLastChar())) {
+                    if (!Symbol.isNumber(this.level.at(-1))) {
+                        this.level.push("1");
+                    }
                     this.level.push("*");
                 }
                 this.level.push(char);
@@ -199,13 +202,31 @@ export class MathLevel {
                 if (!(i === 0 && Symbol.isVariable(this.level[i + 2]))) {
                     variablesMathLevel.level.push(this.level[i + 3]);
                 }
-                i+=3;
+                if ((i === 0 && Symbol.isVariable(this.level[i + 2]))) {
+                    i += 2;
+                }
+                else {
+                    i += 3;
+                }
             } else {
                 if (i === 0 && this.level[i-1] !== "-") {
                     numericalValuesMathLevel.level.push("+");
                 }
-                numericalValuesMathLevel.level.push(this.level[i]);
+                if (this.level[i] === "-") {
+                    numericalValuesMathLevel.level.push(this.level[i + 1] * -1);
+                    i += 1;
+                }
+                else {
+                    numericalValuesMathLevel.level.push(this.level[i]);
+                }
             }
+        }
+
+        if (variablesMathLevel.getLevelLength() == 0) {
+            variablesMathLevel.level.push("0");
+        }
+        if (numericalValuesMathLevel.getLevelLength() == 0) {
+            numericalValuesMathLevel.level.push("0");
         }
 
         return [variablesMathLevel.getClearedLevel(), numericalValuesMathLevel.getClearedLevel()];

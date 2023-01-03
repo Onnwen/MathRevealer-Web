@@ -29,10 +29,9 @@ export class MathFunction {
 
     get domain(): MathDomain {
         if (this._domain !== undefined) {
-            return this._domain;
-        } else {
-            return new MathDomain();
+            this.calculateDomain();
         }
+        return <MathDomain>this._domain;
     }
 
     set domain(value: MathDomain) {
@@ -82,9 +81,9 @@ export class MathFunction {
 
     get limits(): MathLimits {
         if (this._limits === undefined) {
-            this._limits = new MathLimits(this);
+            this.calculateLimits()
         }
-        return this._limits;
+        return <MathLimits>this._limits;
     }
 
     set limits(value: MathLimits | undefined) {
@@ -108,9 +107,9 @@ export class MathFunction {
 
     get graph(): MathGraph {
         if (this._graph === undefined) {
-            this._graph = new MathGraph(this);
+            this.calculateGraph();
         }
-        return this._graph;
+        return <MathGraph>this._graph;
     }
 
     set graph(value: MathGraph | undefined) {
@@ -174,14 +173,13 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Limiti", "Derivata", "Grafico"];
+        let results = ["Derivata"];
         let UIResults = [];
 
         // Domain
         this.calculateDomain();
         if (this.expression.haveVariable) {
             if (this.domain.getLastDoaminExistenceCondition().set === "R") {
-                console.log(this.domain)
                 UIResults.push(new UIMathCard("Dominio", "Il dominio appartiene all'insieme dei numeri reali.", this.domain.getTheory(), this.domain.getHtml(),));
             }
             else {
@@ -217,9 +215,17 @@ export class MathFunction {
         this.calculateSign();
         UIResults.push(new UIMathCard("Segno", "Sono stati calcolati gli insiemi di positività e negatività.", this.sign.getTheory(), this.sign.getHtml()));
 
+        // Limit
+        this.calculateLimits();
+        UIResults.push(new UIMathCard("Limiti", "Sono stati calcolati " + this.limits.limits.length + " limiti della funzione.", this.limits.getTheory(), this.limits.getHtml()));
+
         results.forEach(result => {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.", "", "", false));
-        })
+        });
+
+        // Graph
+        this.calculateGraph()
+        UIResults.push(new UIMathCard("Grafico", "Sono stati calcolati " + this.graph.points.length + " punti del grafico.", this.graph.getTheory(), this.graph.getHtml(), true));
 
         return UIResults;
     }
@@ -240,5 +246,13 @@ export class MathFunction {
 
     calculateSign(): void {
         this._sign = new MathSign(this);
+    }
+
+    calculateLimits(): void {
+        this._limits = new MathLimits(this);
+    }
+
+    calculateGraph(): void {
+        this._graph = new MathGraph(this);
     }
 }
