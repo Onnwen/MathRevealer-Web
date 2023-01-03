@@ -203,10 +203,8 @@ $(document).on('click', '.expandable', function () {
 
 function duplicate(cardId) {
     const card = $(`#${cardId}`);
-    const nextCard = card.next();
-    if (nextCard.length !== 0) {
-        nextCard.replaceWith(`<div class="mathResultCard" id="${cardId}copy">${card.html()}</div>` + `<div class="mathResultCard ${nextCard.hasClass("expandable") ? "expandable" : "" }" id="${nextCard.attr('id')}">${nextCard.html()}</div>`);
-    }
+
+    card.after(`<div class="mathResultCard" id="${cardId}copy">${card.html()}</div>` );
 
     cards = $('.mathResultCard');
 }
