@@ -202,15 +202,25 @@ export class MathLevel {
                 if (!(i === 0 && Symbol.isVariable(this.level[i + 2]))) {
                     variablesMathLevel.level.push(this.level[i + 3]);
                 }
-                i+=3;
+                if ((i === 0 && Symbol.isVariable(this.level[i + 2]))) {
+                    i += 2;
+                }
+                else {
+                    i += 3;
+                }
             } else {
                 if (i === 0 && this.level[i-1] !== "-") {
                     numericalValuesMathLevel.level.push("+");
                 }
-                numericalValuesMathLevel.level.push(this.level[i]);
+                if (this.level[i] === "-") {
+                    numericalValuesMathLevel.level.push(this.level[i + 1] * -1);
+                    i += 1;
+                }
+                else {
+                    numericalValuesMathLevel.level.push(this.level[i]);
+                }
             }
         }
-
         return [variablesMathLevel.getClearedLevel(), numericalValuesMathLevel.getClearedLevel()];
     }
 
