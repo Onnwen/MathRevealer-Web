@@ -29,10 +29,9 @@ export class MathFunction {
 
     get domain(): MathDomain {
         if (this._domain !== undefined) {
-            return this._domain;
-        } else {
-            return new MathDomain();
+            this.calculateDomain();
         }
+        return <MathDomain>this._domain;
     }
 
     set domain(value: MathDomain) {
