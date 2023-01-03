@@ -72,11 +72,32 @@ export class MathSolver {
         return this.solveBasicOperation(hierarchyGroups[1].level[0], "/", hierarchyGroups[0].level[0] * -1);
     }
 
-    static solveEquation(variableValue: string | number, numericValue: string | number) {
-        return this.solveBasicOperation(variableValue, "/", numericValue);
+    static inequality(variableValue: number | MathLevel, numericValue: number | MathLevel): { result: number | MathLevel | undefined; sign: string } {
+        if (variableValue instanceof MathLevel) {
+            variableValue = variableValue.getAsNumber();
+        }
+        if (numericValue instanceof MathLevel) {
+            numericValue = numericValue.getAsNumber();
+        }
+
+        if (variableValue > 0) {
+            return {sign: ">", result: this.solveBasicOperation(numericValue * -1, "/", variableValue)};
+        }
+        else if (variableValue < 0) {
+            return {sign: "<", result: this.solveBasicOperation(numericValue * -1, "/", variableValue)};
+        }
+        else if (variableValue == 0 && numericValue < 0) {
+            return {sign: "R", result: undefined};
+        }
+        else {
+            return {sign: "!=", result: undefined};
+        }
     }
 
-    static solveDisequation(variableValue: string | number, numericValue: string | number) {
-        return this.solveBasicOperation(variableValue, "/", numericValue);
+    static inequalityFromMathLevel(mathLevel: MathLevel): { result: number | MathLevel | undefined; sign: string } {
+        const mathLevelExpression = MathReducer.analyse(mathLevel);
+        const hierarchyGroups = mathLevelExpression.getHierarchyGroups();
+
+        return this.inequality(hierarchyGroups[0].level[0], hierarchyGroups[1].level[0]);
     }
 }
