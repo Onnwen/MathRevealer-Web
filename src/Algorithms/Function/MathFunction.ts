@@ -107,9 +107,9 @@ export class MathFunction {
 
     get graph(): MathGraph {
         if (this._graph === undefined) {
-            this._graph = new MathGraph(this);
+            this.calculateGraph();
         }
-        return this._graph;
+        return <MathGraph>this._graph;
     }
 
     set graph(value: MathGraph | undefined) {
@@ -173,7 +173,7 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Derivata", "Grafico"];
+        let results = ["Derivata"];
         let UIResults = [];
 
         // Domain
@@ -223,6 +223,10 @@ export class MathFunction {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.", "", "", false));
         });
 
+        // Graph
+        this.calculateGraph()
+        UIResults.push(new UIMathCard("Grafico", "Sono stati calcolati " + this.graph.points.length + " punti del grafico.", "", this.graph.getHtml(), true));
+
         return UIResults;
     }
 
@@ -246,5 +250,9 @@ export class MathFunction {
 
     calculateLimits(): void {
         this._limits = new MathLimits(this);
+    }
+
+    calculateGraph(): void {
+        this._graph = new MathGraph(this);
     }
 }
