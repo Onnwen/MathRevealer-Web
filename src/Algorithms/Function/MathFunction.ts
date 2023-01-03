@@ -8,7 +8,7 @@ import {MathParity} from "../Parity/MathParity";
 import {MathIntersections} from "../MathIntersections/MathIntersections";
 import {MathSign} from "../Sign/MathSign";
 import {MathLimits} from "../Limits/MathLimits";
-import {MathDerivate} from "../Derivate/MathDerivate";
+import {MathDerivative} from "../Derivative/MathDerivative";
 import {MathGraph} from "../MathGraph/MathGraph";
 
 export class MathFunction {
@@ -90,17 +90,30 @@ export class MathFunction {
         this._limits = value;
     }
 
-    private _derivate: MathDerivate | undefined;
+    private _firstDerivative: MathDerivative | undefined;
 
-    get derivate(): MathDerivate {
-        if (this._derivate === undefined) {
-            this._derivate = new MathDerivate(this);
+    get firstDerivative(): MathDerivative {
+        if (this._firstDerivative === undefined) {
+            this.calculateDerivative();
         }
-        return this._derivate;
+        return <MathDerivative>this._firstDerivative;
     }
 
-    set derivate(value: MathDerivate | undefined) {
-        this._derivate = value;
+    set firstDerivative(value: MathDerivative | undefined) {
+        this._firstDerivative = value;
+    }
+
+    private _secondDerivative: MathDerivative | undefined;
+
+    get secondDerivative(): MathDerivative {
+        if (this._secondDerivative === undefined) {
+            this.calculateDerivative();
+        }
+        return <MathDerivative>this._secondDerivative;
+    }
+
+    set secondDerivative(value: MathDerivative | undefined) {
+        this._secondDerivative = value;
     }
 
     private _graph: MathGraph | undefined;
@@ -173,7 +186,6 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Derivata"];
         let UIResults = [];
 
         // Domain
@@ -219,13 +231,18 @@ export class MathFunction {
         this.calculateLimits();
         UIResults.push(new UIMathCard("Limiti", "Sono stati calcolati " + this.limits.limits.length + " limiti della funzione.", this.limits.getTheory(), this.limits.getHtml()));
 
-        results.forEach(result => {
-            UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.", "", "", false));
-        });
+        // Derivative
+        this.calculateDerivative();
+        UIResults.push(new UIMathCard("Derivate", "Sono state calcolate derivata prima e seconda della funzione.", this.firstDerivative.getTheory(), "$$ \\displaylines{f' = " + this.firstDerivative.getLaTeX() + " \\\\ f'' = " + this.secondDerivative.getLaTeX() + "}$$"));
 
         // Graph
         this.calculateGraph()
         UIResults.push(new UIMathCard("Grafico", "Sono stati calcolati " + this.graph.points.length + " punti del grafico.", this.graph.getTheory(), this.graph.getHtml(), true));
+
+        // let developmentResultPreview = [];
+        // developmentResultPreview.forEach(result => {
+        //     UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.", "", "", false));
+        // });
 
         return UIResults;
     }
@@ -254,5 +271,10 @@ export class MathFunction {
 
     calculateGraph(): void {
         this._graph = new MathGraph(this);
+    }
+
+    calculateDerivative(): void {
+        this.firstDerivative = new MathDerivative(this.expression);
+        this.secondDerivative = new MathDerivative(this.firstDerivative.derivative as MathLevel);
     }
 }
