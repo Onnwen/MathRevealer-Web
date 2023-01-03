@@ -181,7 +181,6 @@ export class MathFunction {
         this.calculateDomain();
         if (this.expression.haveVariable) {
             if (this.domain.getLastDoaminExistenceCondition().set === "R") {
-                console.log(this.domain)
                 UIResults.push(new UIMathCard("Dominio", "Il dominio appartiene all'insieme dei numeri reali.", this.domain.getTheory(), this.domain.getHtml(),));
             }
             else {
