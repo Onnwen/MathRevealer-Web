@@ -81,9 +81,9 @@ export class MathFunction {
 
     get limits(): MathLimits {
         if (this._limits === undefined) {
-            this._limits = new MathLimits(this);
+            this.calculateLimits()
         }
-        return this._limits;
+        return <MathLimits>this._limits;
     }
 
     set limits(value: MathLimits | undefined) {
@@ -173,7 +173,7 @@ export class MathFunction {
     }
 
     getResults(): UIMathCard[] {
-        let results = ["Limiti", "Derivata", "Grafico"];
+        let results = ["Derivata", "Grafico"];
         let UIResults = [];
 
         // Domain
@@ -215,9 +215,13 @@ export class MathFunction {
         this.calculateSign();
         UIResults.push(new UIMathCard("Segno", "Sono stati calcolati gli insiemi di positività e negatività.", this.sign.getTheory(), this.sign.getHtml()));
 
+        // Limit
+        this.calculateLimits();
+        UIResults.push(new UIMathCard("Limiti", "Sono stati calcolati " + this.limits.limits.length + " limiti della funzione.", this.limits.getTheory(), this.limits.getHtml()));
+
         results.forEach(result => {
             UIResults.push(new UIMathCard(result, "Questa funzionalità non è attualmente supporta in questa versione di MathRevealer.", "", "", false));
-        })
+        });
 
         return UIResults;
     }
@@ -238,5 +242,9 @@ export class MathFunction {
 
     calculateSign(): void {
         this._sign = new MathSign(this);
+    }
+
+    calculateLimits(): void {
+        this._limits = new MathLimits(this);
     }
 }
