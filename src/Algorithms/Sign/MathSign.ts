@@ -41,7 +41,6 @@ export class MathSign {
 
         if (xValue) {
             const yValue = mathFunction.expression.getY(xValue);
-            console.log("function: " + mathFunction.expression.getDebugString() + " x: " + xValue + " - y: " + yValue);
 
             if (yValue >= 0) {
                 this.positivityInterval.addInterval(xValue, "Infinity");
