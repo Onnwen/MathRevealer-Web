@@ -193,6 +193,9 @@ $(document).on('click', '.expandable', function () {
             begin: function () {
                 cards.addClass("background-card");
                 $(self).removeClass("background-card");
+            },
+            complete: function () {
+                document.getElementById("resultPreview").scrollIntoView({behavior: "smooth", block: "nearest"});
             }
         });
     }
