@@ -225,7 +225,7 @@ export class MathFunction {
 
         // Graph
         this.calculateGraph()
-        UIResults.push(new UIMathCard("Grafico", "Sono stati calcolati " + this.graph.points.length + " punti del grafico.", "", this.graph.getHtml(), true));
+        UIResults.push(new UIMathCard("Grafico", "Sono stati calcolati " + this.graph.points.length + " punti del grafico.", this.graph.getTheory(), this.graph.getHtml(), true));
 
         return UIResults;
     }

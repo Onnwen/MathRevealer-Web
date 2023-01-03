@@ -28,7 +28,6 @@ export class MathGraph {
     getHtml(): string {
         const canvas = document.createElement('canvas');
         canvas.id = 'graph';
-        canvas.setAttribute('style', 'width: 100px; height: 100px');
         document.body.appendChild(canvas);
 
         const ctx = canvas.getContext('2d');
@@ -66,7 +65,8 @@ export class MathGraph {
                             min: -10,
                             max: 10,
                             stepSize: 1,
-                            callback: (v: number) => v == 0 ? '' : v
+                            callback: (v: number) => v == 0 ? '' : v,
+                            display: false
                         },
                         gridLines: {
                             drawTicks: false
@@ -77,10 +77,11 @@ export class MathGraph {
                             min: -10,
                             max: 10,
                             stepSize: 1,
-                            callback: (v: number) => v == 0 ? '' : v
+                            callback: (v: number) => v == 0 ? '' : v,
+                            display: false
                         },
                         gridLines: {
-                            drawTicks: false
+                            drawTicks: false,
                         }
                     }]
                 }
@@ -91,8 +92,13 @@ export class MathGraph {
         const chart = new Chart(ctx, config);
 
         return `<script>
-document.getElementById('GraficoCard').appendChild(document.getElementById('graph'));
+document.getElementById('GraficoCard').getElementsByClassName('mathTextResult')[0].appendChild(document.getElementById('graph'));
 document.getElementById('GraficoCard').classList.add('graphCard');
+document.getElementById('graph').setAttribute('style', 'width: 100%; height: 100%');
 </script>`;
+    }
+
+    getTheory(): string {
+        return "Il grafico di una funzione è una rappresentazione grafica delle coordinate (x, y) che soddisfano l'equazione della funzione. Il grafico di una funzione è un modo per visualizzare e comprendere le caratteristiche della funzione, come il dominio, il codominio, i punti di intersezione con l'asse x o con l'asse y, i punti di massimo e minimo, i punti di asintoto, ecc.<br><br>";
     }
 }
