@@ -58,7 +58,7 @@ export class UIMathCard {
     }
 
     getHtml(): string {
-        return `<div class="mathResultCard ${this.expandable ? "expandable" : "" }" id="${this._title}Card">` +
+        return `<div class="mathResultCard ${this.expandable ? "expandable" : ""}" id="${this._title}Card">` +
             `<i class="bi bi-arrows-angle-expand d-md-flex" style="float: right; margin-bottom: auto;"></i>` +
             `<h2> ${this._title} </h2>` +
             `<hr/>` +
@@ -83,4 +83,3 @@ export class UIMathCard {
             `</div>`;
     }
 }
-
