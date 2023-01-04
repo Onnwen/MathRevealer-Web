@@ -312,7 +312,22 @@ export class MathLevel {
             return analysed.level[1] * -1;
         }
         else {
-            return this.getMathLevelWithSubstituedVariable("x", 0).getAsNumber();
+            const number =  this.getMathLevelWithSubstituedVariable("x", 1).tryToGetAsNumber();
+            if (number instanceof MathLevel) {
+                if (number.getLevelLength() > 4) {
+                    return 0;
+                }
+                else {
+                    if (number.level[0] === "-") {
+                        number.level[1] = number.level[1] * -1;
+                        number.level.shift();
+                    }
+                    return (number.level[0] / number.level[2]) as number;
+                }
+            }
+            else {
+                return number;
+            }
         }
     }
 
