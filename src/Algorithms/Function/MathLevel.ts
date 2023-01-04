@@ -316,7 +316,50 @@ export class MathLevel {
         }
     }
 
+    tryToGetAsNumber(): number | MathLevel {
+        const analysed = MathReducer.analyse(this);
+        if (analysed.getLevelLength() === 1) {
+            return analysed.level[0];
+        }
+        else if (analysed.getLevelLength() === 2) {
+            return analysed.level[1] * -1;
+        }
+        else {
+            return this;
+        }
+    }
+
     getAnalysis(): MathLevel {
         return MathReducer.analyse(this);
+    }
+
+    isFraction(): boolean {
+        this.level.forEach(value => {
+            if (value instanceof MathLevel) {
+                const isFraction = value.isFraction();
+                if (isFraction) {
+                    return true;
+                }
+            }
+            else if (value === "/") {
+                return true;
+            }
+        });
+        return false;
+    }
+
+    containPriorityOperations(): boolean {
+        this.level.some(value => {
+            if (value instanceof MathLevel) {
+                const containPriorityOperations = value.containPriorityOperations();
+                if (containPriorityOperations) {
+                    return true;
+                }
+            }
+            else if (Symbol.isPriorityOperation(value)) {
+                return true;
+            }
+        });
+        return false;
     }
 }
