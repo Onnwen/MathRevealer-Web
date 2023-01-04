@@ -29,6 +29,16 @@ h6 {
     font-family: Prompt, sans-serif;
 }
 
+/*.mathPreview {*/
+/*    opacity: 1;*/
+/*    transition: margin-top 0.5s, opacity 0.5s;*/
+/*}*/
+
+/*.mathPreview:empty {*/
+/*    margin: 0;*/
+/*    opacity: 0;*/
+/*}*/
+
 .mathResultCard {
     box-sizing: border-box;
     margin: 10px;
@@ -290,6 +300,65 @@ h2 {
 .report-button:active {
     color: #bd0a0a;
 }
+
+
+.searchField {
+    background-color: rgba(239, 239, 239, 0.6);
+    border: #e3e3e3 solid 1px;
+    height: 38px;
+    width: calc(85% - 20px);
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    transition: background-color .4s ease-in-out, border .4s ease-in-out;
+}
+
+.searchField:hover {
+    background-color: rgba(239, 239, 239, 1);
+}
+
+.searchField:focus {
+    background-color: rgba(239, 239, 239, 1);
+    border: #d5d5d5 solid 1px;
+    outline: none;
+}
+
+.revealButton {
+    font-family: Quicksand, sans-serif;
+    font-weight: normal; height: 38px;
+    width: 15%;
+    margin-bottom: 3px;
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+#preview {
+    transition: margin .3s ease-in-out, opacity .7s ease-in-out, filter .3s ease-in-out;
+}
+
+#preview:empty {
+    margin: 0 !important;
+    opacity: 0;
+    filter: blur(5px);
+}
+
+@media (max-width: 992px) {
+    .searchField {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .revealButton {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #preview {
+        margin-bottom: 15px;
+    }
+}
+
 
 .mathText, .mathTextResult {
     font-family: Quicksand, sans-serif;
