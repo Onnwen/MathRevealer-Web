@@ -3,20 +3,16 @@ import $ from "jquery";
 import anime from "animejs";
 
 let functionData = new MathFunction("");
-let originalWidth = 0;
-let showRevealButton = false;
+let animatingRevealButton = false;
 
 let searchField = $("#searchField");
 
 $(window).on('load', function () {
-    let revealButtonDiv = $("#revealButtonDiv");
-    originalWidth = revealButtonDiv.width();
-    revealButtonDiv.css("width", 0);
-    revealButtonDiv.hide();
-});
-
-$(document).on('click', '.mathResultCardEnlargeButton', function (event) {
-    changeCardSize($(this).attr('id'));
+    let revealButton = $("#revealButton");
+    if (screen.width > 992) {
+        // revealButton.css("width", "0%");
+        // revealButton.hide();
+    }
 });
 
 searchField.on("keyup", function () {
@@ -26,24 +22,26 @@ searchField.on("keyup", function () {
     // To-Fix: Genera log errore. (Era utilizzato per visualizzato correttamente i tooltip)
     // $("body").tooltip({selector: '[data-toggle=tooltip]'});
 
-    revealButtonVisibility();
+    if (screen.width > 992) {
+        // revealButtonVisibility();
+    }
 });
 
-$(".revealButton").each(function () {
-    $(this).on("click", function () {
-        let cardsHtml = "";
-        functionData.getResults().forEach(result => {
-            cardsHtml += result.getHtml();
-        })
-        $("#cards").html(cardsHtml);
-        MathJax.typesetPromise()
-        $("#searchFormDiv").hide();
-        $("#resultDiv").show("slow", function () {
-        });
+$("#searchForm").on("submit",function(e) {
+    e.preventDefault();
 
-        $.post("https://mathrevealer.garamante.it/api/myAccount/saveExpression", {
-            expression: searchField.val()
-        });
+    let cardsHtml = "";
+    functionData.getResults().forEach(result => {
+        cardsHtml += result.getHtml();
+    })
+    $("#cards").html(cardsHtml);
+    MathJax.typesetPromise()
+    $("#searchFormDiv").hide();
+    $("#resultDiv").show("slow", function () {
+    });
+
+    $.post("https://mathrevealer.garamante.it/api/myAccount/saveExpression", {
+        expression: searchField.val()
     });
 });
 
@@ -53,86 +51,37 @@ $("#backButton").on("click", function () {
 });
 
 function revealButtonVisibility() {
-    $(".revealButtonDiv").each(function () {
-        showRevealButton = searchField.val() !== "";
+    const revealButton = $("#revealButton");
+    const showRevealButton = searchField.val() !== "";
 
-        if (showRevealButton && $(this).width() === 0) {
-            $(this).show();
-            $(this).animate({
-                width: originalWidth,
+    if (!animatingRevealButton) {
+        if (showRevealButton && revealButton.width() === 0) {
+            animatingRevealButton = true;
+            revealButton.show();
+            revealButton.animate({
+                width: "25%",
                 opacity: "1"
+            }, 1000, function () {
+                animatingRevealButton = false;
+            });
+            searchField.animate({
+                width: "70%"
             }, 1000);
-        } else if (!showRevealButton && $(this).width() !== 0) {
-            $(this).animate({
-                width: "0",
+        } else if (!showRevealButton && revealButton.width() !== 0) {
+            animatingRevealButton = true;
+            revealButton.animate({
+                width: "0%",
                 opacity: "0"
             }, 500, function () {
-                $(this).hide();
+                revealButton.hide();
+                animatingRevealButton = false;
             });
+            searchField.animate({
+                width: "100%"
+            }, 1000);
         }
-    });
-}
-
-function changeCardSize(cardButtonId) {
-    let cardIcon = $("#" + cardButtonId + "SizeIcon");
-    let card = $("#" + cardButtonId.slice(0, -6));
-    let cardsGrid = $("#cards");
-
-    let animationDuration = 1000;
-    let animationLine = 'easeInOutCubic';
-
-    if (cardIcon.attr('class') === "bi bi-arrows-angle-expand") {
-        functionData.getResults().forEach(result => {
-            if (result.title + "CardButton" !== cardButtonId) {
-                let card = $("#" + result.title + "Card")
-                anime({
-                    targets: card.get(0),
-                    height: '0px',
-                    borderRadius: '0px',
-                    opacity: '0',
-                    width: '0%',
-                    padding: '0',
-                    margin: '0',
-                    borderWidth: '0',
-                    easing: animationLine,
-                    duration: animationDuration,
-                    complete: function () {
-                        card.hide();
-                    }
-                })
-            }
-        });
-
-        anime({
-            targets: card.get(0),
-            height: '600px',
-            width: '100%',
-            margin: '0%',
-            easing: animationLine,
-            duration: animationDuration
-        })
-
-        cardIcon.removeClass("bi-arrows-angle-expand");
-        cardIcon.addClass("bi-arrows-angle-contract");
     } else {
-        functionData.getResults().forEach(result => {
-            let card = $("#" + result.title + "Card");
-            card.show();
-            anime({
-                targets: card.get(0),
-                height: '300px',
-                borderRadius: '20px',
-                opacity: '1',
-                width: '30%',
-                margin: '1%',
-                padding: '20px',
-                borderWidth: '2px',
-                easing: animationLine,
-                duration: animationDuration
-            })
-        });
-        cardIcon.removeClass("bi-arrows-angle-contract");
-        cardIcon.addClass("bi-arrows-angle-expand");
+        setTimeout(revealButtonVisibility, 1000);
     }
 }
 
@@ -204,7 +153,7 @@ $(document).on('click', '.expandable', function () {
 function duplicate(cardId) {
     const card = $(`#${cardId}`);
 
-    card.after(`<div class="mathResultCard" id="${cardId}copy">${card.html()}</div>` );
+    card.after(`<div class="mathResultCard" id="${cardId}copy">${card.html()}</div>`);
 
     cards = $('.mathResultCard');
 }

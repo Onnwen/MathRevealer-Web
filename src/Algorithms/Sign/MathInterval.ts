@@ -93,7 +93,7 @@ export class MathInterval {
                 secondValue = fraction.numerator + "/" + fraction.denominator;
             }
 
-            LaTeX += "\\left[" + firstValue + ", " + secondValue + "\\right]";
+            LaTeX += "\\left]" + firstValue + ", " + secondValue + "\\right[";
 
             if (index != this.interval.length - 1) {
                 LaTeX += "\\cup";
@@ -125,7 +125,7 @@ export class MathInterval {
                 const fraction = MathFraction.getFraction(Number(interval[1]));
                 secondValue= fraction.numerator + "/" + fraction.denominator;
             }
-            debugString += "[" + firstValue + ", " + secondValue + "]";
+            debugString += "]" + firstValue + ", " + secondValue + "[";
 
             if (index != this.interval.length - 1) {
                 debugString += " U ";

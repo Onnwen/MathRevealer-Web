@@ -56,14 +56,14 @@ export class MathSign {
 
     getLaTeX(): string {
         let LaTeX = "";
-        if (this.positivityInterval.getDebugString() !== "[-Infinity,Infinity]" || this.negativityInterval.getDebugString() !== "[-Infinity,Infinity]") {
+        if (this.positivityInterval.getDebugString() !== "[-Infinity, Infinity]" && this.negativityInterval.getDebugString() !== "[-Infinity, Infinity]") {
             LaTeX += "\\displaylines{";
             LaTeX += "I.P. = " + this.positivityInterval.getLaTeX() + " \\\\ ";
             LaTeX += "I.N. = " + this.negativityInterval.getLaTeX() + "}";
-        } else if (this.positivityInterval.getDebugString() === "[-Infinity,Infinity]") {
+        } else if (this.positivityInterval.getDebugString() === "[-Infinity, Infinity]") {
             LaTeX += "I.P. = " + this.positivityInterval.getLaTeX();
         }
-        else if (this.negativityInterval.getDebugString() === "[-Infinity,Infinity]") {
+        else if (this.negativityInterval.getDebugString() === "[-Infinity, Infinity]") {
             LaTeX += "I.N. = " + this.negativityInterval.getLaTeX();
         }
         return LaTeX;

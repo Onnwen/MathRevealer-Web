@@ -162,6 +162,9 @@ export class MathFunction {
                     }
                     workingLevels.at(-2)?.level.push(workingLevels.at(-1));
                 }
+                else if (expression[charIndex] == "X") { // To-Do: È solo uno strataggemma per il momento
+                    workingLevels.at(-1)?.addChar("X");
+                }
                 else if (charIndex > 0 && !Symbol.isValid(expression[charIndex-1])) {
                     workingLevels.at(workingLevels.at(-2) !== undefined ? -2 : -1)?.addChar(expression[charIndex])
                 }
