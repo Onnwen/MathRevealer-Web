@@ -31,7 +31,7 @@ export class HtmlFormatter {
                         } else if (mathLevel.level[charIndex] === "-") {
                             html += "&minus;";
                         } else if (mathLevel.level[charIndex] === "*") {
-                            html += "&times;";
+                            html += "⋅";
                         } else {
                             html += mathLevel.level[charIndex];
                         }

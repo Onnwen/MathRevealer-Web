@@ -10,11 +10,11 @@ export class LaTeXFormatter {
                 if (mathLevel.level[charIndex] instanceof MathLevel) {
                     LaTeX += LaTeXFormatter.parseMathLevel(mathLevel.level[charIndex]);
                 }
-                else if (mathLevel.level[charIndex] == Infinity) {
-                    LaTeX = "\\infty";
-                }
                 else if (mathLevel.level[charIndex] == -Infinity) {
                     LaTeX = "-\\infty";
+                }
+                else if (mathLevel.level[charIndex] == Infinity) {
+                    LaTeX = "\\infty";
                 }
                 else if (!Symbol.isValid(mathLevel.level[charIndex])) {
                     LaTeX += Symbol.getLaTeXSymbol(mathLevel.level[charIndex]);

@@ -65,10 +65,10 @@ export class MathIntersections {
     getLaTeX(): string {
         let LaTeX = "\\displaylines{";
         if (this.x.length > 0) {
-            LaTeX += "x = " + this.x.map(point => point.getLaTeX()).join(", ") + " \\\\ ";
+            LaTeX += this.x.map((point, index) => "x_" + (index + 1) + " = " + point.getLaTeX()).join(", ") + " \\\\ ";
         }
         if (this.y.length > 0) {
-            LaTeX += "y = " + this.y.map(point => point.getLaTeX()).join(", ") + " }";
+            LaTeX += this.y.map((point, index) => "y_" + (index + 1) + " = " + point.getLaTeX()).join(", ") + " }";
         }
         return LaTeX;
     }
